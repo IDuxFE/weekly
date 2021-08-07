@@ -5,7 +5,7 @@
 `Babel` 是一个工具链，主要用于将采用 `ECMAScript` 2015+ 语法编写的代码转换为向后兼容的 `JavaScript` 语法，以便能够运行在当前和旧版本的浏览器或其他环境中。（我摊牌了，直接从 [`Babel` 中文官网](https://www.babeljs.cn/docs/ "`Babel` 中文官网")复制），我们一般用 `Babel` 做下面几件事：
 
 - 语法转换（`es-higher` -> `es-lower`）；
-- 通过 Polyfill 处理在目标环境无法转换的特性（通过 `core-js` 实现）；
+- 通过 Polyfill 处理在目标环境无法转换的特性（通过 `core-js`实现）；
 - 源码转换（`codemods`、`jscodeshift`）；
 - 静态分析（`lint`、根据注释生成 `API` 文档等）;
 

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint-md": "lint-md src/README.md",
+    "fix-md": "lint-md src/README.md --fix"
   },
   "repository": {
     "type": "git",
@@ -17,5 +18,10 @@
   "license": "ISC",
   "dependencies": {
     "lint-md-cli": "^0.1.2"
+  },
+  "lint-staged": {
+    "article/**/*.{md,markdown}": [
+      "lint-md"
+    ]
   }
 }
