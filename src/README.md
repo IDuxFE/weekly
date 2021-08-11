@@ -1,619 +1,380 @@
-## What is Babel
+## 开发必懂的文件加解密
 
-> **本文作者：[Jouryjc](https://juejin.cn/post/6985540486823936031)**
+> **本文作者：[coolyuantao](https://juejin.cn/user/1047150053304157)**
 
-`Babel` 是一个工具链，主要用于将采用 `ECMAScript` 2015+ 语法编写的代码转换为向后兼容的 `JavaScript` 语法，以便能够运行在当前和旧版本的浏览器或其他环境中。（我摊牌了，直接从 [`Babel` 中文官网](https://www.babeljs.cn/docs/ "`Babel` 中文官网")复制），我们一般用 `Babel` 做下面几件事：
+![encrypt](./encrypt.png)
 
-- 语法转换（`es-higher` -> `es-lower`）；
-- 通过 Polyfill 处理在目标环境无法转换的特性（通过 `core-js`实现）；
-- 源码转换（`codemods`、`jscodeshift`）；
-- 静态分析（`lint`、根据注释生成 `API` 文档等）;
+### 背景
 
-`Babel` 真可以为所欲为！😎😎😎
+最近团队遇到一个小需求，存在两个系统 A、B，系统 A 支持用户在线制作皮肤包，制作后的皮肤包用户可以下载后，导入到另外的系统 B 上。皮肤包本身的其实就是一个 zip 压缩包，系统 B 接收到压缩包后，**解压**并做一些常规的校验，比如版本、内容合法性校验等，整体功能也比较简单。
 
-##  Babel7 最小配置
+但没想到啊，一帮测试人员对我们开发人员一顿输出，首先绕过系统 A 搞了几个视频文件，把后缀改成 `zip` 就直接想上传，系统 B 每次都是等到上传完后才发现文件不合法，系统 B 在文件没上传完前又无法解压，也不知道文件内容是不是合法的，就这么消耗了大量带宽、大量时间后才提示用户皮肤包有问题。
 
-不知道你刚玩 Babel 时，有没那种被“初恋伤害”的感觉？如果有，那么请细品这一小节，它会让你欲罢不能。
+这里涉及了两个问题，我们来捋一捋：
+1. 文件如何做加密，这样用户便无法去逆向，压缩包内部的敏感信息不会泄露出去。
+2. 服务端在接收到信息流时，在未传输完时如何去判断压缩包的合法性，提前告知用户。
 
-在开始品“初恋的味道”前，咱们先做一些准备：  
+## AES VS RSA
 
-新建一个目录 `babel-test` 然后创建 `package.json` 文件:
+说到加密，自己很多人会想到[对称算法 AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) 以及[非对称算法 RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem))。这两种算法按字面意思也较好理解，对称加密技术说白一点就是加密跟解密使用的是同一个密钥，这种加密算法速度极快，安全级别高，加密前后的大小一致；非对称加密技术则有`公钥PK`、`私钥SK`，算法的原理在于寻找两个素数，让他们的乘积刚好等于一个约定的数字，非对称算法的安全性是依赖于大数的分解，这个目前没有理论支持可以快速破解，它的安全性完全依赖于这个密钥的长度，一般用 1024 位已经足够使用。但是它的速度相比对称算法慢得多，一般仅用于少量数据的加密，**待加密的数据长度不能超过密钥的长度**。
 
-```bash
-mkdir babel-test && cd babel-test
+## 使用 AES 对文件加密
 
-// 本文全部用 yarn
-yarn init -y
-```
+结合这两种加密方式的优缺点，我们采用 AES 对文件本身做加解密，使用 AES 的原因主要考虑如下：
+1. 加解密性能问题，AES 的速度极快，相比 RSA 有 1000 倍以上提升。
+2. RSA 对源文有长度的要求，最大长度仅有密钥长度。
 
-安装好 `@babel/core`、`@babel/cli`：
+AES 的加密算法 Node.js 的[crypto](http://nodejs.cn/api/crypto.html)模块中已经有内置，具体的使用可以参考官方文档。
 
-```bash
-yarn add @babel/core @babel/cli -D
-```
+### AES 加密逻辑
 
-万事俱备，现在只需要买一盘 🌰 ，你就可以牵她的手啦：
+```javascript
+const crypto = require('crypto');
+const algorithm = 'aes-256-gcm';
 
-```js
-// 在根目录新建 index.js 文件，然后键入下面的 🌰
-let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
-console.log(x); // 1
-console.log(y); // 2
-console.log(z); // { a: 3, b: 4 }
-```
-
-初恋嘛，刚碰到对方的汗毛，你就脸红了，然后想看看对方的反应，对吧？所以执行下面的命令看看有什么结果：
-
-```bash
-// babel 是前面安装了 @babel/cli 才能用哦~
-npx babel ./index.js --out-file build.js
-```
-
-执行完上面的命令，会在根目录输出一个 `build.js` 文件，打开一看：
-
-```js
-let {
-  x,
-  y,
-  ...z
-} = {
-  x: 1,
-  y: 2,
-  a: 3,
-  b: 4
-};
-console.log(x); // 1
-
-console.log(y); // 2
-
-console.log(z); // { a: 3, b: 4 }
-
-```
-
-`What the xxx?` 这 ** 不就只是格式化了嘛！放在 `IE10` 上一跑，又是一个不眠之夜的信号：
-
-![ie-error](https://files.mdnice.com/user/15734/1d6d618f-bfd6-4628-8424-661f3a50b319.png)
-
-惊不惊喜意不意外？[caniuse](https://caniuse.com/ "caniuse") 一查，我尼玛，哪个*逼用扩展运算符啊，不知道我们要兼容`IE` 啊！
-
-![object-rest-spread-caniuse](https://files.mdnice.com/user/15734/6581b45d-6bfa-4ad0-82f5-0b60b862d728.png)
-
-但是作为勇猛的追求者，我们怎能因为对方手缩了一下就放弃呢！进到 [Babel 插件页面](https://www.babeljs.cn/docs/plugins-list#es2018 "Babel 插件页面")，看需要什么插件能处理扩展运算符——可以看到这是一个 `ES2018` 的特性，通过 [@babel/plugin-proposal-object-rest-spread](https://www.babeljs.cn/docs/babel-plugin-proposal-object-rest-spread "@babel/plugin-proposal-object-rest-spread") 插件就可以用啦。
-
-冲！再一次伸出你黝黑的手。在项目的根目录（`package.json` 文件所在的目录）下创建一个名为 `babel.config.json` 的文件（具体创建 `.babelrc`、还是 `babel.config.js` ，可以依据自己的场景选择，文件可以参考[配置 Babel](https://www.babeljs.cn/docs/configuration "配置 Babel")），并输入如下内容：
-
-```json
-// 先到终端输入 yarn add @babel/plugin-proposal-object-rest-spread -D，安装依赖先
-{
-    "plugins": ["@babel/plugin-proposal-object-rest-spread"]
+/**
+ * 对一个buffer进行AES加密
+ * @param {Buffer} buffer   待加密的内容
+ * @param {String} key      密钥
+ * @param {String} iv       初始向量
+ * @return {{key: string, iv: string, tag: Buffer, context: Buffer}}
+ */
+function aesEncrypt (buffer, key, iv) {
+    // 初始化加密算法
+    const cipher = crypto.createCipheriv(algorithm, key, iv);
+    let encrypted = cipher.update(buffer);
+    let end = cipher.final();
+    // 生成身份验证标签，用于验证密文的来源
+    const tag = cipher.getAuthTag();
+    return {
+        key,
+        iv,
+        tag,
+        buffer: buffer.concat([encrypted, end]);
+    };
 }
 ```
 
-然后再执行：
+### AES 解密逻辑
+解密整体跟加密一样，只是接口换个名字即可：
 
-````bash
-npx babel ./index.js --out-file build.js
-````
+```javascript
+const crypto = require('crypto');
+const algorithm = 'aes-256-gcm';
 
-然后再打开 `build.js` 文件，这时可以看到扩展运算符已经见不到啦：
-
-```js
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-let _x$y$a$b = {
-  x: 1,
-  y: 2,
-  a: 3,
-  b: 4
-},
-    {
-  x,
-  y
-} = _x$y$a$b,
-    z = _objectWithoutProperties(_x$y$a$b, ["x", "y"]);
-
-console.log(x); // 1
-
-console.log(y); // 2
-
-console.log(z); // { a: 3, b: 4 }
-
-```
-
-刷新 IE 浏览器，打开 F12 看看调试程序面板：
-
-![ie-error-destructuing](https://files.mdnice.com/user/15734/fb147add-b2c0-4cf4-ac82-d956f1f36158.png)
-
-她再一次缩手了，心痛不？但是作为一名戴着红领巾，头上印着小红花的男人，绝不气馁！看到错误的代码位置，能识别到 IE 连解构赋值都不支持。同样的过程，查 [caniuse](https://caniuse.com/?search=Destructuring "caniuse") 和 [@babel/plugin-transform-destructuring](https://www.babeljs.cn/docs/babel-plugin-transform-destructuring "@babel/plugin-transform-destructuring") （提示：点击可以直接跳转到对应页面哦！）
-
-这一次，再去牵她的手，`gogogo`：
-
-```json
-// 先到终端输入 yarn add @babel/plugin-transform-destructuring -D，安装依赖先
-{
-    "plugins": [
-        "@babel/plugin-proposal-object-rest-spread",
-        "@babel/plugin-transform-destructuring"
-    ]
+/**
+ * 对一个buffer进行AES解密
+ * @param {{key: string, iv: string, tag: Buffer, buffer: Buffer}} ret   待解密的内容
+ * @param {String} key      密钥
+ * @param {String} iv       初始向量
+ * @return {Buffer}
+ */
+function aesDecrypt ({key, iv, tag, buffer}) {
+    // 初始化解密算法
+    const decipher = crypto.createDecipheriv(algorithm, key, iv);
+    // 生成身份验证标签，用于验证密文的来源
+    decipher.setAuthTag(tag);
+    let decrypted = decipher.update(buffer);
+    let end = decipher.final();
+    return Buffer.concat([decrypted, end]);
 }
 ```
 
-安装完之后再编译一次，可以看到生成的代码如下：
+### AES 具体使用
 
-```js
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+有了上述两个接口后，我们便可实现一个简单的对称加密了：
 
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-let _x$y$a$b = {
-  x: 1,
-  y: 2,
-  a: 3,
-  b: 4
-},
-    x = _x$y$a$b.x,
-    y = _x$y$a$b.y,
-    z = _objectWithoutProperties(_x$y$a$b, ["x", "y"]);
+```javascript
+const key = 'abcdefghijklmnopqrstuvwxyz123456'; // 32 共享密钥，长度跟算法需要匹配上
+const iv = 'abcdefghijklmnop';  // 16 初始向量，长度跟算法需要匹配上
+let fileBuffer = Buffer.from('abc');
 
-console.log(x); // 1
+// 加密
+let encrypted = aesEncrypt(fileBuffer, key, iv);
 
-console.log(y); // 2
+// 解密
+let context = aesDecrypt(encrypted);
+console.log(context.toString());
+```
+一般情况下，这个密钥较为重要，如果发生泄露则加密失去意义，所以`key`、`iv`会使用随机数动态生成，比如：
 
-console.log(z); // { a: 3, b: 4 }
-
+```javascript
+const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
 ```
 
-再次看 `IE`浏览器的反应：
+通过上述的调整后，加解密文件是比较容易的，回到我们的业务系统上面，系统 A 生成的压缩包，最终是需要给系统 B 使用，两个系统是隔离的，那这样 `key`、`iv` 如何传输到系统 B 上面呢，况且还是动态生成的，生成出来 `key` 系统 B 是不知道的。
 
-![ie-success](https://files.mdnice.com/user/15734/1dbb802e-268a-461a-a29b-5086f080fd95.png)
+读到这聪明的你可能会想到，在把**压缩包给到 B 的时候，顺便把 `key`、`iv` 一同提交过去不就可以了**，但细想了下，这个肯定不能明文把这个密钥发送过去，要不这个加密意义何在。
 
-皇天不负有心人，`IE` 成了，你也牵手成功了！
 
-细心的你不知道有没发现，在这两个 `Babel` 插件名字底下都有一个显眼的 NOTE：
+这时便需要用上 **RSA 非对称加密技术**了。
 
-> NOTE: This plugin is included in `@babel/preset-env`
+## 使用 RSA 算法对密钥再次进行非对称加密
 
-啥意思呢？女生说希望你下次胆子再大点，一次就能牵上然后不放，为啥要多次尝试呢！
+RSA 的加密算法 Node.js 的 [crypto 模块](http://nodejs.cn/api/crypto.html) 中已经有内置，具体的使用可以参考官方文档。
 
-就此引出 [@babel/preset-env](https://www.babeljs.cn/docs/babel-preset-env "@babel/preset-env") ，跟着文档先把这个包装上，配置文件的 `presets` 字段配上。然后前面两个插件去掉。
+### 生成 RSA 的公钥与私钥
+
+使用 [openssl](https://www.openssl.org/) 组件可以直接生成 `RSA` 的公钥私钥对，具体的命令可以参考：[https://www.scottbrady91.com/OpenSSL/Creating-RSA-Keys-using-OpenSSL](https://www.scottbrady91.com/OpenSSL/Creating-RSA-Keys-using-OpenSSL)。
+
 
 ```bash
-yarn remove @babel/plugin-transform-destructuring @babel/plugin-proposal-object-rest-spread
+# 生成私钥
+openssl genrsa -out private.pem 1024
 
-yarn add @babel/preset-env -D
+# 提取公钥
+openssl rsa -in private.pem -pubout -out public.pem
 ```
 
-`babel.config.json` 改成如下：
+这样生成出来的两个文件 `private.pem`、`public.pem` 就可以使用了，下面我们使用 Node.js 实现具体的加解密逻辑。
 
-```json
-{
-  "presets": [
-    [
-      "@babel/preset-env"
-    ]
-  ]
+
+### RSA 加密逻辑
+```javascript
+const fs = require('fs');
+const crypto = require('crypto');
+const PK = fs.readFileSync('./public.pem', 'utf-8');
+
+/**
+ * 对一个buffer进行RSA加密
+ * @param {Buffer} 待加密的内容
+ * @return {Buffer}
+ */
+function rsaEncrypt (buffer) {
+    return crypto.publicEncrypt(PK, buffer);
 }
 ```
 
-然后再执行一次构建命令，可以看到输出的 `build.js` 文件是一样的！
+### RSA 解密逻辑
+```javascript
+const fs = require('fs');
+const crypto = require('crypto');
+const SK = fs.readFileSync('./private.pem', 'utf-8');
 
-惊叹的同时也在想：
+/**
+ * 对一个buffer进行RSA解密
+ * @param {Buffer} 待解密的内容
+ * @return {Buffer}
+ */
+function rsaDecrypt (buffer) {
+    return crypto.privateDecrypt(SK, buffer);
+}
+```
 
-- 为什么一个预设就能满足转换需求呢？它是怎么做到的？
-- `Babel` 怎么知道我要支持 `IE` 浏览器，如果我只使用 `Chrome`，那么这个转换不是多余了么？而且不仅仅是浏览器，Babel 在桌面端、node 的场景都不少，它是怎么精确控制转换的？
+### RSA 具体使用
 
-回答上面的问题之前，突然想到一件事，之前在公司 `review` 代码时，看到很多童鞋为了使用 `TypeScript` 而被 `TypeScript` 支配（比如 `AnyScript` 的叫法由来）。希望都能从技术、工具、框架本身的诞生背景、作用去思考！如果不做到比较精细的类型声明和限制，为何用它？
+有了上述接口后，便可对 AES 的密钥进行加密后再传输，服务器 B 保存好 `RSA 私钥` ，服务器 A 则可以直接用 `RSA 公钥` 对数据加密后再发送，结合刚 `AES` 的逻辑后，如下：
 
-`Babel` 也一样，[Babel6 到 Babel7 的升级](https://www.babeljs.cn/docs/v7-migration "Babel6 到 Babel7 的升级")：
 
-- 废弃了 [`stage-x`](https://tc39.es/process-document/) 和 [`es20xx`](https://www.babeljs.cn/blog/2017/12/27/nearing-the-7.0-release.html#deprecated-yearly-presets-eg-babel-preset-es20xx) 的 `preset`，改成 `preset-env` 和 `plugin-proposal-xx`，具体的提案信息都在 [TC39/proposals](https://github.com/tc39/proposals/blob/master/README.md) 查阅，这样能更好地控制需要支持的特性；
-- [preset-env](https://www.babeljs.cn/docs/babel-preset-env "preset-env") 依赖 [`browserslist`](https://github.com/browserslist/browserslist "`browserslist`"), [`compat-table`](https://github.com/kangax/compat-table "`compat-table`"), and [`electron-to-chromium`](https://github.com/Kilian/electron-to-chromium "`electron-to-chromium`") 实现了特性的精细按需引入。
+```javascript
+/**
+ * 加密文件
+ * @param {Buffer} fileBuffer
+ * @return {{file: Buffer, key: Buffer}}
+ */
+function encrypt (fileBuffer) {
+    const key = crypto.randomBytes(32);
+    const iv = crypto.randomBytes(16);
+    const { tag, file } = aesEncrypt(fileBuffer, key, iv);
+    return {
+        file,
+        key: rsaEncrypt(Buffer.concat([key, iv, tag]));     // 由于长度是固定的，直接连在一起即可
+    };
+}
 
-### compat-table
+/**
+ * 解密文件
+ * @param {{file: Buffer, key: Buffer}}
+ * @return {Buffer}
+ */
+function decrypt ({file, key}) {
+    const source = rsaDecrypt(key).toString();
+    const k = source.slice(0, 32);
+    const iv = source.slice(32, 48);
+    const tag = source.slice(48);
+    return aesDecrypt({
+        key: k,
+        iv,
+        tag,
+        buffer: file
+    })
+}
+```
 
-这个库维护着每个特性在不同环境的支持情况，来看看上面用到的解构赋值的支持：
+这样结合在一起后，服务器 A 生成的压缩包，只要包含好 `{file, key}` 这两块内容，服务器 B 便可把文件解密出来了，这样基本上实现了我们第一点的目标：**1. 文件如何做加密，这样用户便无法去逆向，压缩包内部的敏感信息不会泄露出去**
 
-```js
-{
-  name: 'destructuring, declarations',
-  category: 'syntax',
-  significance: 'medium',
-  spec: 'http://www.ecma-international.org/ecma-262/6.0/#sec-destructuring-assignment',
-  mdn: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment',
-  subtests: [
-    {
-      name: 'with arrays',
-      exec: function(){/*
-        var [a, , [b], c] = [5, null, [6]];
-        return a === 5 && b === 6 && c === void undefined;
-      */},
-      res: {
-        tr: true,
-        babel6corejs2: babel.corejs,
-        ejs: true,
-        es6tr: true,
-        jsx: true,
-        closure: true,
-        typescript1corejs2: true,
-        firefox2: true,
-        opera10_50: false,
-        safari7_1: true,
-        ie11: false,
-        edge13: edge.experimental,
-        edge14: true,
-        xs6: true,
-        chrome49: true,
-        node6: true,
-        node6_5: true,
-        jxa: true,
-        duktape2_0: false,
-        graalvm19: true,
-        graalvm20: true,
-        graalvm20_1: true,
-        jerryscript2_0: false,
-        jerryscript2_2_0: true,
-        hermes0_7_0: true,
-        rhino1_7_13: true
-      }
+
+但还遗留了另外一个问题需要解决：**2. 服务端在接收到信息流时，在未传输完时如何去判断压缩包的合法性，提前告知用户**
+
+## 优化加密文件
+
+按上面的加密方式，输出的结果是一个 `buffer文件` 内容，以及一个 `加密过的key`，除了这些信息外，一般这个 `buffer文件` 压缩包还会有一些额外的信息，比如：版本号、压缩包生成时间，描述信息等。这些信息按常规的方式，可能是分成几个文件，然后再打一个压缩包把文件放在一起，比如：
+
+```text
+// zip file
+- pkg
+    manifest.json       // 额外的信息
+    key.json            // 保存了加密过的密钥
+    file.json           // 加密过的文件
+```
+
+
+但如果用这种方式保存，一般情况下还要对这个 `zip文件` 做下加密，然后改下后缀名，但是服务器 B 在读取这个文件后仍然是需要全部接收，再解压到临时目录，读取内容后才可以做校验，这样问题仍然解决不了。
+
+
+除此之外，还有另外一个常见的需求，产品一般希望在浏览器侧在文件上传时就先做初步的解析，把明显不合法的文件提示到用户，这样用户体验更好。
+
+这个问题的解决方案也不难，这些所有额外的信息都是可以把它当成二进制插入到文件的头部上的，比如：
+```text
+包字段描述：|----插入的额外信息----|----后面才是真正的文件内容----|  
+二进制文件：010101010101010101010xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+### 文件头字段设计
+我们把这些所有信息，按一定的格式，使用二进制的方式全部串连在一起，最终交付的只有一个组合过的文件，比如：
+
+```text
+// theme pkg.
+
+0                8                16                 
+|------flag------|--extra length--|
+|----------extra data...----------|
+|-------------data...-------------|
+```
+
+- `flag`：
+固定标识 `THEME`，长度：`8 byte`，说明该压缩包为一个皮肤包，这样可以快速对压缩包进行识别
+
+- `extra length`：
+`extra data` 的真实长度，这是一个 16 进制的数据，长度：`8 byte`，说明插入的数据长度。比如：长度 `35` 的数据，转化为 16 进制后为 `0x23`，那这字段为 `00000023`
+
+- `extra data`：
+使用 `RSA` 加密过的数据，我们可以把上述需要用 `RSA` 加密的信息全部放在这里，比如 `key` 字段、版本号、描述信息等
+
+- `data`：
+使用 `AES` 加密过的数据，可以通过 `extra data` 里面保存的 `key` 把真实的数据全部解密出来
+
+### 生成的新的加密文件
+有了上面的理论基础后，马上可以实践起来，代码如下：
+```javascript
+/**
+ * 加密文件
+ * @param {Buffer} fileBuffer
+ * @return {Buffer}
+ */
+function encrypt (fileBuffer) {
+    const key = crypto.randomBytes(32);
+    const iv = crypto.randomBytes(16);
+    const version = 'v1.1';
+
+    // 记录上所有额外的压缩外信息，比如版本号、原始的密钥
+    const extraJSON = {
+        version,
+        key,
+        iv
     }
-```
+    // 完成文件的AES加密，并输出身份验证标签
+    const { tag, file } = aesEncrypt(fileBuffer, key, iv);
+    extraJSON.tag = tag;
 
-`ie11` 是 `false` 的，怪不得第一次牵手失败了。
+    // 对 extraJSON 整个进行RSA加密
+    const extraData = rsaEncrypt(Buffer.from(JSON.stringify(extraJSON)));
+    const extraLength = extraData.length;
 
-### browserslist
-
-这个包应该比较熟悉了，可以通过 `query` 查询具体的浏览器列表，下面安装上这个包然后来实操一波：
-
-```bas
-yarn add browserslist -D
-
-// 查询的条件各种骚操作都有，具体可参考 https://github.com/browserslist/browserslist#queries
-npx browserslist "> 0.25%, not dead"
-and_chr 91
-and_ff 89
-and_uc 12.12
-android 4.4.3-4.4.4
-chrome 91
-chrome 90
-chrome 89
-chrome 87
-chrome 85
-edge 91
-firefox 89
-firefox 88
-ie 11
-ios_saf 14.5-14.7
-ios_saf 14.0-14.4
-ios_saf 13.4-13.7
-op_mini all
-opera 76
-safari 14.1
-safari 14
-safari 13.1
-samsung 14.0
-samsung 13.0
-```
-
-有了上面两个包，那 `preset-env` 实现特性精细控制岂不是洒洒水。继续实操，我们把开头那个 🌰 改成不需要支持 `ie11` 试试看：
-
-```json
-{
-  "presets": [
-    [
-	    "@babel/preset-env",
-        {
-    		"targets": {
-                "chrome": 55
-            }        
-        }
-    ]
-  ]
+    // 最终把所有数据合并在一起
+    return Buffer.concat([
+        Buffer.from('THEME'),
+        Buffer.from(Buffer.from(extraLength.toString(16).padStart(8, '0'))),
+        extraData,
+        file
+    ]);
 }
 ```
 
-`preset-env` 控制浏览器版本是通过配置 `targets` 字段。构建一下看看结果：
+通过这种加密方式后，相关的信息都放在文件的头部上，我们可以不用对整个文件进行操作的时候，便可以轻松读取出来，对于解密其实就是一个反向的操作。
 
-```js
-"use strict";
+### 对新生成的文件进行解密
 
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+```javascript
+/**
+ * 解密文件
+ * @param {Buffer} fileBuffer
+ * @return {Buffer}
+ */
+function decrypt (fileBuffer) {
+    const type = fileBuffer.slice(0, 8);    // THEME
+    const extraLength = +('0x' + fileBuffer.slice(8, 16).toString());
+    const extraDataEndIndex = 16 + extraLength;
 
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-let _x$y$a$b = {
-  x: 1,
-  y: 2,
-  a: 3,
-  b: 4
-},
-    {
-  x,
-  y
-} = _x$y$a$b,
-    z = _objectWithoutProperties(_x$y$a$b, ["x", "y"]);
-
-console.log(x); // 1
-
-console.log(y); // 2
-
-console.log(z); // { a: 3, b: 4 }
-
-```
-
-从上面源码可以看出来，**扩展运算符被转换了，解构赋值没有被转换**。被转换的特性通过模块内定义了两个方法 `_objectWithoutProperties` 和 `_objectWithoutPropertiesLoose`。如果我**有两个文件都使用了扩展运算符**，然后输出一个文件，结果会怎样呢？根目录下新建一个 `index2.js` 文件：
-
-```js
-let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
-console.log(x); // 1
-console.log(y); // 2
-console.log(z); // { a: 3, b: 4 }
-```
-
-然后分别执行下面两条命令：
-
-```bas
-npx babel ./index.js ./index2.js --out-file build.js
-```
-
-结果是 `_objectWithoutProperties` 和 `_objectWithoutPropertiesLoose` 居然都会重复声明两次。这对于需要转换的特性，我使用很多次，转换后输出的文件不是爆炸了么？此时需要一个插件来控制代码量——[@babel/plugin-transform-runtime](https://www.babeljs.cn/docs/babel-plugin-transform-runtime "@babel/plugin-transform-runtime") 。对于这种转换函数，在外部模块化，用到的地方直接引入即可。实操：
-
-```ba
-// 先安装 @babel/plugin-transform-runtime 包
-yarn add @babel/plugin-transform-runtime -D
-```
-
-然后配置 `babel`：
-
-```json
-{
-    "presets": [
-        [
-            "@babel/preset-env",
-            {
-                "targets": {
-                    "chrome": "55"
-                }
-            }
-        ]
-    ],
-    "plugins": [
-        "@babel/plugin-transform-runtime"
-    ]
+    // 对已经被RSA加密过的数据进行解密操作
+    const extraData = rsaDecrypt(fileBuffer.slice(16, extraDataEndIndex));
+    const extraJSON = JSON.parse(extraData);
+    // 最终使用AES再对剩下文件进行解密操作，即为最终的文件
+    return aesDecrypt({
+        key: extraJSON.key,
+        iv: extraJSON.iv,
+        tag: extraJSON.tag,
+        buffer: Buffer.slice(extraDataEndIndex)
+    });
 }
 ```
 
-再执行上面的构建命令，得到以下结果：
+使用这种方式处理后，在 `RSA` 解密出 `extraData` 的时候，就可以对整个文件进行各种校验，整个过程只要有异常说明文件已经被篡改，用这种方式比用压缩包会好很多，特别是文件体积庞大的时候，可以流式处理，发现不合理时即可马上阻止。
 
-```js
-"use strict";
+### 浏览器端如何解析该文件
+由于现在整个文件格式都是二进制流，现代的浏览器都是有相应的能力去读取并做处理的，这样也可以在用户上传文件时先做一定的初步处理，体验会有比较大的提升
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+可以使用 `DataView` 的方式把二进制数据读取出来，详情可以参考：[DataView](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/DataView)，初步的实现如下：
 
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+```javascript
+/**
+ * 把二进制流转成对应ascii字符
+ * @param {DataView} dv         二进制数据库
+ * @param {Number}   start      起始位置
+ * @param {Number}   end        结束位置
+ * @return {String}
+ */
+function buffer2Char (dv, start, end) {
+    let ret = [];
+    for (let i = start; i < end; i++) {
+        let charCode = dv.getUint8(i);
+        let code = String.fromCharCode(charCode);
+        ret.push(code);
+    }
+    return ret.join('');
+}
 
-let _x$y$a$b = {
-  x: 1,
-  y: 2,
-  a: 3,
-  b: 4
-},
-    {
-  x,
-  y
-} = _x$y$a$b,
-    z = (0, _objectWithoutProperties2.default)(_x$y$a$b, ["x", "y"]);
-console.log(x); // 1
+function test () {
+    let fileDom = document.getElementById('file');
+    let file = fileDom.files[0];
+    let reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.addEventListener("load", function(e) {
+        let dv = new DataView(buffer);
+        let flag = buffer2Char(dv, 0, 8);   // THEME
+        var extraLength = +('0x' + buffer2Char(dv, 8, 16));
+        var extraData = buffer2Char(dv, 16, extraLength);
 
-console.log(y); // 2
-
-console.log(z); // { a: 3, b: 4 }
-
-let _a$b$c = {
-  a: 1,
-  b: 2,
-  c: 3
-},
-    {
-  a,
-  b
-} = _a$b$c,
-    c = (0, _objectWithoutProperties2.default)(_a$b$c, ["a", "b"]);
-
-```
-
-对比上面的转换结果，这次转换结果精简了不少。并且函数声明都是通过外部引入。
-
-再来看下面这段代码：
-
-```js
-const a = [1,2,3,4,6];
-console.log(a.includes(7))
-```
-
-通过 `@babel/compat-data` 可以看下 includes 特性的兼容性：
-
-```json
-"es7.array.includes": {
-    "chrome": "47",
-    "opera": "34",
-    "edge": "14",
-    "firefox": "43",
-    "safari": "10",
-    "node": "6",
-    "ios": "10",
-    "samsung": "5",
-    "electron": "0.36"
+        console.log(flag, extraLength, extraData);
+    });
 }
 ```
+当然用这种方式有一个前提是需要把一部分非敏感的信息放出来，不要加密，这样便可以实现在浏览器端也对文件进行读取。只需要前后端的格式约定做好，都可以采用这种方式对压缩包进行一定的初步校验，当然后端的校验仍然是需要做好的。
 
-`chrome` 47+ 支持数组 `includes API`，我们把 `babel.config.json` 的 `targets` 改成 **45** 然后执行转换命令，结果如下：
+至此，我们完成了对文件的加密、解密以及浏览器解析等操作，希望对你们有帮助
 
-```js
-"use strict";
+## 结语
 
-var a = [1, 2, 3, 4, 6];
-console.log(a.includes(7));
-```
 
-可以得出结论：虽然不支持 `Array.prototype.inlcudes`，但是 `babel` 默认不会对实例方法做转换。这时候就需要引入 `@babel/polyfill` 打补丁。（⚠️ 安装 `polyfill` 包是 `dependency` 哦！因为在**生产环境**上垫片是要在你的代码前执行。）
+文件的加密、解密在后端其实是一个很常规的操作，除了上面聊到的 `AES`、`RSA`，其实还有其它很多加密方案，具体可以看看 [Node.js crypto 模块](http://nodejs.cn/api/crypto.html)，已经有内置比较多的方案可以直接使用。
 
-在项目入口文件或者在打包工具比如 `webpack` 的 `entry` 一把梭把全部 `polyfill` 引进来：
+当然文件的加解密，也可以直接用 `zip`、`7z` 等这些压缩工具，再配合密码的方案，一般情况也是够用的，但是免不了有定制化的需求，一般也都是结合使用，比如上面的 `fileBuffer` 实际内部就是先用这些工具对文件进行了压缩并加密。还是以场景为重，多种方案结合效果更好。
 
-```js
-// app.js
-import '@babel/polyfill';
+文件加解密的就讲到这里吧，还有什么其它问题的可以在评论区讨论，谢谢。
 
-// webpack.config.js
-module.exports = {
-  entry: ["@babel/polyfill", "./app/js"],
-};
-```
+## 声明
+本网站上使用图片链接出自：[https://images.ctfassets.net/9ijwdiuuvngh/5K4AedH960A824yg6CQyCi/8b3ee8ad5e63e6d50f78b9d7aa749669/Header_Encryption.png](https://images.ctfassets.net/9ijwdiuuvngh/5K4AedH960A824yg6CQyCi/8b3ee8ad5e63e6d50f78b9d7aa749669/Header_Encryption.png)，使用搜索引擎查找，未能联系到图片相应作者，本着纯粹技术分享的原则与心态，如果有侵犯到你的权利，请联系我们，立马删除，谢谢。
 
-其中很多特性的垫片我们都用不着，那么能不能也结合上述的 `broswer targets` 和代码中使用到的函数去做定制的垫片呢？ `Of course`，在这里推荐一个在线定制 `polyfill` 的[网站](https://polyfill.io/v3/url-builder/ "网站 ")，选择完自己的垫片，然后生成一个 `CDN URL`。在项目中直接引入就可以啦，这可以用于微型的网站，对于超大型的项目，不可能自己一个一个方法去选择吧。这就要引出 [useBuiltIns](https://babeljs.io/docs/en/babel-preset-env#usebuiltins "useBuiltIns") 配置，它定义了 `@babel/preset-env` 怎么处理垫片。可选的值有：
-
-- `usage`：每个文件引用使用到的特性；
-- `entry`：入口处全部引入；
-- `false`：不引入。
-
-![have-one-example](https://files.mdnice.com/user/15734/4e1cf27e-0547-467b-910f-a018154887b9.jpg)
-
-```js
-// index.js
-const a = [1,2,3,4,6];
-
-console.log(a.includes(7))
-
-new Promise(() => {})
-```
-
-然后将 babel 的配置改成如下：
-
-```json
-{
-    "presets": [
-        [
-            "@babel/preset-env",
-            {
-                "targets": {
-                    "chrome": "45",
-                    "ie": 11
-                },
-                "useBuiltIns": "usage",
-                "corejs": 3
-            }
-        ]
-    ],
-    "plugins": [
-        "@babel/plugin-transform-runtime"
-    ]
-}
-```
-
-在终端执行 `babel ./index.js --out-file build.js`，看看 `build.js` 的结果：
-
-```js
-"use strict";
-
-require("core-js/modules/es.array.includes.js");
-
-require("core-js/modules/es.object.to-string.js");
-
-require("core-js/modules/es.promise.js");
-
-var a = [1, 2, 3, 4, 6];
-console.log(a.includes(7));
-new Promise(function () {});
-
-```
-
-`niubility`！对于不支持的特性都引入了特定的 `core-js` 垫片。这怎么做到的呢？这还是归功于 `AST`，它可以结合代码的实际情况，进行超级细的按需引用。感兴趣的童鞋可以看看 `core-js` 和 `babel` 的协作方式哦。
-
-### 小结
-
-通过 🌰 去一步一步分析 `Babel7` 最小最优配置的产生，其中还涉及一些写配置中无感知的处理机制，比如 `compat-table`、`browserslist`。读完本节，相信你对 `babel7` 配置方法有一个清晰的了解。
-
-## @babel 系列包
-
-`Babel` 是一个 `Monorepo` 项目，`packages` 下面有 **146** 个包。Unbelievable！包虽多，我们可以将它们划分为几个类别：
-
-`@babel/helper-xx` 有 28 个，`@babel/plugin-xx` 有 98 个。剩下的工具包、集成包总共也才 20 个。我们挑一些有意思的 `package` 来了解它们的作用。
-
-### @babel/standalone
-
-[babel-standalone](https://babeljs.io/docs/en/babel-standalone "babel-standalone") 提供独立构建的 `Babel` 用于浏览器和其他非 `Node` 环境，比如在线 `IDE`： [JSFiddle](https://jsfiddle.net/ "JSFiddle")、[JS Bin](https://jsbin.com/?html,js,console,output "JS Bin")、还有 Babel 官方的 [try it out](https://babeljs.io/repl#?browsers=defaults%2C%20not%20ie%2011%2C%20not%20ie_mob%2011&build=&builtIns=false&corejs=3.6&spec=false&loose=false&code_lz=Q&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=env%2Creact%2Cstage-2&prettier=false&targets=&version=7.14.7&externalPlugins= "try it out") 都是基于这个包。我们也来玩儿~
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>standalone</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.0.0-beta.3/babel.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head>
-<body>
-    <div id="app"></div>
-    <script type="text/babel">
-        const codeStr = `const getMessage = () => "Babel, 为所欲为";`;
-        const code = Babel.transform(codeStr, { presets: ["env"] }).code;
-        document.querySelector('#app').innerHTML = code;
-    </script> 
-</body>
-</html>
-```
-
-上述代码直接运行在浏览器，得到的 `code` 如下：
-
-```js
-"use strict"; var getMessage = function getMessage() { return "Babel, 为所欲为"; };
-```
-
-跟在 node 环境构建出来的结果是一样的。
-
-### @babel/plugin-xx
-
-满足这种标记的都是 `Babel` 插件。主要用来加强 `transform`、`parser` 能力。举个 🌰：
-
-```js
-// index.js
-const code = require("@babel/core").transformSync(
-    `var b = 0b11;var o = 0o7;const u="Hello\\u{000A}\\u{0009}!";`
-).code;
-
-console.log(code)
-```
-
- 执行 `node index.js`，返回结果：
-
-```js
-var b = 0b11;
-var o = 0o7;
-const u = "Hello\u{000A}\u{0009}!";
-```
-
-原样返回，如果我要识别二进制整数、十六进制整数、`Unicode` 字符串文字、换行符和制表符，那么就需要加上 `@babel/plugin-transform-literals` 。加上之后执行结果如下：
-
-```js
-var b = 3;
-var o = 7;
-const u = "Hello\n\t!";
-```
-
-通过上述 `Demo` 了解到 `plugin` 的作用。
-
-打开 `babel/packages`，我们可以看到 `plugins` 主要有三种类型：
-
-![babel-plugin-type](https://files.mdnice.com/user/15734/7acfc546-c973-4d61-b7bd-af60cbfffee5.png)
-
-1. **babel-plugin-transform-xx**：转换插件，主要用来加强转换能力，上面的 `@babel/plugin-transform-literals` 就属于这种；
-2. **babel-plugin-syntax-xx**：语法插件，主要是扩展编译能力，比如不在 async 函数作用域里面使用 await，如果不引入 `@babel/plugin-syntax-top-level-await`，是没办法编译成 `AST` 树的。并且会报 `Unexpected reserved word 'await'` 这种类似的错误。
-3. **babel-plugin-proposal-xx**：用来编译和转换在提案中的属性，在 [Plugins List](https://babeljs.io/docs/en/plugins-list "Plugins List") 中可以看到这些插件，比如 [class-properties](https://babeljs.io/docs/en/babel-plugin-proposal-class-properties "class-properties")、[decorators](https://babeljs.io/docs/en/babel-plugin-proposal-decorators "decorators")。
-
-##  总结
-
-从平时工作角度切入，一步一步分享 `babel7` 的最小、最优配置的由来，然后简单了解 `babel` 的 `packages`，分享了 `@babel/standalone` 这个有意思的包和插件系列的分类。下一篇文章将通过手写 `babel plugin` 去深入学习底层的 `packages`，例如 `@babel/core`、`@babel/parser`、`@babel/generator`、`@babel/code-frame`。
 
