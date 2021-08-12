@@ -1,0 +1,43 @@
+{
+  "projectName": "weekly",
+  "projectOwner": "IDux",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "Jouryjc",
+      "name": "Jouryjc",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11925053?v=4",
+      "profile": "https://github.com/Jouryjc",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Usualminds",
+      "name": "Joe",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19425902?v=4",
+      "profile": "https://github.com/Usualminds",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "coolyuantao",
+      "name": "zhangyuantao",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3478550?v=4",
+      "profile": "https://github.com/coolyuantao",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
