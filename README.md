@@ -15,26 +15,14 @@
 - [文章排版指南](https://github.com/IDuxFE/weekly/wiki/%E6%96%87%E7%AB%A0%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97)
 
 ## ✨参与人员
-<!-- <table>
-    <tr>
-        <td align="center"><a href="https://github.com/Jouryjc"><img src="https://avatars.githubusercontent.com/u/11925053?v=4" width="100px;" alt=""/><br /><sub><b>Jouryjc</b></sub></a><br /></td>
-        <td align="center"><a href="https://github.com/Usualminds"><img src="https://avatars.githubusercontent.com/u/19425902?v=4" width="100px;" alt=""/><br /><sub><b>Usualminds</b></sub></a><br /></td>
-        <td align="center"><a href="https://github.com/coolyuantao"><img src="https://avatars.githubusercontent.com/u/3478550?v=4" width="100px;" alt=""/><br /><sub><b>coolyuantao</b></sub></a><br /></td>
-    </tr>
-</table> -->
-
-<!-- ALL-CONTRIBUTORS-LIST: START - Do not remove or modify this section -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-## Contributors 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/test"><img src="https://avatars.githubusercontent.com/u/383316?v=4?s=100" width="100px;" alt=""/><br /><sub><b>test</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=test" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/Usualminds"><img src="https://avatars.githubusercontent.com/u/19425902?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joe</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=Usualminds" title="Code">💻</a> <a href="https://github.com/IDux/weekly/commits?author=Usualminds" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Jouryjc"><img src="https://avatars.githubusercontent.com/u/11925053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jouryjc</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=Jouryjc" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Usualminds"><img src="https://avatars.githubusercontent.com/u/19425902?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joe</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=Usualminds" title="Code">💻</a> <a href="https://github.com/IDux/weekly/commits?author=Usualminds" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/coolyuantao"><img src="https://avatars.githubusercontent.com/u/3478550?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zhangyuantao</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=coolyuantao" title="Documentation">📖</a></td>
   </tr>
 </table>
 
