@@ -1,5 +1,5 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
 - [浏览器指纹及其应用](https://juejin.cn/post/6995000627642236941)
@@ -34,6 +34,7 @@
   <tr>
     <td align="center"><a href="https://github.com/test"><img src="https://avatars.githubusercontent.com/u/383316?v=4?s=100" width="100px;" alt=""/><br /><sub><b>test</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=test" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Usualminds"><img src="https://avatars.githubusercontent.com/u/19425902?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joe</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=Usualminds" title="Code">💻</a> <a href="https://github.com/IDux/weekly/commits?author=Usualminds" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Jouryjc"><img src="https://avatars.githubusercontent.com/u/11925053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jouryjc</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=Jouryjc" title="Documentation">📖</a></td>
   </tr>
 </table>
 
