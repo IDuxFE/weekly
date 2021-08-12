@@ -20,9 +20,9 @@
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/Jouryjc"><img src="https://avatars.githubusercontent.com/u/11925053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jouryjc</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=Jouryjc" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/Usualminds"><img src="https://avatars.githubusercontent.com/u/19425902?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joe</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=Usualminds" title="Code">💻</a> <a href="https://github.com/IDux/weekly/commits?author=Usualminds" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/coolyuantao"><img src="https://avatars.githubusercontent.com/u/3478550?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zhangyuantao</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=coolyuantao" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Jouryjc"><img src="https://avatars.githubusercontent.com/u/11925053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jouryjc</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Jouryjc" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Usualminds"><img src="https://avatars.githubusercontent.com/u/19425902?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joe</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Usualminds" title="Code">💻</a> <a href="https://github.com/IDuxFE/weekly/commits?author=Usualminds" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/coolyuantao"><img src="https://avatars.githubusercontent.com/u/3478550?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zhangyuantao</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=coolyuantao" title="Documentation">📖</a></td>
   </tr>
 </table>
 
