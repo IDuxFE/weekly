@@ -1,3 +1,6 @@
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
 - [浏览器指纹及其应用](https://juejin.cn/post/6995000627642236941)
 - [Babel 那些事儿](https://juejin.cn/post/6992371845349507108)
@@ -11,11 +14,29 @@
 - [文章助手工具](https://github.com/IDuxFE/weekly/wiki/%E6%96%87%E7%AB%A0%E5%8A%A9%E6%89%8B%E5%B7%A5%E5%85%B7)
 - [文章排版指南](https://github.com/IDuxFE/weekly/wiki/%E6%96%87%E7%AB%A0%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97)
 
-## ❤️参与人员
-<table>
+## ✨参与人员
+<!-- <table>
     <tr>
         <td align="center"><a href="https://github.com/Jouryjc"><img src="https://avatars.githubusercontent.com/u/11925053?v=4" width="100px;" alt=""/><br /><sub><b>Jouryjc</b></sub></a><br /></td>
         <td align="center"><a href="https://github.com/Usualminds"><img src="https://avatars.githubusercontent.com/u/19425902?v=4" width="100px;" alt=""/><br /><sub><b>Usualminds</b></sub></a><br /></td>
         <td align="center"><a href="https://github.com/coolyuantao"><img src="https://avatars.githubusercontent.com/u/3478550?v=4" width="100px;" alt=""/><br /><sub><b>coolyuantao</b></sub></a><br /></td>
     </tr>
+</table> -->
+
+<!-- ALL-CONTRIBUTORS-LIST: START - Do not remove or modify this section -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+## Contributors 
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/test"><img src="https://avatars.githubusercontent.com/u/383316?v=4?s=100" width="100px;" alt=""/><br /><sub><b>test</b></sub></a><br /><a href="https://github.com/IDux/weekly/commits?author=test" title="Documentation">📖</a></td>
+  </tr>
 </table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
