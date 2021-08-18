@@ -2,6 +2,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
+- [开发必懂的文件加解密](https://juejin.cn/post/6997565255463206925)
 - [浏览器指纹及其应用](https://juejin.cn/post/6995000627642236941)
 - [Babel 那些事儿](https://juejin.cn/post/6992371845349507108)
 
