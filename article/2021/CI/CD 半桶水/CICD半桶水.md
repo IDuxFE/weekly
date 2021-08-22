@@ -1409,7 +1409,7 @@ services
 
 #### extends
 
-用于服用配置片段
+用于复用配置片段
 
 
 ```yaml
@@ -1442,7 +1442,7 @@ rspec:
     - rake rspec
 ```
 
-`rspec` job 的结果为：
+以上配置 `rspec` job 的求值结果为：
 
 ```yaml
 rspec:
@@ -1829,7 +1829,7 @@ test:
 
 ##### artifacts:paths
 
-定义缓存文件活目录的的路径。路径相对于项目目录，不能直接链接到项目目录之外。
+定义缓存文件或目录的的路径。路径相对于项目目录，不能直接链接到项目目录之外。
 
 
 
@@ -2164,7 +2164,7 @@ test:mysql:
 
 
 
-#### YAML anchors for scripts
+#### 脚本的 YAML 锚点
 
 ```yaml
 .some-script-before: &some-script-before
@@ -2197,7 +2197,7 @@ job2:
 
 
 
-#### YAML anchors for variables
+#### 变量的 YAML 锚点
 
 ```yaml
 # global variables
@@ -2216,7 +2216,7 @@ job_no_git_strategy:
 
 
 
-#### Hide jobs
+#### 隐藏 jobs
 
 当 job 的名称以 . 开头的时，job 不会被 cicd 所处理，其效果和注释掉代码类似
 
@@ -2255,6 +2255,14 @@ test:
   after_script:
     - !reference [.teardown, after_script]
 ```
+
+**小结：**通过这一章节的学习，我们了解了很多 YAML 特有的功能，通过这些功能特性，我们可以很好的维护我们的配置文件。
+
+
+
+## 结语：
+
+学习到这里，相信我们已经具备了解决 CI/CD 绝大多数问题的能力了，同时也基本可根据自己的需求编写自己的流水线了。当然 GitLab CI/CD 的相关的内容还有很多，而笔者目前工作中也暂时未涉及到那些更深层次的内容。后续若是有机会实践更深入的内容再进行相应的内容补充吧。
 
 
 
