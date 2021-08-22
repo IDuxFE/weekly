@@ -411,7 +411,7 @@ only、except、rules 等关键字让我们可以控制 pipline 以及 job 执�
 
 ![basic_pipeline_test](./basic_pipeline_test.png)
 
-在basic模型下，必须等待 build stage 中的所有任务都完成之后才能转入到 test 阶段
+在 basic 模型下，必须等待 build stage 中的所有任务都完成之后才能转入到 test 阶段
 
 ```yaml
 stages:
@@ -1213,7 +1213,7 @@ Artifacts expire after 30 days unless you define an [expiration time](https://do
 - 同一 pipeline 的后续 stage 的 job 可以使用 artifacts
 - 不同项目无法共享 artifacts
 
-未设定过期时间的情况下，30 天后会过去；
+未设定过期时间的情况下，30 天后会过期；
 
 
 
@@ -1333,7 +1333,7 @@ include:
 
   - project: 'my-group/my-project'
     ref: 787123b47f14b552955ca2786bc9542ae66fee5b  # Git SHA
-	file:
+    file:
       - '/templates/.builds.yml'
       - '/templates/.tests.yml'
 ```
@@ -1385,7 +1385,7 @@ services
 
 #### before_script
 
-在 job 的 script 相关命令执行前执行的命令，一般用于安装依赖预设环境变量的；**其和 script 共用一个 shell **
+在 job 的 script 相关命令执行前执行的命令，一般用于安装依赖预设环境变量的；**其和 script 共用一个 shell**
 
 
 
@@ -1403,7 +1403,7 @@ services
 
 #### stage
 
-指定 job 所以哪个阶段
+指定 job 所属阶段
 
 
 
@@ -1442,7 +1442,7 @@ rspec:
     - rake rspec
 ```
 
-The result is this `rspec` job:
+`rspec` job 的结果为：
 
 ```yaml
 rspec:
@@ -1508,7 +1508,7 @@ rules
 
 *注：only/except 已经不在重点进行迭代开发了，推荐使用 rules*
 
-相关的内容参见 **jobs **章节
+相关的内容参见 **jobs**章节
 
 
 
@@ -1533,10 +1533,7 @@ variables:
 
 #### allow_failure
 
-Use allow_failure when you want to let a job fail without impacting the rest of the CI suite.
-
 可以通过allow_failure想让job失败不会影响后续ci的
-
 
 
 ##### allow_failure:exit_codes
