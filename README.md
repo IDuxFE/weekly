@@ -14,6 +14,7 @@
 
 ## 📝参与投稿
 - [投稿流程说明](https://github.com/IDuxFE/weekly/wiki/%E6%8A%95%E7%A8%BF%E6%B5%81%E7%A8%8B%E8%AF%B4%E6%98%8E)
+- [翻译文章指南](https://github.com/IDuxFE/weekly/wiki/%E7%BF%BB%E8%AF%91%E6%96%87%E7%AB%A0%E6%8C%87%E5%8D%97)
 - [文章助手工具](https://github.com/IDuxFE/weekly/wiki/%E6%96%87%E7%AB%A0%E5%8A%A9%E6%89%8B%E5%B7%A5%E5%85%B7)
 - [文章排版指南](https://github.com/IDuxFE/weekly/wiki/%E6%96%87%E7%AB%A0%E6%8E%92%E7%89%88%E6%8C%87%E5%8D%97)
 
