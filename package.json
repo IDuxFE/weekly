@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint-md": "lint-md src/README.md",
-    "fix-md": "lint-md src/README.md --fix",
+    "lint-md": "lint-md article/**/*.{md,markdown}",
+    "fix-md": "lint-md article/**/*.{md,markdown} --fix",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"
   },
