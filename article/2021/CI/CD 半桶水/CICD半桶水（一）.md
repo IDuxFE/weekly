@@ -8,7 +8,7 @@
 
 ## 创建 GitLab 项目
 
-![create_project](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/create_project.png)
+![create_project](./create_project.png)
 
 ## 环境安装
 
@@ -66,7 +66,7 @@ sudo systemctl start docker
 
 #### 4. 安装成功
 
-![install_docker_success](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/install_docker_success.png)
+![install_docker_success](./install_docker_success.png)
 
 
 
@@ -86,7 +86,7 @@ sudo yum install gitlab-runner
 
 #### 2. 安装成功
 
-![gitlab_runner_success](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/gitlab_runner_success.png)
+![gitlab_runner_success](./gitlab_runner_success.png)
 
 
 
@@ -94,17 +94,17 @@ sudo yum install gitlab-runner
 
 ##### 进入项目仓库 CI/CD 页面查看相应的 url 与 token 
 
-![register_runner_1](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/register_runner_1.png)
+![register_runner_1](./register_runner_1.png)
 
 
 
 ##### 执行 `gitlab-runner register` 命令并根据提示注册 runner
 
-![register_runner_2](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/register_runner_2.png)
+![register_runner_2](./register_runner_2.png)
 
 ##### 注册成功之后，查看可用 runner
 
-![register_runner_3](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/register_runner_3.png)
+![register_runner_3](./register_runner_3.png)
 
 
 
@@ -158,11 +158,11 @@ deploy_job:
 
 ### 查看流水线执行情况
 
-![simple_pipeline_1](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/simple_pipeline_1.png)
+![simple_pipeline_1](./simple_pipeline_1.png)
 
 
 
-![simple_pipeline_2](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/simple_pipeline_2.png)
+![simple_pipeline_2](./simple_pipeline_2.png)
 
 
 
@@ -370,3 +370,14 @@ image：我们的 job 的执行器（executor）使用的是 docker，这个字�
 ## 结语
 
 通过前面的内容我们已经创建了测试用的项目，安装好了相应的环境，并写了自己的第一个流水线也理解了 CI/CD 的基本概念。相信大家对 CI/CD 已经有了一个比较完整的认知了。后面的章节我们将进一深入 CI/CD 核心概念的学习。
+
+
+
+## 参考链接
+
+https://docs.gitlab.com/ee/ci/index.html
+
+https://www.redhat.com/zh/topics/devops/what-is-ci-cd
+
+https://www.ruanyifeng.com/blog/2016/07/yaml.html
+

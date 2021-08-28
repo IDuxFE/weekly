@@ -21,9 +21,9 @@ Pipelines 是 CI/CD 的顶级组件，一个 pipeline 创建之后便会自动�
 
 #### Basic 模型
 
-![basic_pipeline](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/basic_pipeline.png)
+![basic_pipeline](./basic_pipeline.png)
 
-![basic_pipeline_test](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/basic_pipeline_test.png)
+![basic_pipeline_test](./basic_pipeline_test.png)
 
 在 basic 模型下，必须等待 build stage 中的所有任务都完成之后才能转入到 test 阶段
 
@@ -80,9 +80,9 @@ deploy_b:
 
 #### DAG 模型
 
-![dag_pipeline](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/dag_pipeline.png)
+![dag_pipeline](./dag_pipeline.png)
 
-![dag_pipeline_test](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/dag_pipeline_test.png)
+![dag_pipeline_test](./dag_pipeline_test.png)
 
 当通过 needs 关键字声明依赖关系之后，便可根据依赖关系使得下一个 stage 的 job 提前执行；
 
@@ -156,9 +156,9 @@ deploy_b:
 #### Child/Parent 模型
 
 
-![parent_child_pipeline](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/parent_child_pipeline.png)
+![parent_child_pipeline](./parent_child_pipeline.png)
 
-![parent_child_pipeline_test](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/parent_child_pipeline_test.png)
+![parent_child_pipeline_test](./parent_child_pipeline_test.png)
 
 
 
@@ -1025,7 +1025,7 @@ test:
 
 效果如下图：
 
-![export_as](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/export_as.png)
+![export_as](./export_as.png)
 
 
 
@@ -1064,3 +1064,8 @@ artifacts:
 
 在这一章节里，我们了解了 Pipelines 的架构、了解 了 pipeline 性能优化的一些技巧，也具备了控制 job 执行时机的能力，更是学会了使用  cache 和 artifacts 关键字来提升 job 执行效率以及缓存流水线执行过程中产生的一些构建结果文件。说实在的笔者认为学到这里，我们已经可以应对绝大多数的需求场景了，看懂公司内部现有的流水线相关的内容更是不在话下。但是笔者还是期望带着大伙更近一步深入了解 CI/CD 中还有什么内容。下一章节，我们将进一步去了解 CI/CD 中各种各样的关键字。
 
+
+
+## 参考链接
+
+https://docs.gitlab.com/ee/ci/index.html
