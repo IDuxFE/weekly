@@ -1,5 +1,5 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
 - [[译] Chrome 92 DevTools 的新功能](https://juejin.cn/post/7000267785095872526)
@@ -27,6 +27,7 @@
     <td align="center"><a href="https://github.com/Jouryjc"><img src="https://avatars.githubusercontent.com/u/11925053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jouryjc</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Jouryjc" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Usualminds"><img src="https://avatars.githubusercontent.com/u/19425902?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joe</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Usualminds" title="Code">💻</a> <a href="https://github.com/IDuxFE/weekly/commits?author=Usualminds" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/coolyuantao"><img src="https://avatars.githubusercontent.com/u/3478550?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zhangyuantao</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=coolyuantao" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/clfeng"><img src="https://avatars.githubusercontent.com/u/20736207?v=4?s=100" width="100px;" alt=""/><br /><sub><b>clfeng</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=clfeng" title="Documentation">📖</a></td>
   </tr>
 </table>
 

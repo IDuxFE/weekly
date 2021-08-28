@@ -1,12 +1,12 @@
 # CI/CD 半桶水（一）
 
-导学：CICD 是 持续集成（Continuous Integration）、持续交付（Continuous Delivery）与持续部署（Continuous Deployment）的简称。指在开发过程中自动执行一系列脚本来减低开发引入 bug 的概率，在新代码从开发到部署的过程中，尽量减少人工的介入。相信大伙在工作中也经常与其接触，但可能由于岗位性质的原因，虽是天天使用但对齐并不了解，当 CI/CD 流水线出了问题之后也只能是对外求助。为了摆脱这般困境，让我们通过一些列的文章来深入的了解下 CI/CD吧。
+导学：CICD 是 持续集成（Continuous Integration）、持续交付（Continuous Delivery）与持续部署（Continuous Deployment）的简称。指在开发过程中自动执行一系列脚本来减低开发引入 bug 的概率，在新代码从开发到部署的过程中，尽量减少人工的介入。相信大伙在工作中也经常与其接触，但可能由于岗位性质的原因，虽是天天使用但对齐并不了解，当 CI/CD 流水线出了问题之后也只能是对外求助。为了摆脱这般困境，让我们通过一些列的文章来深入的了解下 CI/CD 吧。
 
 本章的内容会一步步的带着我们从最初的项目创建到 CI/CD 环境安装再到一个简单流水线的编写让我们体会如何搭建自己的 CI/CD。最后会再讲解其最基础的概念，并让我们能清晰的了解我们写的第一个流水线的内容。
 
 
 
-## 创建GitLab项目
+## 创建 GitLab 项目
 
 ![create_project](/Users/chenliangfeng/Desktop/code/IDuxFE/weekly/article/2021/CI/CD 半桶水/create_project.png)
 
@@ -60,7 +60,7 @@ sudo yum install docker-ce docker-ce-cli containerd.io
 
 #### 3. 启动 docker
 
-```
+``` javascript
 sudo systemctl start docker
 ```
 
@@ -188,7 +188,7 @@ https://www.ruanyifeng.com/blog/2016/07/yaml.html
 
 ### 什么是 CI/CD
 
-CI/CD 可拆解为 CI 和 CD，其中 CI 为持续集成，CD 为持续交付与持续部署。CI/CD 是一种通过在应用开发阶段引入[自动化 ](https://www.redhat.com/zh/topics/automation/whats-it-automation)来频繁向客户交付应用的方法。
+CI/CD 可拆解为 CI 和 CD，其中 CI 为持续集成，CD 为持续交付与持续部署。CI/CD 是一种通过在应用开发阶段引入[自动化](https://www.redhat.com/zh/topics/automation/whats-it-automation)来频繁向客户交付应用的方法。
 
 - Continuous Integration (CI) 【持续集成】
 - Continuous Delivery (CD) 【持续交付】
@@ -325,7 +325,7 @@ build_job: # 这是job的名称
     - echo "build project"
 ```
 
-前面提到我们需要给每个阶段定义相应的 job（任务）。那么job 怎么对应到对应的阶段呢？通过 stage 关键字来对应的：
+前面提到我们需要给每个阶段定义相应的 job（任务）。那么 job 怎么对应到对应的阶段呢？通过 stage 关键字来对应的：
 
 ```yaml
 stages:
@@ -359,7 +359,7 @@ image：我们的 job 的执行器（executor）使用的是 docker，这个字�
 
 到这里相信我们已经可以大致理解《第一个流水线》的配置了；**整体如下：**
 
-整个 pipeline 共有三个阶段build => test => deploy；我们为每个阶段都定义了一个任务。每个任务都指定了执行任务所使用的机器（runner），并指定了执行器（executor）所使用的镜像 centos:7。目前每个 job 的执行任务都非常简单就是输出对应的文本。
+整个 pipeline 共有三个阶段 build => test => deploy；我们为每个阶段都定义了一个任务。每个任务都指定了执行任务所使用的机器（runner），并指定了执行器（executor）所使用的镜像 centos:7。目前每个 job 的执行任务都非常简单就是输出对应的文本。
 
 稍微等等，似乎还少了点什么东西。为什么我们刚编写完 .gitlab-ci.yml 文件提交并推送之后便可以看到流水线呢？gitlab 是怎么知道这个时候要执行流水线的？是不是只有改 .gitlab-ci.yml 文件才会触发流水线？那我现在已经写好了以后不会再去修改 .gitlab-ci 文件了，流水线还能触发吗？
 

@@ -4,7 +4,7 @@
 
 ## Pipelines
 
-Pipelines 是 CI/CD 的顶级组件，一个 pipeline 创建之后便会自动执行一系列的任务，**无需人工干预**。对于 Piplines的学习，笔者认为了解其相关的架构以及性能优化的方式是非常重要的，这部分的内容即使我们不知道可能也不会影响我们让项目中的流水线跑起来。但是了解了这部分的内容将有利于我们编写更加合理的流水线，提升整个流水线的执行效率。
+Pipelines 是 CI/CD 的顶级组件，一个 pipeline 创建之后便会自动执行一系列的任务，**无需人工干预**。对于 Piplines 的学习，笔者认为了解其相关的架构以及性能优化的方式是非常重要的，这部分的内容即使我们不知道可能也不会影响我们让项目中的流水线跑起来。但是了解了这部分的内容将有利于我们编写更加合理的流水线，提升整个流水线的执行效率。
 
 ### Pipeline 触发方式
 
@@ -92,7 +92,7 @@ deploy_a 依赖 test_a，test_a 依赖 build_a；
 
 deploy_b 依赖 test_b，test_a 依赖 build_b；
 
-其中 build_a 和 build_b 都属于build stage；test_a 和 test_b 都属于 test stage；deploy_a 和 deploy_b 都属于 build stage；
+其中 build_a 和 build_b 都属于 build stage；test_a 和 test_b 都属于 test stage；deploy_a 和 deploy_b 都属于 build stage；
 
 整个 pipeline 的执行过程如下: 
 
@@ -272,7 +272,7 @@ upstream_bridge:
 
 
 
-docker镜像优化：
+docker 镜像优化：
 
 - 使用小型基础镜像，例如`debian-slim`。
 - 如果不是严格需要，不要安装像 vim、curl 等便利工具。
@@ -281,14 +281,14 @@ docker镜像优化：
 - 减少`RUN`层并结合软件安装步骤。
 - 使用 [multi-stage builds](https://blog.alexellis.io/mutli-stage-docker-builds/) 将多个使用构建器模式的 Dockerfile 合并为一个 Dockerfile，可以减少镜像大小。
 - 如果使用 `apt`，添加 `--no-install-recommends` 以避免不必要的包。
-- 清理最后不再需要的缓存和文件。 例如`rm -rf /var/lib/apt/lists/*`适用于Debian和Ubuntu，或`yum clean all`适用于RHEL和CentOS。
+- 清理最后不再需要的缓存和文件。 例如`rm -rf /var/lib/apt/lists/*`适用于 Debian 和 Ubuntu，或`yum clean all`适用于 RHEL 和 CentOS。
 - 使用 [dive](https://github.com/wagoodman/dive) 或 [DockerSlim](https://github.com/docker-slim/docker-slim) 等工具来分析和缩小镜像。
 
 
 
 ### Pipeline for merge requests
 
-为合并请求定义pipeline
+为合并请求定义 pipeline
 
 ```yaml
 build:
@@ -327,7 +327,7 @@ job:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
 ```
 
-rules相关子属性
+rules 相关子属性
 
 - if
 - when
@@ -336,7 +336,7 @@ rules相关子属性
 
 如果定义 if 关键字后未定义其他的关键字，则采用以下的默认值配置
 
-```
+```plain
 when: on_success
 allow_failure: false
 ```
@@ -365,28 +365,28 @@ job:
 
 判断变量是否为定义：
 
-```
+```plain
 if: $VARIABLE == null
 if: $VARIABLE != null
 ```
 
 判断变量是否定义了但是为空
 
-```
+```plain
 if: $VARIABLE == ""
 if: $VARIABLE != ""
 ```
 
 判断变量是否存在
 
-```
+```plain
 # 变量不能为空
 if: $VARIABLE 
 ```
 
 通过正则表达式进行比较
 
-```
+```plain
 # 变量的值和正则表达式能匹配结果为true
 $VARIABLE =~ /^content.*/
 
@@ -396,7 +396,7 @@ $VARIABLE_1 !~ /^content.*/
 
 通过 `&&` 和 `||`关键字将多个比较逻辑联合起来
 
-```
+```plain
 $VARIABLE1 =~ /^content.*/ && $VARIABLE2 == "something"
 $VARIABLE1 =~ /^content.*/ && $VARIABLE2 =~ /thing$/ && $VARIABLE3
 $VARIABLE1 =~ /^content.*/ || $VARIABLE2 =~ /thing$/ && $VARIABLE3
@@ -404,7 +404,7 @@ $VARIABLE1 =~ /^content.*/ || $VARIABLE2 =~ /thing$/ && $VARIABLE3
 
 可通过括号对表达式进行分组
 
-```
+```plain
 ($VARIABLE1 =~ /^content.*/ || $VARIABLE2) && ($VARIABLE3 =~ /thing$/ || $VARIABLE4)
 ($VARIABLE1 =~ /^content.*/ || $VARIABLE2 =~ /thing$/) && $VARIABLE3
 $CI_COMMIT_BRANCH == "my-branch" || (($VARIABLE1 == "thing" || $VARIABLE2 == "thing") && $VARIABLE3)
@@ -426,7 +426,7 @@ test:
 
 如何判断是否将 job 添加到 pipeline ： 
 
-（refs 任一条件为 true） && （variables 任一条件为 true） && （change s任一条件为 true） && （任何选择的 Kubernetes 状态匹配）
+（refs 任一条件为 true） && （variables 任一条件为 true） && （change s 任一条件为 true） && （任何选择的 Kubernetes 状态匹配）
 
 *官网原文：`(any listed refs are true) AND (any listed variables are true) AND (any listed changes are true) AND (any chosen Kubernetes status matches)`*
 
@@ -442,7 +442,7 @@ test:
       - "README.md"
 ```
 
-如何判断是否将job排除：
+如何判断是否将 job 排除：
 
 （refs 任一条件为 true） || （variables 任一条件为 true） || （changes 任一条件为 true） || （任何选择的 Kubernetes 状态匹配）
 
@@ -456,7 +456,7 @@ test:
 - script
 - after_scripts
 
-**before_script 和 script 使用统一个 shell ；after_script 使用新的 shell **
+**before_script 和 script 使用统一个 shell ；after_script 使用新的 shell**
 
 ```yaml
 job:
@@ -623,7 +623,7 @@ job:
     - 项目设置
     - API
   - 群组
-  - gitlab实例
+  - gitlab 实例
 
 *注:  给项目添加的变量只有项目能访问，给群组添加的变量群组中的实例都可以访问，给 GitLab 实例添加的变量整个 GitLab 中的项目都可以访问*
 
@@ -645,9 +645,9 @@ job1:
 ### 变量的类型
 
 - variable：传统的 key value 类型
-- File： key为变量名，value 为路径指向值存储的文件
+- File： key 为变量名，value 为路径指向值存储的文件
 
-*注： .gitlab-ci.yml中定义的变量只能是 variable 类型，而项目、项目组、GitLab 实例中定义的变量则可以是 variable 类型或者 file 类型*
+*注： .gitlab-ci.yml 中定义的变量只能是 variable 类型，而项目、项目组、GitLab 实例中定义的变量则可以是 variable 类型或者 file 类型*
 
 
 
@@ -816,10 +816,10 @@ job B:
 
 - paths: 指定缓存的文件或者目录
 - key: 缓存的唯一标识
-  - files: 当指定的文件中，某个文件改变了，会生成一个新的key
-  - prefix: 添加前缀到到 `cache:key:files` 计算的hash前
+  - files: 当指定的文件中，某个文件改变了，会生成一个新的 key
+  - prefix: 添加前缀到到 `cache:key:files` 计算的 hash 前
 - untracked: 使用 untracked: true 缓存 Git 存储库中所有未跟踪的文件
-- when: 定义什么条件下缓存cache，可选值：on_success、on_failure、always
+- when: 定义什么条件下缓存 cache，可选值：on_success、on_failure、always
 - policy: 定义缓存上传和下载的策略，可选值：pull、push、pull-push
 
 ```yaml
@@ -928,7 +928,7 @@ Job artifacts are only collected for successful jobs by default, and artifacts a
 
 **重点小结：**
 
-- 储存位置在GitLab【cache存储在runner】
+- 储存位置在 GitLab【cache 存储在 runner】
 - 前期 job 创建的 artifacts 在后期 job 中是自动下载的，可以直接用
 - 可以通过 dependencies 关键字进行控制 artifacts 的下载行为
 - 如果 job 中有 needs 关键字，那么只会下载 needs 关键字指定的 job 的 artifacts
@@ -937,7 +937,7 @@ Job artifacts are only collected for successful jobs by default, and artifacts a
 
 ##### artifacts:dependencies
 
-默认情况下，job 会下载前面 stage 中所有 job 的 artifacts；我们可以通过 dependencies 去指定要下载哪些 job 的 artifacts（指定的job 只能是当前 job 的前面的 stage 的 job）
+默认情况下，job 会下载前面 stage 中所有 job 的 artifacts；我们可以通过 dependencies 去指定要下载哪些 job 的 artifacts（指定的 job 只能是当前 job 的前面的 stage 的 job）
 
 
 
@@ -1054,8 +1054,8 @@ artifacts:
 
 可选值：
 
-- on_success (default): 当job执行成功时上传 artifacts
-- on_failure: 当job执行失败时上传 artifacts
+- on_success (default): 当 job 执行成功时上传 artifacts
+- on_failure: 当 job 执行失败时上传 artifacts
 - always: 总是上传 artifacts
 
 
