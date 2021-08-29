@@ -1,6 +1,6 @@
-# CI/CD 半桶水（二）
+## 导学
 
-导学：在《CI/CD 半桶水（一）》一章中，我们创建了自己的学习项目，并搭建好了 CI/CD 环境，还编写了自己的第一个流水线。在这一章节里，我们将进一步了解 CI/CD 的两个核心概念：Pipeline 和 Jobs 的相关内容。通过这两个相关概念的相关内容我们将进一步提升自己编写 CI/CD 流水线的能力。
+在《CI/CD 半桶水（一）》一章中，我们创建了自己的学习项目，并搭建好了 CI/CD 环境，还编写了自己的第一个流水线。在这一章节里，我们将进一步了解 CI/CD 的两个核心概念：Pipeline 和 Jobs 的相关内容。通过这两个相关概念的相关内容我们将进一步提升自己编写 CI/CD 流水线的能力。
 
 ## Pipelines
 
@@ -21,9 +21,9 @@ Pipelines 是 CI/CD 的顶级组件，一个 pipeline 创建之后便会自动�
 
 #### Basic 模型
 
-![basic_pipeline](./basic_pipeline.png)
+![basic_pipeline.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7cbfbce48cbe485982d19e81e344c082~tplv-k3u1fbpfcp-watermark.image)
 
-![basic_pipeline_test](./basic_pipeline_test.png)
+![basic_pipeline_test.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2609850575fe4fa09f4dd62da0337cbb~tplv-k3u1fbpfcp-watermark.image)
 
 在 basic 模型下，必须等待 build stage 中的所有任务都完成之后才能转入到 test 阶段
 
@@ -35,54 +35,51 @@ stages:
 
 build_a:
   stage: build
-  script: 
+  script:
     - echo "build a"
-  tags: 
+  tags:
     - clf-cicd-runner
 
 build_b:
   stage: build
-  script: 
+  script:
     - echo "build b"
-  tags: 
+  tags:
     - clf-cicd-runner
 
 test_a:
   stage: test
-  script: 
+  script:
     - echo "test a"
-  tags: 
+  tags:
     - clf-cicd-runner
 
 test_b:
   stage: test
-  script: 
+  script:
     - echo "test b"
-  tags: 
+  tags:
     - clf-cicd-runner
 
 deploy_a:
   stage: deploy
-  script: 
+  script:
     - echo "deploy a"
-  tags: 
+  tags:
     - clf-cicd-runner
 
 deploy_b:
   stage: deploy
-  script: 
+  script:
     - echo "deploy b"
-  tags: 
+  tags:
     - clf-cicd-runner
 ```
 
-
-
 #### DAG 模型
 
-![dag_pipeline](./dag_pipeline.png)
-
-![dag_pipeline_test](./dag_pipeline_test.png)
+![dag_pipeline.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/04151db1ef904fe68d1dfa0340f0fc36~tplv-k3u1fbpfcp-watermark.image)
+![dag_pipeline_test.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fbd272d4ff7d4b399646da452d93d0f0~tplv-k3u1fbpfcp-watermark.image)
 
 当通过 needs 关键字声明依赖关系之后，便可根据依赖关系使得下一个 stage 的 job 提前执行；
 
@@ -94,7 +91,7 @@ deploy_b 依赖 test_b，test_a 依赖 build_b；
 
 其中 build_a 和 build_b 都属于 build stage；test_a 和 test_b 都属于 test stage；deploy_a 和 deploy_b 都属于 build stage；
 
-整个 pipeline 的执行过程如下: 
+整个 pipeline 的执行过程如下:
 
 build_a、build_b 同时开始执行，同时我们假设 build_a 任务执行完成所需要的时间更短一些；当 build_a 执行完成但是 build_b 还没执行完成，这个时候 test_a 不用去等待 build_b 执行完成，便可开始执行
 
@@ -106,61 +103,56 @@ stages:
 
 build_a:
   stage: build
-  script: 
+  script:
     - echo "build a"
-  tags: 
+  tags:
     - clf-cicd-runner
 
 build_b:
   stage: build
-  script: 
+  script:
     - echo "build b"
-  tags: 
+  tags:
     - clf-cicd-runner
 
 test_a:
   stage: test
   needs: [build_a]
-  script: 
+  script:
     - echo "test a"
-  tags: 
+  tags:
     - clf-cicd-runner
 
 test_b:
   stage: test
   needs: [build_b]
-  script: 
+  script:
     - echo "test b"
-  tags: 
+  tags:
     - clf-cicd-runner
 
 deploy_a:
   stage: deploy
   needs: [test_a]
-  script: 
+  script:
     - echo "deploy a"
-  tags: 
+  tags:
     - clf-cicd-runner
 
 deploy_b:
   stage: deploy
   needs: [test_b]
-  script: 
+  script:
     - echo "deploy b"
-  tags: 
+  tags:
     - clf-cicd-runner
 ```
 
-
-
 #### Child/Parent 模型
 
+![parent_child_pipeline.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/def71018479041d48a902698b7bc9af9~tplv-k3u1fbpfcp-watermark.image)
 
-![parent_child_pipeline](./parent_child_pipeline.png)
-
-![parent_child_pipeline_test](./parent_child_pipeline_test.png)
-
-
+![parent_child_pipeline_test.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/200474c7a3f44b4abc41b21fd3e74b20~tplv-k3u1fbpfcp-watermark.image)
 
 ```yaml
 stages:
@@ -188,20 +180,19 @@ trigger_b:
 stages:
   - build
   - deploy
-  
+
 build:
   stage: build
   script:
     - echo "This job is a build."
-  tags: 
+  tags:
     - clf-cicd-runner
 deploy:
   stage: deploy
   script:
     - echo "This job is a deploy."
-  tags: 
+  tags:
     - clf-cicd-runner
-
 ```
 
 ```yaml
@@ -209,21 +200,19 @@ deploy:
 stages:
   - build
   - deploy
-  
+
 build:
   stage: build
   script:
     - echo "This job is b build."
-  tags: 
+  tags:
     - clf-cicd-runner
 deploy:
   stage: deploy
   script:
     - echo "This job is b deploy."
-  tags: 
+  tags:
     - clf-cicd-runner
-
-
 ```
 
 ##### 多项目
@@ -262,15 +251,11 @@ upstream_bridge:
     pipeline: other/project
 ```
 
-
-
 ### Pipeline 性能优化
 
 - 将容易失败的任务放到前面
 - 避免无必要的任务执行
 - 优化 docker 镜像，让镜像的体积更小
-
-
 
 docker 镜像优化：
 
@@ -283,8 +268,6 @@ docker 镜像优化：
 - 如果使用 `apt`，添加 `--no-install-recommends` 以避免不必要的包。
 - 清理最后不再需要的缓存和文件。 例如`rm -rf /var/lib/apt/lists/*`适用于 Debian 和 Ubuntu，或`yum clean all`适用于 RHEL 和 CentOS。
 - 使用 [dive](https://github.com/wagoodman/dive) 或 [DockerSlim](https://github.com/docker-slim/docker-slim) 等工具来分析和缩小镜像。
-
-
 
 ### Pipeline for merge requests
 
@@ -359,7 +342,7 @@ job:
 
 是否相等： `==`
 
-是否不等：`!=` 
+是否不等：`!=`
 
 此外一般字符串需要通过`""`进行包裹；
 
@@ -381,7 +364,7 @@ if: $VARIABLE != ""
 
 ```plain
 # 变量不能为空
-if: $VARIABLE 
+if: $VARIABLE
 ```
 
 通过正则表达式进行比较
@@ -424,11 +407,11 @@ test:
     kubernetes: active
 ```
 
-如何判断是否将 job 添加到 pipeline ： 
+如何判断是否将 job 添加到 pipeline ：
 
 （refs 任一条件为 true） && （variables 任一条件为 true） && （change s 任一条件为 true） && （任何选择的 Kubernetes 状态匹配）
 
-*官网原文：`(any listed refs are true) AND (any listed variables are true) AND (any listed changes are true) AND (any chosen Kubernetes status matches)`*
+_官网原文：`(any listed refs are true) AND (any listed variables are true) AND (any listed changes are true) AND (any chosen Kubernetes status matches)`_
 
 ### except
 
@@ -446,9 +429,7 @@ test:
 
 （refs 任一条件为 true） || （variables 任一条件为 true） || （changes 任一条件为 true） || （任何选择的 Kubernetes 状态匹配）
 
-*官网原文：`(any listed refs are true) OR (any listed variables are true) OR (any listed changes are true) OR (a chosen Kubernetes status matches)`*
-
-
+_官网原文：`(any listed refs are true) OR (any listed variables are true) OR (any listed changes are true) OR (a chosen Kubernetes status matches)`_
 
 ### scripts 语法
 
@@ -475,14 +456,14 @@ job:
 
 ```yaml
 stages:
-  -  test
+  - test
 
 .job_template: &job_configuration
   stage: test
   image: centos:7
-  tags: 
+  tags:
     - clf-cicd-runner
-    
+
 job9:
   <<: *job_configuration
   script:
@@ -494,12 +475,12 @@ job9:
 
 ```yaml
 stages:
-  -  test
+  - test
 
 .job_template: &job_configuration
   stage: test
   image: centos:7
-  tags: 
+  tags:
     - clf-cicd-runner
 
 job:
@@ -514,12 +495,12 @@ job:
 
 ```yaml
 stages:
-  -  test
+  - test
 
 .job_template: &job_configuration
   stage: test
   image: centos:7
-  tags: 
+  tags:
     - clf-cicd-runner
 
 job_1:
@@ -548,17 +529,16 @@ job_one_line_2:
 
 job_one_line_3:
   <<: *job_configuration
-  script:
-      echo "First command line."
-      
-      echo "Second command line."
+  script: echo "First command line."
 
-      echo "Third command line."
+    echo "Second command line."
+
+    echo "Third command line."
 
 # 第一行的输出会换行
 job_multi_line_1:
   <<: *job_configuration
-  script: 
+  script:
     - |
       echo "First command line
       is split over two lines."
@@ -566,7 +546,7 @@ job_multi_line_1:
 
 job_multi_line_2:
   <<: *job_configuration
-  script: 
+  script:
     - >
       echo "First command line
       is split over two lines."
@@ -583,8 +563,7 @@ job_multi_line_3:
 
 job_multi_line_4:
   <<: *job_configuration
-  script:
-    echo "First command line
+  script: echo "First command line
     is split over two lines."
 
     echo "Second command line."
@@ -610,8 +589,6 @@ job:
     - echo "This text is not colored"
 ```
 
-
-
 ## Variables
 
 ### 变量的来源
@@ -625,7 +602,7 @@ job:
   - 群组
   - gitlab 实例
 
-*注:  给项目添加的变量只有项目能访问，给群组添加的变量群组中的实例都可以访问，给 GitLab 实例添加的变量整个 GitLab 中的项目都可以访问*
+_注: 给项目添加的变量只有项目能访问，给群组添加的变量群组中的实例都可以访问，给 GitLab 实例添加的变量整个 GitLab 中的项目都可以访问_
 
 #### 创建自定义变量
 
@@ -640,16 +617,12 @@ job1:
     - echo "$TEST_VAR" and "$TEST_VAR_JOB"
 ```
 
-
-
 ### 变量的类型
 
 - variable：传统的 key value 类型
 - File： key 为变量名，value 为路径指向值存储的文件
 
-*注： .gitlab-ci.yml 中定义的变量只能是 variable 类型，而项目、项目组、GitLab 实例中定义的变量则可以是 variable 类型或者 file 类型*
-
-
+_注： .gitlab-ci.yml 中定义的变量只能是 variable 类型，而项目、项目组、GitLab 实例中定义的变量则可以是 variable 类型或者 file 类型_
 
 ### 设置变量特性
 
@@ -660,8 +633,6 @@ mask 变量后，变量的值不会出现在 job 的日志中
 #### Protect 变量
 
 protect 变量后，该变量只会在传递到受保护的分支和 tag 中
-
-
 
 ### Job 间传递变量
 
@@ -677,10 +648,9 @@ build:
 deploy:
   stage: deploy
   script:
-    - echo "$BUILD_VERSION"  # Output is: 'hello'
+    - echo "$BUILD_VERSION" # Output is: 'hello'
   dependencies:
     - build
-
 ```
 
 ```yaml
@@ -695,13 +665,11 @@ build:
 deploy:
   stage: deploy
   script:
-    - echo "$BUILD_VERSION"  # Output is: 'hello'
+    - echo "$BUILD_VERSION" # Output is: 'hello'
   needs:
     - job: build
       artifacts: true
 ```
-
-
 
 ### 变量的优先级
 
@@ -726,21 +694,15 @@ job1:
     - echo "The variable value is $API_TOKEN"
 ```
 
-
-
 ## Cache and artifacts
 
 job 在执行的过程中，往往要去下载一些项目的依赖包（每次流水线或者 job 都通过网络去下载项目的依赖包是非常耗时的）以及将构建的结果文件传到下一个 job 去使用，这个问题该怎么解决？ cache 和 artifacts 关键字将很好的帮助我们解决这些问题。
-
-
 
 ### 区别
 
 cache 用来缓存依赖包，缓存的内容存在 gitlab-runner 中
 
 artifacts 用来传递不同 stage 构建的中间结果，缓存的内容将保存在 GitLab 上且可以进行下载
-
-
 
 ### Cache
 
@@ -751,16 +713,12 @@ artifacts 用来传递不同 stage 构建的中间结果，缓存的内容将保
 - Subsequent jobs in the same pipeline can use the cache, if the dependencies are identical.
 - Different projects cannot share the cache.
 
-
-
 翻译：
 
 - 使用 cache : 关键字定义每个 job 的缓存。 否则它被禁用。
 - 后续 pipeline 可以使用缓存
 - 如果依赖项相同，同一 pipeline 中的后续 job 可以使用缓存。
 - 不同的项目不能共享缓存。
-
-
 
 #### 注意事项
 
@@ -846,15 +804,11 @@ faster-test-job:
     - echo "Running tests..."
 ```
 
-
-
 **cache:key**
 
 使用 cache:key 关键字为每个缓存提供唯一的标识键。 使用相同缓存键的所有 job 都使用相同的缓存，包括在不同的 pipelines 中。
 
-*注：根据以上的释义，一个 key 对应这一份缓存文件，这份缓存文件可以在在同一 pipeline 不同的 job 进行复用，也可以在不同的 pipelines 中进行复用*
-
-
+_注：根据以上的释义，一个 key 对应这一份缓存文件，这份缓存文件可以在在同一 pipeline 不同的 job 进行复用，也可以在不同的 pipelines 中进行复用_
 
 ### Artifacts
 
@@ -866,8 +820,6 @@ faster-test-job:
 
 Artifacts expire after 30 days unless you define an [expiration time](https://docs.gitlab.com/ee/ci/yaml/index.html#artifactsexpire_in). Use [dependencies](https://docs.gitlab.com/ee/ci/yaml/index.html#dependencies) to control which jobs fetch the artifacts.
 
-
-
 翻译：
 
 - 定义每个 job 的 artifacts
@@ -875,8 +827,6 @@ Artifacts expire after 30 days unless you define an [expiration time](https://do
 - 不同项目无法共享 artifacts
 
 未设定过期时间的情况下，30 天后会过期；
-
-
 
 #### artifacts 相关关键字
 
@@ -894,37 +844,25 @@ Artifacts expire after 30 days unless you define an [expiration time](https://do
   - cobertura
   - ...[其他的查看官网吧]
 
-
-
 Use `artifacts` to specify a list of files and directories that are attached to the job when it [succeeds, fails, or always](https://docs.gitlab.com/ee/ci/yaml/#artifactswhen).
 
 使用 artifacts 指定在作业成功、失败或始终时附加到作业的文件和目录列表。
-
-
 
 The artifacts are sent to GitLab after the job finishes. They are available for download in the GitLab UI if the size is not larger than the maximum artifact size.
 
 job 完成后，artifacts 将发送到 GitLab。 如果大小不大于最大 artifacts 大小，它们可以在 GitLab UI 中下载。
 
-
-
 By default, jobs in later stages automatically download all the artifacts created by jobs in earlier stages. You can control artifact download behavior in jobs with dependencies.
 
 默认情况下，后期的 jobs 会自动下载早期 job 创建的所有 artifacts。 您可以通过 dependencies 关键字控制 jobs 中 artifact 的下载行为。
-
-
 
 When using the needs keyword, jobs can only download artifacts from the jobs defined in the needs configuration.
 
 使用 needs 关键字时，jobs 只能从需求配置中定义的 jobs 下载 artifacts。
 
-
-
 Job artifacts are only collected for successful jobs by default, and artifacts are restored after caches.
 
 默认情况下，仅为成功的 job 收集 job artifacts，并在 caches 后恢复 artifacts。
-
-
 
 **重点小结：**
 
@@ -933,13 +871,9 @@ Job artifacts are only collected for successful jobs by default, and artifacts a
 - 可以通过 dependencies 关键字进行控制 artifacts 的下载行为
 - 如果 job 中有 needs 关键字，那么只会下载 needs 关键字指定的 job 的 artifacts
 
-
-
 ##### artifacts:dependencies
 
 默认情况下，job 会下载前面 stage 中所有 job 的 artifacts；我们可以通过 dependencies 去指定要下载哪些 job 的 artifacts（指定的 job 只能是当前 job 的前面的 stage 的 job）
-
-
 
 ```yaml
 build:osx:
@@ -974,8 +908,6 @@ deploy:
   script: make deploy
 ```
 
-
-
 ##### artifacts:exclude
 
 exclude 可以防止将文件添加到 artifacts
@@ -987,8 +919,6 @@ artifacts:
   exclude:
     - binaries/**/*.o
 ```
-
-
 
 ##### artifacts:expire_in
 
@@ -1011,29 +941,23 @@ job:
     # expire_in: never
 ```
 
-
-
 ##### artifacts:expose_as
 
 ```yaml
 test:
   script: ["echo 'test' > file.txt"]
   artifacts:
-    expose_as: 'artifact 2'
-    paths: ['file.txt']
+    expose_as: "artifact 2"
+    paths: ["file.txt"]
 ```
 
 效果如下图：
 
-![export_as](./export_as.png)
-
-
+![export_as.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a6dc52180cb34fc5ba6935fbff839182~tplv-k3u1fbpfcp-watermark.image)
 
 ##### artifacts:paths
 
 定义缓存文件或目录的的路径。路径相对于项目目录，不能直接链接到项目目录之外。
-
-
 
 ##### artifacts:untracked
 
@@ -1046,8 +970,6 @@ artifacts:
     - binaries/
 ```
 
-
-
 ##### artifacts:when
 
 定义上传 artifacts 的条件
@@ -1058,13 +980,9 @@ artifacts:
 - on_failure: 当 job 执行失败时上传 artifacts
 - always: 总是上传 artifacts
 
-
-
 ## 结语
 
-在这一章节里，我们了解了 Pipelines 的架构、了解 了 pipeline 性能优化的一些技巧，也具备了控制 job 执行时机的能力，更是学会了使用  cache 和 artifacts 关键字来提升 job 执行效率以及缓存流水线执行过程中产生的一些构建结果文件。说实在的笔者认为学到这里，我们已经可以应对绝大多数的需求场景了，看懂公司内部现有的流水线相关的内容更是不在话下。但是笔者还是期望带着大伙更近一步深入了解 CI/CD 中还有什么内容。下一章节，我们将进一步去了解 CI/CD 中各种各样的关键字。
-
-
+在这一章节里，我们了解了 Pipelines 的架构、了解 了 pipeline 性能优化的一些技巧，也具备了控制 job 执行时机的能力，更是学会了使用 cache 和 artifacts 关键字来提升 job 执行效率以及缓存流水线执行过程中产生的一些构建结果文件。说实在的笔者认为学到这里，我们已经可以应对绝大多数的需求场景了，看懂公司内部现有的流水线相关的内容更是不在话下。但是笔者还是期望带着大伙更近一步深入了解 CI/CD 中还有什么内容。下一章节，我们将进一步去了解 CI/CD 中各种各样的关键字。
 
 ## 参考链接
 
