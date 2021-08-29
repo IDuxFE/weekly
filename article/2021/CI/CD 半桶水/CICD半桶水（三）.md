@@ -146,7 +146,7 @@ image
 
 #### services
 
- 指定 docker service 镜像
+指定 docker service 镜像
 
 services - name - alias - entrypoint - comand
 
@@ -359,7 +359,7 @@ deploy_prod:
     url: https://dev.com
 ```
 
-![environment_demo](./environment_demo.png)
+![](https://files.mdnice.com/user/8106/883ed13c-4a7e-4294-b632-b412e531c156.png)
 
 #### cache
 
@@ -534,7 +534,7 @@ test:
 
 效果如下图：
 
-![export_as](./export_as.png)
+![](https://files.mdnice.com/user/8106/a97ecf48-4402-4917-90f6-ec13a93d749a.png)
 
 ##### artifacts:paths
 
@@ -933,13 +933,9 @@ test:
 
 **小结：**通过这一章节的学习，我们了解了很多 YAML 特有的功能，通过这些功能特性，我们可以很好的维护我们的配置文件。
 
-
-
 ## 结语
 
 看完下来是不是觉得这内容实在太多了，也可能不记得多少东西。其实没关系的，知道有这那么个东西存在就好，但问题出现的时候，您自然能回想起来，是不是有那么一个东西可以用，但是后在回来查便是了。到此为止，我们可能觉得自己无所不能了吧，哈哈哈哈～ 但其实还不够！！！下一章，我们将带大家了解一下 webhooks 以及 GitLab api 相关的内容。
-
-
 
 ## 参考链接
 
