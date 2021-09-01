@@ -2,6 +2,9 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
+- [CI/CD 半桶水（一）](https://juejin.cn/post/7002764771330097189)
+- [CI/CD 半桶水（二）](https://juejin.cn/post/7002775438711865352)
+- [CI/CD 半桶水（三）](https://juejin.cn/post/7002776008570961956)
 - [[译] Chrome 92 DevTools 的新功能](https://juejin.cn/post/7000267785095872526)
 - [开发必懂的文件加解密](https://juejin.cn/post/6997565255463206925)
 - [浏览器指纹及其应用](https://juejin.cn/post/6995000627642236941)
@@ -11,6 +14,7 @@
 - [前端编译和工程化](https://juejin.cn/column/6992030342987120677)
 - [前端安全与防御技术](https://juejin.cn/column/6992036501395603492)
 - [前端技术文章翻译](https://juejin.cn/column/7000191408518725662)
+- [CI/CD 流水线](https://juejin.cn/column/7001336650957586445)
 
 ## 📝参与投稿
 - [投稿流程说明](https://github.com/IDuxFE/weekly/wiki/%E6%8A%95%E7%A8%BF%E6%B5%81%E7%A8%8B%E8%AF%B4%E6%98%8E)
