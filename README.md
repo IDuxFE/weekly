@@ -1,5 +1,5 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
 - [CI/CD 半桶水（一）](https://juejin.cn/post/7002764771330097189)
@@ -33,6 +33,7 @@
     <td align="center"><a href="https://github.com/coolyuantao"><img src="https://avatars.githubusercontent.com/u/3478550?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zhangyuantao</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=coolyuantao" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/clfeng"><img src="https://avatars.githubusercontent.com/u/20736207?v=4?s=100" width="100px;" alt=""/><br /><sub><b>clfeng</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=clfeng" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/wongtsuizhen"><img src="https://avatars.githubusercontent.com/u/6890343?v=4?s=100" width="100px;" alt=""/><br /><sub><b>wongtsuizhen</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=wongtsuizhen" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/miomio-xiao"><img src="https://avatars.githubusercontent.com/u/19550383?v=4?s=100" width="100px;" alt=""/><br /><sub><b>mio</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=miomio-xiao" title="Documentation">📖</a></td>
   </tr>
 </table>
 

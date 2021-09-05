@@ -55,6 +55,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "miomio-xiao",
+      "name": "mio",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19550383?v=4",
+      "profile": "https://github.com/miomio-xiao",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7

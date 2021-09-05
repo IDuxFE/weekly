@@ -1,27 +1,26 @@
 
-## 浅析Node的模块系统
+## 浅析 Node 的模块系统
 
 ### 模块化的背景
 
-早期JavaScript是为了实现简单的页面交互逻辑, 但随着时代发展, 浏览器不单单仅只能呈现简单交互, 各种各样的网站开始大放光彩。随着网站开始变得复杂化，前端代码日渐增多，相对比起其他静态语言，JavaScript缺少模块化的弊端开始暴露出来，如命名冲突。因此为了方便前端代码的维护和管理，社区开始了对模块化规范的定义。在这过程中，出现了很多的模块化规范，如`CommonJS`, `AMD`, `CMD`, `ES modules`，本文章主要讲解`Node`中根据`CommonJS`实现的模块化。
+早期 JavaScript 是为了实现简单的页面交互逻辑, 但随着时代发展, 浏览器不单单仅只能呈现简单交互, 各种各样的网站开始大放光彩。随着网站开始变得复杂化，前端代码日渐增多，相对比起其他静态语言，JavaScript 缺少模块化的弊端开始暴露出来，如命名冲突。因此为了方便前端代码的维护和管理，社区开始了对模块化规范的定义。在这过程中，出现了很多的模块化规范，如`CommonJS`, `AMD`, `CMD`, `ES modules`，本文章主要讲解`Node`中根据`CommonJS`实现的模块化。
 
-### CommonJS规范
+### CommonJS 规范
 
-首先，在Node世界里,模块系统是遵守`CommonJS`规范的，`CommonJS`规范里定义，简单讲就是：
+首先，在 Node 世界里,模块系统是遵守`CommonJS`规范的，`CommonJS`规范里定义，简单讲就是：
   - 每一个文件就是一个模块
   - 通过`module`对象来代表一个模块的信息
   - 通过`exports`用来导出模块对外暴露的信息
   - 通过`require`来引用一个模块
 
-### Node模块分类
-  - 核心模块: 如fs,http,path等模块, 这些模块不需要安装, 在运行时已经加载在内存中
-  - 第三方模块: 通过安装存放在node_modules中
-  - 自定义模块: 主要是指file模块,通过绝对路径或者相对路径进行引入
+### Node 模块分类
+  - 核心模块: 如 fs,http,path 等模块, 这些模块不需要安装, 在运行时已经加载在内存中
+  - 第三方模块: 通过安装存放在 node_modules 中
+  - 自定义模块: 主要是指 file 模块,通过绝对路径或者相对路径进行引入
 
-### Module对象
+### Module 对象
 
-我们上面说过,一个文件就是一个模块,且通过一个module对象来描述当前模块信息,一个module对象对应有以下属性:
-
+我们上面说过,一个文件就是一个模块,且通过一个 module 对象来描述当前模块信息,一个 module 对象对应有以下属性：
     - id: 当前模块的id
     - path: 当前模块对应的路径
     - exports: 当前模块对外暴露的变量
@@ -32,7 +31,7 @@
     - paths: 是一个数组,记录着从当前模块开始查找node_modules目录,递归向上查找到根目录下的node_modules目录下
 
 
-### module.exports与exports
+### module.exports 与 exports
 
 说完`CommonJS`规范,我们先讲下`module.exports`与`exports`的区别。
 
@@ -56,7 +55,7 @@ let a = require('./a');
 console.log(a); // {text: 'xxx', value: 2}
 ```
 
-从而也就验证了上面`demo1`中,为什么通过`module.exports`和`exports`添加属性,在模块引入时两者都存在, 因为两者最终都是往同一个引用变量上面进行属性的添加.根据该demo, 可以得出结论: `module.exports`和`exports`指向同一个引用变量
+从而也就验证了上面`demo1`中,为什么通过`module.exports`和`exports`添加属性,在模块引入时两者都存在, 因为两者最终都是往同一个引用变量上面进行属性的添加.根据该 demo, 可以得出结论: `module.exports`和`exports`指向同一个引用变量
 
 #### demo2
 ```javascript
@@ -72,7 +71,7 @@ let a = require('./a');
 console.log(a); // {text: 'xxx'}
 ```
 
-上面的demo例子中,对`module.exports`进行了重新赋值, `exports`进行了属性的新增, 但是在引入模块后最终导出的是`module.exports`定义的值, 可以得出结论: noed的模块最终导出的是`module.exports`, 而`exports`仅仅是对module.exports的引用, 类似于以下代码:
+上面的 demo 例子中,对`module.exports`进行了重新赋值, `exports`进行了属性的新增, 但是在引入模块后最终导出的是`module.exports`定义的值, 可以得出结论: noed 的模块最终导出的是`module.exports`, 而`exports`仅仅是对 module.exports 的引用, 类似于以下代码:
 ```javascript
 exports = module.exports = {};
 (function (exports, module) {
@@ -85,17 +84,17 @@ exports = module.exports = {};
   console.log(module.exports === exports); // false
 })(exports, module)
 ```
-由于在函数执行中, exports仅是对原`module.exports`对应变量的一个引用,当对`module.exports`进行赋值时,`exports`对应的变量和最新的`module.exports`并不是同一个变量
+由于在函数执行中, exports 仅是对原`module.exports`对应变量的一个引用,当对`module.exports`进行赋值时,`exports`对应的变量和最新的`module.exports`并不是同一个变量
 
-### require方法
+### require 方法
 `require`引入模块的过程主要分为以下几步:
 - 解析文件路径成绝对路径
 - 查看当前需要加载的模块是否已经有缓存, 如果有缓存, 则直接使用缓存的即可
-- 查看是否是node自带模块, 如http,fs等, 是就直接返回
+- 查看是否是 node 自带模块, 如 http,fs 等, 是就直接返回
 - 根据文件路径创建一个模块对象
 - 将该模块加入模块缓存中
-- 通过对应的文件解析方式对文件进行解析编译执行(node默认仅支持解析`.js`,`.json`, `.node`后缀的文件)
-- 返回加载后的模块exports对象
+- 通过对应的文件解析方式对文件进行解析编译执行(node 默认仅支持解析`.js`,`.json`, `.node`后缀的文件)
+- 返回加载后的模块 exports 对象
 
 ![require执行过程](https://files.mdnice.com/user/19436/548b9231-3e2b-4371-b612-39f3a00cc2bd.jpg)
 
@@ -144,13 +143,13 @@ Module._load = function(request, parent, isMain) {
 };
 ```
 
-至此, node的模块原理流程基本过完了。目前node v13.2.0版本起已经正式支持ESM特性。
+至此, node 的模块原理流程基本过完了。目前 node v13.2.0 版本起已经正式支持 ESM 特性。
 
 ### __filename, __dirname
 
-在接触node中,你是否会困惑 `__filename`, `__dirname`是从哪里来的, 为什么会有这些变量呢? 仔细阅读该章节,你会对这些有系统性的了解。
+在接触 node 中,你是否会困惑 `__filename`, `__dirname`是从哪里来的, 为什么会有这些变量呢? 仔细阅读该章节,你会对这些有系统性的了解。
 
-- 顺着上面的require源码继续走, 当一个模块加载时, 会对模块内容读取
+- 顺着上面的 require 源码继续走, 当一个模块加载时, 会对模块内容读取
 - 将内容包裹成函数体
 - 将拼接的函数字符串编译成函数
 - 执行编译后的函数, 传入对应的参数
@@ -194,9 +193,9 @@ ObjectDefineProperty(Module, 'wrap', {
 });
 ```
 
-综上, 也就是之所以模块里面有`__dirname`,`__filename`, `module`, `exports`, `require`这些变量, 其实也就是node在执行过程传入的, 看完是否解决了多年困惑的问题^_^
+综上, 也就是之所以模块里面有`__dirname`,`__filename`, `module`, `exports`, `require`这些变量, 其实也就是 node 在执行过程传入的, 看完是否解决了多年困惑的问题^_^
 
-### NodeJS中使用ES Modules
+### NodeJS 中使用 ES Modules
 
 - 在`package.json`增加"type": "module"配置
 
@@ -249,13 +248,13 @@ export default 'this is b';
 // this is b
 ```
 
-- import只能在模块的顶层,不能在代码块之中(比如在`if`代码块中),如果需要动态引入, 需要使用`import()`动态加载;
+- import 只能在模块的顶层,不能在代码块之中(比如在`if`代码块中),如果需要动态引入, 需要使用`import()`动态加载;
 
 ES 模块对比 CommonJS 模块, 还有以下的区别:
 
 - 没有 `require`、`exports` 或 `module.exports`
 
-  在大多数情况下，可以使用 ES 模块 import 加载 CommonJS 模块。(CommonJS模块文件后缀为cjs)
+  在大多数情况下，可以使用 ES 模块 import 加载 CommonJS 模块。(CommonJS 模块文件后缀为 cjs)
   如果需要引入`.js`后缀的 CommonJS 模块, 可以使用`module.createRequire()`在 ES 模块中构造`require`函数
   
 ```javascript
@@ -338,7 +337,7 @@ import a from './a.cjs';
 console.log(a); // commonjs a
 ```
 
-至此,提供2个demo给大家测试下上述知识点是否已经掌握,如果没有掌握可以回头再进行阅读。
+至此,提供 2 个 demo 给大家测试下上述知识点是否已经掌握,如果没有掌握可以回头再进行阅读。
 
 #### demo module.exports&exports
 ```javascript
@@ -362,7 +361,7 @@ let a = require('./a');
 console.log(a); // {}
 ```
 ------
-#### require&_cache模块缓存机制
+#### require&_cache 模块缓存机制
 ```javascript
 // origin.js
 let count = 0;
@@ -389,7 +388,7 @@ console.log(getCount()); // 1
 
 ### require.cache
 
-根据上述例子, 模块在require引入时会加入缓存对象`require.cache`中。 如果需要删除缓存， 可以考虑将该缓存内容清除，则下次`require`模块将会重新加载模块。
+根据上述例子, 模块在 require 引入时会加入缓存对象`require.cache`中。 如果需要删除缓存， 可以考虑将该缓存内容清除，则下次`require`模块将会重新加载模块。
 
 ```javascript
 let count = 0;
@@ -417,7 +416,7 @@ console.log(getCount()); // 0
 
 ### 结语
 
-至此，本文主要介绍了Node中基于`CommonJS`实现的模块化机制，并且通过源码的方式对模块化的整个流程进行了分析，有关于模块的介绍可查看下面参考资料。有疑问的欢迎评论区留言，谢谢。
+至此，本文主要介绍了 Node 中基于`CommonJS`实现的模块化机制，并且通过源码的方式对模块化的整个流程进行了分析，有关于模块的介绍可查看下面参考资料。有疑问的欢迎评论区留言，谢谢。
 
 ### 参考资料
 
