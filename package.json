@@ -19,6 +19,7 @@
   "author": "Joe",
   "license": "ISC",
   "dependencies": {
+    "husky": "^7.0.2",
     "lint-md-cli": "^0.1.2"
   },
   "lint-staged": {
