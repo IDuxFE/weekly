@@ -6,6 +6,7 @@
   "scripts": {
     "lint-md": "lint-md article/**/*.{md,markdown}",
     "fix-md": "lint-md article/**/*.{md,markdown} --fix",
+    "precommit": "lint-staged",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"
   },
