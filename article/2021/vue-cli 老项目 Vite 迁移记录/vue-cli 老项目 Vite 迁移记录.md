@@ -1,8 +1,8 @@
-# vue-cli 老项目 Vite 迁移记录
+# vue-cli 老项目 vite 迁移记录
 
 公司的项目大部分都是2B类型的中后台PC端项目，且业务都非常庞大。常年累月的维护下，使用`webpack  dev`速度变得非常慢。
 
-因为最近的工作主要是负责一些前端的基础设施建设，各个业务线的产品都有一定的接触。有一个项目在我的电脑上面`npm run dev`居然要6分钟之久，实在是难以感到愉悦。加上公司内部已经新项目使用Vite作为构建工具，所以挑选了一个自己比较熟悉的老项目(vue-cli)进行vite迁移。并将过程进行了记录。
+因为最近的工作主要是负责一些前端的基础设施建设，各个业务线的产品都有一定的接触。有一个项目在我的电脑上面`npm run dev`居然要6分钟之久，实在是难以感到愉悦。加上公司内部已经新项目使用vite作为构建工具，所以挑选了一个自己比较熟悉的老项目(vue-cli)进行vite迁移。并将过程进行了记录。
 
 ## 项目背景
 
@@ -266,7 +266,7 @@ vite 开启之后，访问登录页 https://localhost:4433/static/login_platform
 
 > https://vitejs.bootcss.com/guide/features.html#css-pre-processors
 >
-> Vite 为 Sass 和 Less 改进了 `@import` 解析，以保证 Vite 别名也能被使用。另外，`url()` 中的相对路径引用的，与根文件不同目录中的 Sass/Less 文件会自动变基以保证正确性。
+> vite 为 Sass 和 Less 改进了 `@import` 解析，以保证 vite 别名也能被使用。另外，`url()` 中的相对路径引用的，与根文件不同目录中的 Sass/Less 文件会自动变基以保证正确性。
 >
 > 由于 Stylus API 限制，`@import` 别名和 URL 变基不支持 Stylus。
 
@@ -290,7 +290,7 @@ vite 开启之后，访问登录页 https://localhost:4433/static/login_platform
 
 > https://vitejs.bootcss.com/guide/dep-pre-bundling.html#the-why
 >
-> Vite 将有许多内部模块的 ESM 依赖关系转换为单个模块，以提高后续页面加载性能。
+> vite 将有许多内部模块的 ESM 依赖关系转换为单个模块，以提高后续页面加载性能。
 >
 > 一些包将它们的 ES 模块构建作为许多单独的文件相互导入。例如，[`lodash-es` 有超过 600 个内置模块](https://unpkg.com/browse/lodash-es/)！当我们执行 `import { debounce } from 'lodash-es'` 时，浏览器同时发出 600 多个 HTTP 请求！尽管服务器在处理这些请求时没有问题，但大量的请求会在浏览器端造成网络拥塞，导致页面的加载速度相当慢。
 >
@@ -589,7 +589,7 @@ const fixExtname = (str, fileName) => {
 
 > https://vitejs.bootcss.com/guide/dep-pre-bundling.html#the-why
 >
-> **CommonJS 和 UMD 兼容性:** 开发阶段中，Vite 的开发服务器将所有代码视为原生 ES 模块。因此，Vite 必须先将作为 CommonJS 或 UMD 发布的依赖项转换为 ESM。
+> **CommonJS 和 UMD 兼容性:** 开发阶段中，vite 的开发服务器将所有代码视为原生 ES 模块。因此，vite 必须先将作为 CommonJS 或 UMD 发布的依赖项转换为 ESM。
 
 `vite` 官网说，会兼容`CommonJS` 格式的文件，但是这里为什么还是因为`CommonJS`格式的问题呢？
 
