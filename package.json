@@ -23,7 +23,7 @@
   },
   "lint-staged": {
     "article/**/*.{md,markdown}": [
-      "lint-md"
+      "lint-md --fix"
     ]
   },
   "devDependencies": {
