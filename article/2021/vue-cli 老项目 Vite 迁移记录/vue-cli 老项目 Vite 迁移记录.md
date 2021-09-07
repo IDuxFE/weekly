@@ -414,8 +414,8 @@ import copyright from '@uedc/login/dist/static/copyright/copyright-zh_CN@2016-20
 
 从官网的文档的描述信息来看`optimiziDep.include`是无法解决npm包出错的问题。因为不管怎样，node_modules中的内容都会被预构建。但是从实际的使用中来看
 
-* 在` vite 2.4.x` 中，`optimiziDep.include`能够解决部分npm加载的问题。
-* 在 `vite 2.5.x` 中，`optimiziDep.include`不再起作用。
+* 在` vite 2.4.4` 中，`optimiziDep.include`能够解决部分npm加载的问题。
+* 在 `vite 2.5.3` 中，`optimiziDep.include`不再起作用。
 
 因为vite 一直在高速迭代，保不齐部分情况下此方法依旧有用。
 
@@ -447,9 +447,9 @@ import copyright from '@uedc/login/dist/static/copyright/copyright-zh_CN@2016-20
 
 而以上两种方案都无法通过`resolve.extensions`解决。
 
-> 在vite 2.4.x 的版本中，配置了resolve.extensions之后，无法识别vue-router中的 () => import('foo/bar/baz')
+> 在vite 2.4.4 的版本中，配置了resolve.extensions之后，无法识别vue-router中的 () => import('foo/bar/baz')
 >
-> 这个问题在 vite 2.5.x中进行了修复，如果出现了此类问题，可以升级一下vite版本。
+> 这个问题在 vite 2.5.3中进行了修复，如果出现了此类问题，可以升级一下vite版本。
 
 #### 解决方案一：人肉修改
 
@@ -632,11 +632,11 @@ module.exports = {
 
 总的来说现阶段的`vite`还存在以下问题：
 
-* 预构建重启之后缓存丢失
-* 预构建需要访问到对应的文件才能触发，会导致频繁`408`，且速度非常慢。整个下来时间比较久，而且需要你手动刷新浏览器。比较奇怪的是`vite 2.4.x` 在这方面 比`vite2.5.x` 快非常多，基本上只会出现一次`408`。
+* 手动重新`npm run dev`后，预构建之后缓存丢失，而修改`vite.config.js`导致的自动重启不会。
+* 预构建需要访问到对应的文件才能触发，会导致频繁`408`，且速度非常慢。整个下来时间比较久，而且需要你手动刷新浏览器。比较奇怪的是`vite 2.4.4` 在这方面 比`vite 2.5.3` 快非常多，基本上只会出现一次`408`。
 * 无法很好的处理非 `ES module`的npm 包，与`webpack`还存在一定的差距。
 * 请求数量巨大，从network的面板来看，请求的数量高达`468`，除去`XHR`请求之外也有将近`400`个请求。所以首次加载的时间比较慢大概花了`5秒`，这一块应该是可以通过vite的配置来优化。等内部的一些npm包调整完毕能够进行正常的开发之后，会总结一些开发的实践并发出来。
-* 功能不稳定。在早期使用`vite 2.4.x`进行迁移时，问题稍微还多一些。之后更新到`vite2.5.x`之后，部分问题被修复了，但是也增加了一些新的问题。
+* 功能不稳定。在早期使用`vite 2.4.4`进行迁移时，问题稍微还多一些。之后更新到`vite 2.5.3`之后，部分问题被修复了，但是也增加了一些新的问题。
 
 针对老项目需要迁移到vite，需要考虑以下情况：
 
@@ -645,6 +645,8 @@ module.exports = {
 * 因为IE11天然不支持`ES module`，所以IE调试比较麻烦，不建议需要支持IE11的项目将`vite`作为唯一的构建工具。
 * 现阶段的`vite` 对npm包有着较高的要求，迁移之前可以先看下项目的npm包，该替换的替换，该升级的升级。
 
-整体来说，`vite`的开发体验比较好的，给我的感觉就是`vite`。因为之前webpack启动时会占用大量的电脑资源，导致这一段时间VSCode非常卡，这一点体验非常不好。总的来说`vite` 未来可期。
+整体来说，`vite`的开发体验比较好，轻量且块。即便是一个臃肿的老项目也能够做到反应迅速且不占用过多资源。项目较大时`webpack`启动时会占用大量的电脑资源，导致这一段时间VSCode非常卡，这一点体验非常不好。
+
+总的来说`vite` 未来可期。
 
 最后祝大家搬砖开心:smile:
