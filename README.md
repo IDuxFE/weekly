@@ -2,6 +2,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
+- [从0到1实现一个预览 vue 文件 CLI 工具](https://juejin.cn/post/7005351791671902244)
 - [CI/CD 半桶水（一）](https://juejin.cn/post/7002764771330097189)
 - [CI/CD 半桶水（二）](https://juejin.cn/post/7002775438711865352)
 - [CI/CD 半桶水（三）](https://juejin.cn/post/7002776008570961956)
