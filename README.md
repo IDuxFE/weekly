@@ -2,6 +2,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
+- [浅析 Node 的模块系统](https://juejin.cn/post/7007233910681632781)
 - [从0到1实现一个预览 vue 文件 CLI 工具](https://juejin.cn/post/7005351791671902244)
 - [CI/CD 半桶水（一）](https://juejin.cn/post/7002764771330097189)
 - [CI/CD 半桶水（二）](https://juejin.cn/post/7002775438711865352)
@@ -16,6 +17,9 @@
 - [前端安全与防御技术](https://juejin.cn/column/6992036501395603492)
 - [前端技术文章翻译](https://juejin.cn/column/7000191408518725662)
 - [CI/CD 流水线](https://juejin.cn/column/7001336650957586445)
+- [Vue 源码解析与实践](https://juejin.cn/column/7007233236925415432)
+
+
 
 ## 📝参与投稿
 - [投稿流程说明](https://github.com/IDuxFE/weekly/wiki/%E6%8A%95%E7%A8%BF%E6%B5%81%E7%A8%8B%E8%AF%B4%E6%98%8E)
