@@ -84,6 +84,57 @@ sudo yum install gitlab-runner
 
 ![gitlab_runner_success.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/866e750dbe644890835557bd831e617a~tplv-k3u1fbpfcp-watermark.image)
 
+*注：由于身边的朋友反馈 yum 的方式下载有时候会由于网络问题比较慢，这里添加多一种通过二进制包安装的方式*
+
+
+
+#### 通过二进制的方式下载和安装
+
+1. 根据系统类型选择执行相应的脚本下载二进制文件
+
+```shell
+# Linux x86-64
+sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64"
+
+# Linux x86
+sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-386"
+
+# Linux arm
+sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-arm"
+
+# Linux arm64
+sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-arm64"
+
+# Linux s390x
+sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-s390x"
+
+# Linux ppc64le
+sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-ppc64le"
+```
+
+2. 添加权限
+
+```shell
+sudo chmod +x /usr/local/bin/gitlab-runner
+```
+
+
+
+3. 创建 GitLab CI 用户
+
+```shell
+sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+```
+
+4. 安装及启动服务
+
+```shell
+sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+sudo gitlab-runner start
+```
+
+
+
 ### 注册 runner
 
 ##### 进入项目仓库 CI/CD 页面查看相应的 url 与 token
