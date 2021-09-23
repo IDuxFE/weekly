@@ -2,6 +2,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
+- [vue-cli 老项目 vite 迁移记录](https://juejin.cn/post/7010571160060428318)
 - [[译] Intersection Observer 实现动态 header](https://juejin.cn/post/7007950531024912420)
 - [浅析 Node 的模块系统](https://juejin.cn/post/7007233910681632781)
 - [从0到1实现一个预览 vue 文件 CLI 工具](https://juejin.cn/post/7005351791671902244)
