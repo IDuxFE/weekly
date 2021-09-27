@@ -6,7 +6,6 @@
   "scripts": {
     "lint-md": "lint-md article/**/*.{md,markdown}",
     "fix-md": "lint-md article/**/*.{md,markdown} --fix",
-    "precommit": "lint-staged",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"
   },
@@ -20,7 +19,6 @@
   "author": "Joe",
   "license": "ISC",
   "dependencies": {
-    "husky": "^7.0.2",
     "lint-md-cli": "^0.1.2"
   },
   "lint-staged": {
@@ -29,7 +27,6 @@
     ]
   },
   "devDependencies": {
-    "all-contributors-cli": "^6.20.0",
-    "lint-staged": "^11.1.2"
+    "all-contributors-cli": "^6.20.0"
   }
 }
