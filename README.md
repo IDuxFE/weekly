@@ -1,5 +1,5 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
 - [vue-cli 老项目 vite 迁移记录](https://juejin.cn/post/7010571160060428318)
@@ -45,6 +45,7 @@
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/rhinonan"><img src="https://avatars.githubusercontent.com/u/9367487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>卡猫司机</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=rhinonan" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/lwh2015"><img src="https://avatars.githubusercontent.com/u/16028333?v=4?s=100" width="100px;" alt=""/><br /><sub><b>HWJY</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=lwh2015" title="Documentation">📖</a></td>
   </tr>
 </table>
 
