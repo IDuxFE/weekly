@@ -1,7 +1,8 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
+- [Vue2.x 源码学习系列](https://juejin.cn/post/7012417885624598564)
 - [vue-cli 老项目 vite 迁移记录](https://juejin.cn/post/7010571160060428318)
 - [[译] Intersection Observer 实现动态 header](https://juejin.cn/post/7007950531024912420)
 - [浅析 Node 的模块系统](https://juejin.cn/post/7007233910681632781)
@@ -35,16 +36,17 @@
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/Jouryjc"><img src="https://avatars.githubusercontent.com/u/11925053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jouryjc</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Jouryjc" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/Usualminds"><img src="https://avatars.githubusercontent.com/u/19425902?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joe</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Usualminds" title="Code">💻</a> <a href="https://github.com/IDuxFE/weekly/commits?author=Usualminds" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/coolyuantao"><img src="https://avatars.githubusercontent.com/u/3478550?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zhangyuantao</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=coolyuantao" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Jouryjc"><img src="https://avatars.githubusercontent.com/u/11925053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jouryjc</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Jouryjc" title="Documentation">📖</a> <a href="https://github.com/IDuxFE/weekly/pulls?q=is%3Apr+reviewed-by%3AJouryjc" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/Usualminds"><img src="https://avatars.githubusercontent.com/u/19425902?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Joe</b></sub></a><br /> <a href="https://github.com/IDuxFE/weekly/commits?author=Usualminds" title="Documentation">📖</a> <a href="#translation-Usualminds" title="Translation">🌍</a> <a href="https://github.com/IDuxFE/weekly/pulls?q=is%3Apr+reviewed-by%3AUsualminds" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/coolyuantao"><img src="https://avatars.githubusercontent.com/u/3478550?v=4?s=100" width="100px;" alt=""/><br /><sub><b>zhangyuantao</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=coolyuantao" title="Documentation">📖</a> <a href="https://github.com/IDuxFE/weekly/pulls?q=is%3Apr+reviewed-by%3Acoolyuantao" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="https://github.com/clfeng"><img src="https://avatars.githubusercontent.com/u/20736207?v=4?s=100" width="100px;" alt=""/><br /><sub><b>clfeng</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=clfeng" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/wongtsuizhen"><img src="https://avatars.githubusercontent.com/u/6890343?v=4?s=100" width="100px;" alt=""/><br /><sub><b>wongtsuizhen</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=wongtsuizhen" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/wongtsuizhen"><img src="https://avatars.githubusercontent.com/u/6890343?v=4?s=100" width="100px;" alt=""/><br /><sub><b>wongtsuizhen</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=wongtsuizhen" title="Documentation">📖</a> <a href="#translation-wongtsuizhen" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/miomio-xiao"><img src="https://avatars.githubusercontent.com/u/19550383?v=4?s=100" width="100px;" alt=""/><br /><sub><b>mio</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=miomio-xiao" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/manchixue"><img src="https://avatars.githubusercontent.com/u/31590999?v=4?s=100" width="100px;" alt=""/><br /><sub><b>xuemanchi</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=manchixue" title="Documentation">📖</a></td>
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/rhinonan"><img src="https://avatars.githubusercontent.com/u/9367487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>卡猫司机</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=rhinonan" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/lwh2015"><img src="https://avatars.githubusercontent.com/u/16028333?v=4?s=100" width="100px;" alt=""/><br /><sub><b>HWJY</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=lwh2015" title="Documentation">📖</a></td>
   </tr>
 </table>
 
