@@ -16,7 +16,8 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/11925053?v=4",
       "profile": "https://github.com/Jouryjc",
       "contributions": [
-        "doc"
+        "doc",
+        "review"
       ]
     },
     {
@@ -25,8 +26,9 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/19425902?v=4",
       "profile": "https://github.com/Usualminds",
       "contributions": [
-        "code",
-        "doc"
+        "doc",
+        "translation",
+        "review"
       ]
     },
     {
@@ -35,7 +37,8 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/3478550?v=4",
       "profile": "https://github.com/coolyuantao",
       "contributions": [
-        "doc"
+        "doc",
+        "review"
       ]
     },
     {
@@ -53,7 +56,8 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/6890343?v=4",
       "profile": "https://github.com/wongtsuizhen",
       "contributions": [
-        "doc"
+        "doc",
+        "translation"
       ]
     },
     {
@@ -70,6 +74,24 @@
       "name": "xuemanchi",
       "avatar_url": "https://avatars.githubusercontent.com/u/31590999?v=4",
       "profile": "https://github.com/manchixue",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "rhinonan",
+      "name": "卡猫司机",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9367487?v=4",
+      "profile": "https://github.com/rhinonan",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "lwh2015",
+      "name": "HWJY",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16028333?v=4",
+      "profile": "https://github.com/lwh2015",
       "contributions": [
         "doc"
       ]
