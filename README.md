@@ -2,6 +2,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
+- [通过一个“时髦”的例子学 Babel 插件](https://juejin.cn/post/7013149595068792845)
 - [Vue2.x 源码学习系列](https://juejin.cn/post/7012417885624598564)
 - [vue-cli 老项目 vite 迁移记录](https://juejin.cn/post/7010571160060428318)
 - [[译] Intersection Observer 实现动态 header](https://juejin.cn/post/7007950531024912420)
