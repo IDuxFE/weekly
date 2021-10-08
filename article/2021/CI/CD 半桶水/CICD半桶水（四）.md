@@ -87,24 +87,24 @@ node app.js
 
 ### 生成 Secret token
 
-![trigger_token](./trigger_token.png)
+![trigger_token](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j1v7bkj61kk0u0q9e02.jpg)
 
 
 
 ### 添加 hook
 
-![webhooke](./webhook.png)
+![webhooke](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j32j39j61i10u00zo02.jpg)
 
 
-![webhooke](./webhook_2.png)
+![webhooke](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j3zlibj61ji0u0n1002.jpg)
 
-![webhooke](./webhook_3.png)
+![webhooke](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j4vxllj62860mwjvu02.jpg)
 
 
 
 **在官网找到的解决方法**
 
-![webhooke](./try_to_resolve_block.png)
+![webhooke](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j5u71uj61cd0u0wk402.jpg)
 
 emmmm，因为安全问题，无法直接往本地的网络发请求。而放开限制又需要进入 Admin 面板。但是由于笔者也只是在 GitLab 上注册了一个普通的账号来用，没有 admin 权限，更没有 Admin 面板，看来只能在服务器上自己搭建一个 GitLab了。
 
@@ -182,7 +182,7 @@ sudo EXTERNAL_URL="http://192.168.56.101" yum install -y gitlab-ee
 
 安装成功之后，打开浏览器访问：`http://192.168.56.101`
 
-![gitlab_server](./gitlab_server.png)
+![gitlab_server](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j69nnzj61mv0u0dih02.jpg)
 
 
 
@@ -196,7 +196,7 @@ sudo EXTERNAL_URL="http://192.168.56.101" yum install -y gitlab-ee
 
 *注：密码查看在安装 GitLab 的 centos 服务器上去查看*
 
-![gitlab_init_password](./gitlab_init_password.png)
+![gitlab_init_password](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j7473aj623o0e2jui02.jpg)
 
 ***注：该初始密码会在24小时内被清除掉，所以请及时修改密码***
 
@@ -208,7 +208,7 @@ sudo EXTERNAL_URL="http://192.168.56.101" yum install -y gitlab-ee
 
 *还记得我们为什么要自己搭建 GitLab吗？为了处理 webhook 无法往本地网络发请求的问题。现在有了超级管理员账号，让我们根据官网的提示，放开相应的限制*
 
-![gitlab_network](./gitlab_network.png)
+![gitlab_network](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j863tdj61hy0u043y02.jpg)
 
 
 
@@ -218,7 +218,7 @@ sudo EXTERNAL_URL="http://192.168.56.101" yum install -y gitlab-ee
 
 由于新搭建的项目时全空的，我们来重新创建一个项目
 
-![gitlab_server_new_project](./gitlab_server_new_project.png)
+![gitlab_server_new_project](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j97fg6j61pe0u0wio02.jpg)
 
 
 
@@ -240,7 +240,7 @@ cat id_rsa.pub
 
 
 
-![add_ssh](./add_ssh.png)
+![add_ssh](https://tva1.sinaimg.cn/large/008i3skNgy1gv86ja4i7bj61nw0u00xq02.jpg)
 
 
 
@@ -254,13 +254,13 @@ cat id_rsa.pub
 
 根据前面的操作，最终我们将走到以下步骤
 
-![webhook_4](./webhook_4.png)
+![webhook_4](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jbchxyj61in0u0n1802.jpg)
 
 
 
 #### 启动本地服务并打好断点
 
-![run_node_server](./run_node_server.png)
+![run_node_server](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jc0jj7j61df0u042k02.jpg)
 
 
 
@@ -306,13 +306,13 @@ deploy_job:
 
 ##### 提合并请求
 
-![merge_request](./merge_request.png)
+![merge_request](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jcskdcj61990u00vf02.jpg)
 
 
 
 ##### 查看请求报文
 
-![get_webhook_req_1](./get_webhook_req_1.png)
+![get_webhook_req_1](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jdgmyuj61j80u0tfq02.jpg)
 
 
 
@@ -564,7 +564,7 @@ fi
 
 我们在cicd-demo项目下创建个 docker 的目录来存放我们编写的 docker 相关的脚本 
 
-![build_docker](./build_docker.png)
+![build_docker](https://tva1.sinaimg.cn/large/008i3skNgy1gv86je8rg0j60m00he75302.jpg)
 
 ##### 1.  编写 Dockerfile
 
@@ -595,9 +595,9 @@ docker build -t clfeng/clf-cicd-centos:1.0 .
 
 将整个 docker 目录上传到服务器，进行镜像的构建
 
-![build_docker_1](./build_docker_1.png)
+![build_docker_1](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jf6aqyj60yy0u0n1202.jpg)
 
-![build_docker_2](./build_docker_2.png)
+![build_docker_2](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jfnfnrj61k80eoq5a02.jpg)
 
 
 
@@ -627,7 +627,7 @@ docker push clfeng/clf-cicd-centos:1.0
 
 ```
 
-![build_docker_3](./build_docker_3.png)
+![build_docker_3](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jgns1nj61jl0u00xt02.jpg)
 
 
 
@@ -649,7 +649,7 @@ build_job:
 
 
 
-![test_image](./test_image.png)
+![test_image](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jhi8whj61v60o40zk02.jpg)
 
 
 
@@ -724,7 +724,7 @@ deploy_job:
 
 
 
-![pkg_update_1](./pkg_update_1.png)
+![pkg_update_1](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jhzkm9j61jo0ms79e02.jpg)
 
 
 
@@ -738,13 +738,13 @@ deploy_job:
 
 为了能调用 GitLab api 我们需要添加一下访问令牌，用于请求时做权限认证。
 
-![access_token](./access_token.png)
+![access_token](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jimee6j61pr0u0q7y02.jpg)
 
-![access_token_1](./access_token_1.png)
+![access_token_1](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jixe7gj61iy0u0af402.jpg)
 
 
 
-![access_token_2](./access_token_2.png)
+![access_token_2](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jjvvgdj625f0u0agf02.jpg)
 
 
 
@@ -762,13 +762,13 @@ POST /projects/:id/merge_requests/:merge_request_iid/notes
 
 ###### 项目 id
 
-![gitlab_api_id](./gitlab_api_id.png)
+![gitlab_api_id](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jkvpuqj61h00u0gqf02.jpg)
 
 
 
 ###### 合并请求 id
 
-![gitlab_api_req_id](./gitlab_api_req_id.png)
+![gitlab_api_req_id](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jl8kxrj610t0u0jw502.jpg)
 
 
 
@@ -794,9 +794,9 @@ fi
 
 ###### 执行结果
 
-![gitlab_api_job](./gitlab_api_job.png)
+![gitlab_api_job](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jm46jkj61go0pkgt302.jpg)
 
-![gitlab_api_comment](./gitlab_api_comment.png)
+![gitlab_api_comment](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jnn2xjj61r70u0jwj02.jpg)
 
 
 
@@ -905,7 +905,7 @@ app.listen(port);
 console.log(`Example app listening at http://localhost:${port}`);
 ```
 
-![created_pipeline](./created_pipeline.png)
+![created_pipeline](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jp2tovj61eq0u0dk102.jpg)
 
 
 
@@ -947,7 +947,7 @@ mytest_job:
 
 ##### 执行结果
 
-![created_pipeline_job](./created_pipeline_job.png)
+![created_pipeline_job](https://tva1.sinaimg.cn/large/008i3skNgy1gv86jq728nj61q70u0qcp02.jpg)
 
 
 
