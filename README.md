@@ -1,5 +1,5 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
 - [前端常用的shell脚本命令](https://juejin.cn/post/7016509974306095134)
@@ -50,6 +50,7 @@
     <td align="center"><a href="https://github.com/rhinonan"><img src="https://avatars.githubusercontent.com/u/9367487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>卡猫司机</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=rhinonan" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/lwh2015"><img src="https://avatars.githubusercontent.com/u/16028333?v=4?s=100" width="100px;" alt=""/><br /><sub><b>HWJY</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=lwh2015" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/fengxiaodong28"><img src="https://avatars.githubusercontent.com/u/25543284?v=4?s=100" width="100px;" alt=""/><br /><sub><b>FENG/XIAODONG</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=fengxiaodong28" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Levix"><img src="https://avatars.githubusercontent.com/u/65117011?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zhiwei Li</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Levix" title="Documentation">📖</a></td>
   </tr>
 </table>
 
