@@ -1,6 +1,8 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+> 翻译文章请译者先开 `issue` 讨论，确认翻译的必要性和合理性!
+> 
 ## 📕近期文章
 - [CI/CD 半桶水（四）](https://juejin.cn/post/7018357773205241887)
 - [前端常用的shell脚本命令](https://juejin.cn/post/7016509974306095134)
