@@ -2,6 +2,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ## 📕近期文章
+- [CI/CD 半桶水（四）](https://juejin.cn/post/7018357773205241887)
 - [前端常用的shell脚本命令](https://juejin.cn/post/7016509974306095134)
 - [通过一个“时髦”的例子学 Babel 插件](https://juejin.cn/post/7013149595068792845)
 - [Vue2.x 源码学习系列](https://juejin.cn/post/7012417885624598564)
