@@ -149,7 +149,7 @@ builder.bundle('myModule.js', 'outfile.js', {
 
 ##### 3.5 Webpack
 
-`Webpack` 是前端打包工具（本文案例都会使用该打包工具）。在其配置文件 `webpack.config.js` 中设置**[devtool](https://webpack.js.org/configuration/devtool/)**即可生成 `Source Map` 文件：
+`Webpack` 是前端打包工具（本文案例都会使用该打包工具）。在其配置文件 `webpack.config.js` 中设置[devtool](https://webpack.js.org/configuration/devtool/)即可生成 `Source Map` 文件：
 
 ```js
 const path = require('path');
