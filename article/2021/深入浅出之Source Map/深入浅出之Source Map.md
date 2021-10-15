@@ -202,9 +202,6 @@ module.exports = {
 
 除了这种方式之外，[MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/SourceMap)中指出，可以通过 `response header` 的 `SourceMap: <url>` 字段来表明。
 
->
-
-`
 
 ```
 > SourceMap: /path/to/file.js.map
@@ -328,7 +325,7 @@ console.log(a);
 
 上文介绍了 `Source Map` 的作用，原理等。现在说一下打包工具 `WebPack` 中对 `Source Map` 的应用，毕竟我们在开发中，都离不开它。
 
-上文有说道，只需要在 `webpack.config.js` 文件中配置 `devtool` 就可以使用 `Source Map` ，这个 `devtool` 具体的值有哪些，可以参考**[webpack devtool](https://webpack.docschina.org/configuration/devtool/#root)**
+上文有说道，只需要在 `webpack.config.js` 文件中配置 `devtool` 就可以使用 `Source Map` ，这个 `devtool` 具体的值有哪些，可以参考[webpack devtool](https://webpack.docschina.org/configuration/devtool/#root)
 
 的介绍，官方罗列了 20 几种类型，我们当然不能全部都记住，可以记住几个关键的：
 
