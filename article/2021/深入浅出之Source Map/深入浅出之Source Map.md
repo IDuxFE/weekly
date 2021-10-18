@@ -529,7 +529,7 @@ devtool: 'cheap-module-source-map'
 
 总之，学习 `Source Map` 是非常有必要的。
 
-#### 八、参考q
+#### 八、参考
 
 * [Introduction to JavaScript Source Maps](https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/)
 * [MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/SourceMap)
