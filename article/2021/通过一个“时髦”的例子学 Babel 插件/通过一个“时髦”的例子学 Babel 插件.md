@@ -1,4 +1,4 @@
->  前文[Babel 那些事儿](https://juejin.cn/post/6992371845349507108)分享了 `Babel7.x` 最小最优配置和一些 `packages`，本文接着深入了解“她”（`Babel plugin`），让我们的感情更进一步。
+> 前文[Babel 那些事儿](https://juejin.cn/post/6992371845349507108)分享了 `Babel7.x` 最小最优配置和一些 `packages`，本文接着深入了解“她”（`Babel plugin`），让我们的感情更进一步。
 
 ## 工作流
 
@@ -306,7 +306,7 @@ props: { ... }
 const props = defineProps({ ... })                          
 ```
 
-这会可以翻到上面的 [AST Node Type](#AST Node Type) ，可以看到 `const props = defineProps({ ... })   ` 是一个变量声明语句，然后到 [variabledeclaration](https://www.babeljs.cn/docs/babel-types#variabledeclaration) 了解这个节点的创建参数：
+这会可以翻到上面的 [AST Node Type](#AST Node Type) ，可以看到 `const props = defineProps({ ... })` 是一个变量声明语句，然后到 [variabledeclaration](https://www.babeljs.cn/docs/babel-types#variabledeclaration) 了解这个节点的创建参数：
 
 ![](https://files.mdnice.com/user/15734/fd3ad243-720a-4593-8707-c6e1d0f0d391.png)
 
