@@ -28,7 +28,7 @@ if [ $? -eq "0" ]; then
 fi
 ```
 
-通过以上的示例，不难想到我们可以在合并请求时的流水线中通过 git 的命令去分析出是否进行了 element-ui 库的升级。为了能通过上面的命令进行分析，我们需要知道这个合并请求的目标分支是哪个，那么有什么方法可以拿到吗？如果您的 GitLab的版本是高于 11.6 的那么会非常简单，通过 `CI_MERGE_REQUEST_TARGET_BRANCH_NAME` 预设变量便可以轻松拿到。但如果 GitLab 的版本比较低，那又该怎么办？ webhook 以及 GitLab的 api 调用的方式或许可以帮你解决问题。
+通过以上的示例，不难想到我们可以在合并请求时的流水线中通过 git 的命令去分析出是否进行了 element-ui 库的升级。为了能通过上面的命令进行分析，我们需要知道这个合并请求的目标分支是哪个，那么有什么方法可以拿到吗？如果您的 GitLab 的版本是高于 11.6 的那么会非常简单，通过 `CI_MERGE_REQUEST_TARGET_BRANCH_NAME` 预设变量便可以轻松拿到。但如果 GitLab 的版本比较低，那又该怎么办？ webhook 以及 GitLab 的 api 调用的方式或许可以帮你解决问题。
 
 接下来让我们一步步来实现一下我们的需求：
 
@@ -106,7 +106,7 @@ node app.js
 
 ![webhooke](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j5u71uj61cd0u0wk402.jpg)
 
-emmmm，因为安全问题，无法直接往本地的网络发请求。而放开限制又需要进入 Admin 面板。但是由于笔者也只是在 GitLab 上注册了一个普通的账号来用，没有 admin 权限，更没有 Admin 面板，看来只能在服务器上自己搭建一个 GitLab了。
+emmmm，因为安全问题，无法直接往本地的网络发请求。而放开限制又需要进入 Admin 面板。但是由于笔者也只是在 GitLab 上注册了一个普通的账号来用，没有 admin 权限，更没有 Admin 面板，看来只能在服务器上自己搭建一个 GitLab 了。
 
 
 
@@ -123,13 +123,13 @@ emmmm，因为安全问题，无法直接往本地的网络发请求。而放开
 - Scientific Linux (please use the CentOS packages and instructions)
 - Oracle Linux (please use the CentOS packages and instructions)
 
-*注：GitLab 服务器笔者是安装在本地的虚拟机上跑的 centos: 7 系统上的，因此下面的安装操作在centos上进行的*
+*注：GitLab 服务器笔者是安装在本地的虚拟机上跑的 centos: 7 系统上的，因此下面的安装操作在 centos 上进行的*
 
 *官网的安装教程：https://about.gitlab.com/install/*
 
 
 
-### 安装 ssh及处理防火墙
+### 安装 ssh 及处理防火墙
 
 ```shell
 sudo yum install -y curl policycoreutils-python openssh-server perl
@@ -174,7 +174,7 @@ curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rp
 sudo EXTERNAL_URL="http://192.168.56.101" yum install -y gitlab-ee
 ```
 
-*安装完之后接着回到我们的本地机器（笔者的是mac）*
+*安装完之后接着回到我们的本地机器（笔者的是 mac）*
 
 
 
@@ -198,7 +198,7 @@ sudo EXTERNAL_URL="http://192.168.56.101" yum install -y gitlab-ee
 
 ![gitlab_init_password](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j7473aj623o0e2jui02.jpg)
 
-***注：该初始密码会在24小时内被清除掉，所以请及时修改密码***
+***注：该初始密码会在 24 小时内被清除掉，所以请及时修改密码***
 
 
 
@@ -206,7 +206,7 @@ sudo EXTERNAL_URL="http://192.168.56.101" yum install -y gitlab-ee
 
 ### 允许从 Web 钩子和服务向本地网络发出请求
 
-*还记得我们为什么要自己搭建 GitLab吗？为了处理 webhook 无法往本地网络发请求的问题。现在有了超级管理员账号，让我们根据官网的提示，放开相应的限制*
+*还记得我们为什么要自己搭建 GitLab 吗？为了处理 webhook 无法往本地网络发请求的问题。现在有了超级管理员账号，让我们根据官网的提示，放开相应的限制*
 
 ![gitlab_network](https://tva1.sinaimg.cn/large/008i3skNgy1gv86j863tdj61hy0u043y02.jpg)
 
@@ -250,7 +250,7 @@ cat id_rsa.pub
 
 1. 注册 runner
 2. 添加 Pipeline triggers，拿到安全令牌
-3. 添加webhook
+3. 添加 webhook
 
 根据前面的操作，最终我们将走到以下步骤
 
@@ -562,7 +562,7 @@ fi
 
 *后续需要将构建的镜像推送到远程服务器，这需要有自己的 docker 账号的，如果没有请先注册一下，链接：https://hub.docker.com/*
 
-我们在cicd-demo项目下创建个 docker 的目录来存放我们编写的 docker 相关的脚本 
+我们在 cicd-demo 项目下创建个 docker 的目录来存放我们编写的 docker 相关的脚本 
 
 ![build_docker](https://tva1.sinaimg.cn/large/008i3skNgy1gv86je8rg0j60m00he75302.jpg)
 

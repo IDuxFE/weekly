@@ -95,7 +95,7 @@ CSS 有多种方式可以实现上述布局，但最常见的方式如下代码�
 }
 ```
 
-## CSS 容器查询将如何帮助我们？
+## CSS 容器查询将如何帮助我们
 
 > 警告：CSS 容器查询目前只在 Chrome Canary 浏览器的实验标志下支持。
 
@@ -445,15 +445,15 @@ CSS 有多种方式可以实现上述布局，但最常见的方式如下代码�
 
 我从 Bramus Van Damme 的[文章](https://www.bram.us/2020/05/15/css-only-resizable-elements/)中学到了这个技巧。
 
-## 在 DevTools 中调试容器查询容易吗？
+## 在 DevTools 中调试容器查询容易吗
 
 暂时不能，你无法看到像 `@container (min-width: value)` 这样的东西，但我认为这只是时间问题，最终会被支持。
 
-## 是否有可能提供备选方案？
+## 是否有可能提供备选方案
 
 是的！当然可以，在某些方面提供备选方案是可能的，这里有两篇很棒的文章解释了如何做到这一点:
 
-- [Container Query Solutions with CSS Grid and Flexbox ](https://moderncss.dev/container-query-solutions-with-css-grid-and-flexbox/) 作者 Stephanie Eckles
+- [Container Query Solutions with CSS Grid and Flexbox](https://moderncss.dev/container-query-solutions-with-css-grid-and-flexbox/) 作者 Stephanie Eckles
 - [Container Queries are actually coming](https://piccalil.li/blog/container-queries-are-actually-coming) 作者 Andy Bell
 
 ## 总结
