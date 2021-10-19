@@ -1,7 +1,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-> 翻译文章请译者先开 `issue` 讨论，确认翻译的必要性和合理性后，再进行译文翻译
+> 翻译文章前请译者先开 `issue` 讨论，确认翻译的必要性和合理性后，再进行译文翻译
 > 
 ## 📕近期文章
 - [深入浅出之 Flex 弹性布局](https://juejin.cn/post/7019075844664459278)
