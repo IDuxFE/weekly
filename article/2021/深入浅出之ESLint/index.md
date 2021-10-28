@@ -1,29 +1,29 @@
 # 1 背景
-javascript是一种动态的弱类型语言，在运行时编译，这导致很多错误只能在运行时才会暴露出来，而在编码过程中难以发现；  
-eslint是一个插件化的JS代码检测工具，开发者可编写自己的规则，并在源码中找到不符合规则的位置，以帮助开发者在编程过程中发现问题；
+Javascript 是一种动态的弱类型语言，在运行时编译，这导致很多错误只能在运行时才会暴露出来，而在编码过程中难以发现；  
+eslint 是一个插件化的 Javascript 代码检测工具，开发者可编写自己的规则，并在源码中找到不符合规则的位置，以帮助开发者在编程过程中发现问题；
 
-# 2 Lint工具
+# 2 Lint 工具
 1.  [JSLint](https://www.jslint.com/help.html)：检测鼻祖，直接检测源文件字符串；**配置较少**，**规范严格**，**扩展性差**，**无法根据错误定位到对应规则**；
-1.  [JSHint](https://jshint.com/docs/)：基于JSHint开发；**规则的参数可配置，提供完善的编辑器插件，支持一些常用库类和es6，但是不支持自定义规则，且无法根据错误定位到对应规则**；
-3.  [ESLint](http://eslint.cn/)：基于AST树检测规则；**可扩展解析器，可扩展规则及配置**；
+1.  [JSHint](https://jshint.com/docs/)：基于 JSHint 开发；**规则的参数可配置，提供完善的编辑器插件，支持一些常用库类和 es6，但是不支持自定义规则，且无法根据错误定位到对应规则**；
+3.  [ESLint](http://eslint.cn/)：基于 AST 树检测规则；**可扩展解析器，可扩展规则及配置**；
 
-JSHint和ESlint的**特点**：
-1.  JSHint是直接检测源文件字符串，而ESLint会将源码转换成AST再去判断所有规则，所以JSHint执行速度会比ESlint快；
-1.  ESLint扩展性好；ESLint的核心是检测AST是否符合规则；
-    1.  第一步：解析器把源码转成AST；ESLint的解析器可自定义，源码用了啥高级语法或者换成TS，可直接换解析器得到最终的AST，eslint就可做规则匹配了；
-    1.  第二步：执行规则；ESLint的检测规则可自定义；
+JSHint 和 ESlint 的**特点**：
+1.  JSHint 是直接检测源文件字符串，而 ESLint 会将源码转换成 AST 再去判断所有规则，所以 JSHint 执行速度会比 ESlint 快；
+1.  ESLint 扩展性好；ESLint 的核心是检测 AST 是否符合规则；
+    1.  第一步：解析器把源码转成 AST；ESLint 的解析器可自定义，源码用了啥高级语法或者换成 TS，可直接换解析器得到最终的 AST，eslint 就可做规则匹配了；
+    1.  第二步：执行规则；ESLint 的检测规则可自定义；
 
 # 3 基本使用
 
-1.  项目安装eslint：`yarn add eslint -D`；
-1.  初始化eslint配置：eslint --init；
-3.  检测eslint：运行eslint；
+1.  项目安装 eslint：`yarn add eslint -D`；
+1.  初始化 eslint 配置：eslint --init；
+3.  检测 eslint：运行 eslint；
 
 ## 3.1 基本参数
 
-eslint配置参数的方式有两种，一种是通过配置文件，一种是通过命令行；配置文件的参数不一定包含命令行的，为了方便查看和使用，**推荐优先在配置中配置**；
+eslint 配置参数的方式有两种，一种是通过配置文件，一种是通过命令行；配置文件的参数不一定包含命令行的，为了方便查看和使用，**推荐优先在配置中配置**；
 
-### 3.1.1 .eslintrc参数
+### 3.1.1 .eslintrc 参数
 
 详情请查看<https://eslint.org/docs/user-guide/configuring/configuration-files#configuration-file-formats>；
 
@@ -160,78 +160,78 @@ Miscellaneous:
 
 ### 3.2.1 解析器
 
-1.  esprima：eslint早期使用的解析器；
-1.  espree：基于esprema v1.2.2开发，现在默认的解析器；
-3.  @babel/eslint-parser：js高级语法的解析器；
-3.  @typescript-eslint/parser：ts的解析器；
+1.  esprima：eslint 早期使用的解析器；
+1.  espree：基于 esprema v1.2.2 开发，现在默认的解析器；
+3.  @babel/eslint-parser：js 高级语法的解析器；
+3.  @typescript-eslint/parser：ts 的解析器；
 
 ### 3.2.2 规则配置
 1.  "off" 或 0： 关闭规则；
 1.  "warn" 或 1： 开启规则，使用警告级别的错误：warn (不会导致程序退出)；
 3.  "error" 或 2： 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)；
 
-### 3.2.3 extends支持的配置类型
+### 3.2.3 extends 支持的配置类型
 
-1.  eslint开头：ESLint官方扩展；
-1.  plugin开头：插件类型扩展；和configs里面配置的一一对应；
-3.  eslint-config开头：npm包，使用时可省略前缀eslint-config-；
+1.  eslint 开头：ESLint 官方扩展；
+1.  plugin 开头：插件类型扩展；和 configs 里面配置的一一对应；
+3.  eslint-config 开头：npm 包，使用时可省略前缀 eslint-config-；
 3.  文件路径；
 
 **常用扩展：**
 
-1.  eslint:recommended：ESLint内置的推荐规则，即 ESLint Rules 列表中打了钩的那些规则；
+1.  eslint:recommended：ESLint 内置的推荐规则，即 ESLint Rules 列表中打了钩的那些规则；
 1.  eslint:all：ESLint 内置的所有规则；
 3.  eslint-config-standard：standard 的 JS 规范；
 3.  eslint-config-prettier：关闭和 ESLint 中以及其他扩展中有冲突的规则；
-5.  eslint-plugin-vue：vue官方eslint配置插件，配置共享有：
+5.  eslint-plugin-vue：vue 官方 eslint 配置插件，配置共享有：
     1.  plugin:vue/base：基础；
     1.  plugin:vue/essential：必不可少的；
     3.  plugin:vue/recommended：推荐的；
     3.  plugin:vue/strongly-recommended：强烈推荐；
 
-## 3.3 配置不需要lint的文件或目录
+## 3.3 配置不需要 lint 的文件或目录
 
-可以在.eslintignore中指定对应的文件或目录，以达到eslint执行时不检测（eslint本身是忽略node_modules和bower_components的）；如：
+可以在.eslintignore 中指定对应的文件或目录，以达到 eslint 执行时不检测（eslint 本身是忽略 node_modules 和 bower_components 的）；如：
 
-```
+```plain
 mock
 build/*.js
 config/*.js
 ```
 
-# 4 ESLint配置共享
+# 4 ESLint 配置共享
 
-每个团队的规范是不一样的，公司内部希望每个产品线的规范一致，那么可以将配置分享出来打成npm包，以供不同团队直接配置使用；
+每个团队的规范是不一样的，公司内部希望每个产品线的规范一致，那么可以将配置分享出来打成 npm 包，以供不同团队直接配置使用；
 
 **如何写一个配置共享？**
 
-1.  创建一个文件夹，名称为eslint-config-myconfig；
-1.  执行`yarn init -y`；（模块名必须以eslint-config-开头，项目文件名称随意）；
-3.  创建index.js，里面写入需要分享的.eslintrc.js的配置；
+1.  创建一个文件夹，名称为 eslint-config-myconfig；
+1.  执行`yarn init -y`；（模块名必须以 eslint-config-开头，项目文件名称随意）；
+3.  创建 index.js，里面写入需要分享的.eslintrc.js 的配置；
 3.  用 [peerDependencies](https://docs.npmjs.com/files/package.json#peerdependencies) 字段声明依赖的 ESLint（明确插件需要 ESLint 才能正常运行）；
 5.  发包即可；
 
 
-**PS**：发包形式写插件都支持@scope/eslint-xxx-xxx形式，[详情](https://docs.npmjs.com/cli/v7/using-npm/scope/)；
+**PS**：发包形式写插件都支持@scope/eslint-xxx-xxx 形式，[详情](https://docs.npmjs.com/cli/v7/using-npm/scope/)；
 
 **如何使用上面的包？**
 1.  安装包，如： `yarn add eslint-config-myconfig -D`；
-1.  在项目中的.eslintrc中配置extends配置，具体查看基本使用；
+1.  在项目中的.eslintrc 中配置 extends 配置，具体查看基本使用；
 
-# 5 [ESLint插件](http://eslint.cn/docs/developer-guide/working-with-plugins)
-## 5.1 ESLint插件是什么？
+# 5 [ESLint 插件](http://eslint.cn/docs/developer-guide/working-with-plugins)
+## 5.1 ESLint 插件是什么
 
-插件可向ESLint添加各种扩展，是可定义规则，环境、处理器或配置的第三方模块；
+插件可向 ESLint 添加各种扩展，是可定义规则，环境、处理器或配置的第三方模块；
 
-**如何自定义一个ESLint插件？**
+**如何自定义一个 ESLint 插件？**
 
-使用[generator-eslint](https://www.npmjs.com/package/generator-eslint)创建一个项目，该项目的模块名需以eslint-plugin-开头，使用的时候，则是去掉eslint-plugin-；  
+使用[generator-eslint](https://www.npmjs.com/package/generator-eslint)创建一个项目，该项目的模块名需以 eslint-plugin-开头，使用的时候，则是去掉 eslint-plugin-；  
 
-如npm包名：eslint-plugin-myplugin；
+如 npm 包名：eslint-plugin-myplugin；
 ### 5.1.1 定义规则
 
-规则：eslint检测的规则方式；  
-定义方式：规定必须暴露一个rules对象；
+规则：eslint 检测的规则方式；  
+定义方式：规定必须暴露一个 rules 对象；
 
 ```javascript
 // 这是插件的index.js
@@ -306,25 +306,25 @@ module.exports = {
 }
 ```
 
-#### 5.1.1.1 rules的参数
+#### 5.1.1.1 rules 的参数
 
-rules的meta参数是填写一些基本信息，create参数中的value是用于执行检测AST规则的回调方法；
+rules 的 meta 参数是填写一些基本信息，create 参数中的 value 是用于执行检测 AST 规则的回调方法；
 
-**create的context参数：**
+**create 的 context 参数：**
 
-1.  id：在.eslintrc的rules中配置的规则名称，如上面使用方式中的`myplugin/my-rule`；
-1.  options：在.eslintrc的rules中配置的规则参数，如上面例子的结果是：["never", {exceptRange: true}]
+1.  id：在.eslintrc 的 rules 中配置的规则名称，如上面使用方式中的`myplugin/my-rule`；
+1.  options：在.eslintrc 的 rules 中配置的规则参数，如上面例子的结果是：["never", {exceptRange: true}]
 3.  report：用于发布警告或错误的，在回调中判断调用；[具体参数](http://eslint.cn/docs/developer-guide/working-with-rules#contextreport)；
 
-更多context参数：<http://eslint.cn/docs/developer-guide/working-with-rules#the-context-object>；
+更多 context 参数：<http://eslint.cn/docs/developer-guide/working-with-rules#the-context-object>；
 
-**create的return对象：**
+**create 的 return 对象：**
 
 -   如果一个 key 是个节点类型或 selector，在 **向下** 遍历树时，ESLint 调用 **visitor** 函数；
 -   如果一个 key 是个节点类型或 selector，并带有 **:exit**，在 **向上** 遍历树时，ESLint 调用 **visitor** 函数；
 -   如果一个 key 是个事件名字，ESLint 为[代码路径分析](http://eslint.cn/docs/developer-guide/code-path-analysis)调用 **handler** 函数；
 
-**节点类型：** AST的节点类型；
+**节点类型：** AST 的节点类型；
 
 具体如下：
 
@@ -354,10 +354,10 @@ rules的meta参数是填写一些基本信息，create参数中的value是用于
 | 22 | StringLiteral        | 字符型字面量    | 字符串，例如 vansenb                             |
 | 23 | SwitchCase           | Case 语句   | 通常指 Switch 语句中的 Case                       |
 
-可以顺便看下vue的节点类型：<https://github.com/vuejs/vue-eslint-parser/blob/master/src/ast/nodes.ts>
+可以顺便看下 vue 的节点类型：<https://github.com/vuejs/vue-eslint-parser/blob/master/src/ast/nodes.ts>
 
 
-**选择器（selector）** ：是一个字符串，可用于匹配抽象语法树(AST)中的节点。这对于描述代码中的特定语法模式非常有用。选择器不限于对单个节点类型进行匹配。例如，选择器"VariableDeclarator > Identifier"将匹配所有具有VariableDeclarator的Identifier。[详情](http://eslint.cn/docs/developer-guide/selectors)；
+**选择器（selector）** ：是一个字符串，可用于匹配抽象语法树(AST)中的节点。这对于描述代码中的特定语法模式非常有用。选择器不限于对单个节点类型进行匹配。例如，选择器"VariableDeclarator > Identifier"将匹配所有具有 VariableDeclarator 的 Identifier。[详情](http://eslint.cn/docs/developer-guide/selectors)；
 
 **事件**：分析代码路径所触发的事件；
 
@@ -437,13 +437,13 @@ module.exports = function(context) {
 
 ### 5.1.2 定义环境
 
-环境：就是某一组配置，比如jquery里面所有的全局变量；  
+环境：就是某一组配置，比如 jquery 里面所有的全局变量；  
 
 插件的环境可定义以下对象：  
-**globals：** 同配置文件中的globals一样。  
-**parserOptions：** 同配置文件中的parserOptions一样。  
+**globals：** 同配置文件中的 globals 一样。  
+**parserOptions：** 同配置文件中的 parserOptions 一样。  
 
-定义方式：必须暴露environments对象；
+定义方式：必须暴露 environments 对象；
 ```javascript
 // 这是插件的index.js
 module.exports = {
@@ -472,8 +472,8 @@ module.exports = {
 
 ### 5.1.3 定义处理器
 
-eslint只能检测js，如果是其他文件则需要配置自定义处理器；  
-定义方式：必须暴露processors，以文件后缀为key，包含以文件内容和文件名作为参数的函数，并返回一个要检测的字符串数组；
+eslint 只能检测 Javascript，如果是其他文件则需要配置自定义处理器；  
+定义方式：必须暴露 processors，以文件后缀为 key，包含以文件内容和文件名作为参数的函数，并返回一个要检测的字符串数组；
 
 ```javascript
 // 这是插件的index.js
@@ -532,7 +532,7 @@ module.exports = {
 
 ### 5.1.4 定义配置
 
-除了可以通过直接发包分享配置（[本章第4点](#DEXX0)的方式），还可以使用插件的方式分享配置，且也支持一个插件的多配置；比如你写了一些规则，而且又想顺便分享几种代码风格的配置，就可以用这个了；
+除了可以通过直接发包分享配置（[本章第 4 点](#DEXX0)的方式），还可以使用插件的方式分享配置，且也支持一个插件的多配置；比如你写了一些规则，而且又想顺便分享几种代码风格的配置，就可以用这个了；
 
 ```javascript
 // 这是插件的index.js
@@ -561,8 +561,8 @@ module.exports = {
 ```
 
 使用方式：
-1.  plugins配置中添加该插件；
-1.  extends配置直接使用；
+1.  plugins 配置中添加该插件；
+1.  extends 配置直接使用；
 
 ```javascript
 module.exports = {
@@ -571,30 +571,30 @@ module.exports = {
 }
 ```
 
-## 5.2 如何在项目中单独写规则？
+## 5.2 如何在项目中单独写规则
 
 单独写个插件需要发包，导致新增规则麻烦流程较长，且不一定适合其他产品线，这时则需要在单个项目内添加自定义规则；
 
-### 5.2.1 方式一：IDE不识别
+### 5.2.1 方式一：IDE 不识别
 
-使用eslint自身的--rulesdir参数，来拿到项目中额外的文件中的规则；该方式只在运行eslint命令时有效；  
+使用 eslint 自身的--rulesdir 参数，来拿到项目中额外的文件中的规则；该方式只在运行 eslint 命令时有效；  
 
 配置步骤：  
-1.  在项目.eslintrc同层级目录中添加eslint-rules文件夹，并且添加自定义规则到这个目录中（规则创建：5.1.1）；
-1.  在.eslintrc中rules里添加对应规则xxx: 2；
-3.  将eslint命令改为：`eslint --rulesdir eslint-rules --ext .vue,.js,.ts src`；（也可以在webpack或vite中配置）
+1.  在项目.eslintrc 同层级目录中添加 eslint-rules 文件夹，并且添加自定义规则到这个目录中（规则创建：5.1.1）；
+1.  在.eslintrc 中 rules 里添加对应规则 xxx: 2；
+3.  将 eslint 命令改为：`eslint --rulesdir eslint-rules --ext .vue,.js,.ts src`；（也可以在 webpack 或 vite 中配置）
 
 结果：命令执行时规则已经会被检测到；  
 缺点：编辑器不识别，会在每个文件的第一行标红说找不到对应的规则，而真正有问题的地方不会标红；
 
-### 5.2.2 方式二：IDE识别
+### 5.2.2 方式二：IDE 识别
 
-使用eslint-plugin-rulesdir插件；  
+使用 eslint-plugin-rulesdir 插件；  
 步骤：
 
-1.  在项目.eslintrc同层级目录中添加eslint-rules文件夹，并且添加自定义规则到这个目录中（规则创建：5.1.1）；
+1.  在项目.eslintrc 同层级目录中添加 eslint-rules 文件夹，并且添加自定义规则到这个目录中（规则创建：5.1.1）；
 1.  安装[插件](https://www.npmjs.com/package/eslint-plugin-rulesdir)：`yarn eslint-plugin-rulesdir -D`；
-3.  修改.eslintrc配置；
+3.  修改.eslintrc 配置；
 
 ```javascript
 const rulesDirPlugin = require('eslint-plugin-rulesdir');
@@ -615,11 +615,11 @@ module.exports = {
 
 # 6 相关工程化最佳使用方案
 
-项目的工程化可以提升开发效率，减少一些容易避免的错误；下面推荐一些和eslint搭配的好用的工具：
-1.  [husky](https://www.npmjs.com/package/husky)：commit之前执行eslint命令，如果eslint没过，则commit失败；
-1.  [lint-staged](https://www.npmjs.com/package/lint-staged)：跑husky的hooks只针对拿到的staged文件；
-3.  [prettier](https://prettier.io/)：修改代码风格，只管代码风格，不管一些低级问题；如果有一些配置和eslint冲突了，可以配合[eslint-plugin-prettier](https://www.npmjs.com/package/eslint-plugin-prettier)和eslint一起使用；
-3.  [mrm](https://mrm.js.org/)：自动根据package.json来安装和配置husky和lint-staged，因此请确保在此之前安装并配置所有代码质量工具，如 Prettier 和 ESlint；
+项目的工程化可以提升开发效率，减少一些容易避免的错误；下面推荐一些和 eslint 搭配的好用的工具：
+1.  [husky](https://www.npmjs.com/package/husky)：commit 之前执行 eslint 命令，如果 eslint 没过，则 commit 失败；
+1.  [lint-staged](https://www.npmjs.com/package/lint-staged)：跑 husky 的 hooks 只针对拿到的 staged 文件；
+3.  [prettier](https://prettier.io/)：修改代码风格，只管代码风格，不管一些低级问题；如果有一些配置和 eslint 冲突了，可以配合[eslint-plugin-prettier](https://www.npmjs.com/package/eslint-plugin-prettier)和 eslint 一起使用；
+3.  [mrm](https://mrm.js.org/)：自动根据 package.json 来安装和配置 husky 和 lint-staged，因此请确保在此之前安装并配置所有代码质量工具，如 Prettier 和 ESlint；
 
 
 这些工具的使用方法不赘述了，比较简单，查看官方文件即可；

@@ -114,6 +114,15 @@
         "doc",
         "translation"
       ]
+    },
+    {
+      "login": "NSGUF",
+      "name": "NSGUF",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16619359?v=4",
+      "profile": "https://github.com/NSGUF",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7
