@@ -1,5 +1,5 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 > 个人新增翻译文章，请译者先开 [discussions](https://github.com/IDuxFE/weekly/discussions) 讨论，确认翻译的必要性和合理性后，再进行译文翻译
 > 
@@ -60,6 +60,7 @@
     <td align="center"><a href="https://github.com/lwh2015"><img src="https://avatars.githubusercontent.com/u/16028333?v=4?s=100" width="100px;" alt=""/><br /><sub><b>HWJY</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=lwh2015" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/fengxiaodong28"><img src="https://avatars.githubusercontent.com/u/25543284?v=4?s=100" width="100px;" alt=""/><br /><sub><b>FENG/XIAODONG</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=fengxiaodong28" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Levix"><img src="https://avatars.githubusercontent.com/u/65117011?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zhiwei Li</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Levix" title="Documentation">📖</a> <a href="#translation-Levix" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/NSGUF"><img src="https://avatars.githubusercontent.com/u/16619359?v=4?s=100" width="100px;" alt=""/><br /><sub><b>NSGUF</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=NSGUF" title="Documentation">📖</a></td>
   </tr>
 </table>
 
