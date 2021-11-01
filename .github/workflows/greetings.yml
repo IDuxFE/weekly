@@ -13,4 +13,4 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         issue-message: '你的 Issue 已经收到了，管理员很快会参与你的问题讨论和解答，请耐心等待'
-        pr-message: '感谢你的投稿👏，快去 DIM 告诉 94170 你的掘金主页链接'
+        pr-message: '感谢你的投稿👏，快去 DIM 告诉 24906 你的掘金主页链接'
