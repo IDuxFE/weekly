@@ -1,7 +1,16 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+> 个人新增翻译文章，请译者先开 [discussions](https://github.com/IDuxFE/weekly/discussions) 讨论，确认翻译的必要性和合理性后，再进行译文翻译
+> 
 ## 📕近期文章
+- [[译] 写给设计师看的 CSS 容器查询](https://juejin.cn/post/7024286651476246535)
+- [深入浅出之 Source Map](https://juejin.cn/post/7023537118454480904)
+- [深入浅出 vue-loader 自定义块](https://juejin.cn/post/7021687704999952415)
+- [[译] 初识 CSS 容器查询 ](https://juejin.cn/post/7020947774237573134)
+- [深入浅出之 Flex 弹性布局](https://juejin.cn/post/7019075844664459278)
+- [深入浅出之 Grid 网格布局](https://juejin.cn/post/7019077784400035847)
+- [CI/CD 半桶水（四）](https://juejin.cn/post/7018357773205241887)
 - [前端常用的shell脚本命令](https://juejin.cn/post/7016509974306095134)
 - [通过一个“时髦”的例子学 Babel 插件](https://juejin.cn/post/7013149595068792845)
 - [Vue2.x 源码学习系列](https://juejin.cn/post/7012417885624598564)
@@ -22,6 +31,7 @@
 - [前端安全与防御技术](https://juejin.cn/column/6992036501395603492)
 - [前端技术文章翻译](https://juejin.cn/column/7000191408518725662)
 - [CI/CD 流水线](https://juejin.cn/column/7001336650957586445)
+- [CSS 特性及应用](https://juejin.cn/column/7016325157308334110)
 - [Vue 源码解析与实践](https://juejin.cn/column/7007233236925415432)
 
 
@@ -51,6 +61,7 @@
     <td align="center"><a href="https://github.com/lwh2015"><img src="https://avatars.githubusercontent.com/u/16028333?v=4?s=100" width="100px;" alt=""/><br /><sub><b>HWJY</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=lwh2015" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/fengxiaodong28"><img src="https://avatars.githubusercontent.com/u/25543284?v=4?s=100" width="100px;" alt=""/><br /><sub><b>FENG/XIAODONG</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=fengxiaodong28" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Levix"><img src="https://avatars.githubusercontent.com/u/65117011?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zhiwei Li</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Levix" title="Documentation">📖</a> <a href="#translation-Levix" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/NSGUF"><img src="https://avatars.githubusercontent.com/u/16619359?v=4?s=100" width="100px;" alt=""/><br /><sub><b>NSGUF</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=NSGUF" title="Documentation">📖</a></td>
   </tr>
 </table>
 

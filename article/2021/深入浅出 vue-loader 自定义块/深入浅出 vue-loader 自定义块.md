@@ -1,4 +1,4 @@
->  假期最后一天，我们来卷一下 `SFC` 中 `customBlocks` 的使用及其工作原理。
+> 假期最后一天，我们来卷一下 `SFC` 中 `customBlocks` 的使用及其工作原理。
 
 ![](https://files.mdnice.com/user/15734/69af9ee0-394f-410d-a8f7-1cc018e89dd9.png)
 
@@ -10,7 +10,7 @@
 
 ### vue-i18n
 
-[vue-i18n](https://kazupon.github.io/vue-i18n/ "vue-i18n") 是 `Vue` 的国际化插件。如果使用 `SFC` 的方式写组件的话，可以在 `.vue` 文件中定义  `<i18n> ` 块 ，然后在块内写入对应的词条。这个 `i18n` 标签就是 `customBlocks`。举个例子：
+[vue-i18n](https://kazupon.github.io/vue-i18n/ "vue-i18n") 是 `Vue` 的国际化插件。如果使用 `SFC` 的方式写组件的话，可以在 `.vue` 文件中定义  `<i18n>` 块 ，然后在块内写入对应的词条。这个 `i18n` 标签就是 `customBlocks`。举个例子：
 
 ```vue
 
@@ -194,7 +194,7 @@ class VueLoaderPlugin {
 }
 ```
 
-`VueLoaderPlugin` 作用是将你定义的其他 `loader` 添加到 `SFC` 的各个块中并修改配置中的 `module.rules`。[pitcher-loader](https://webpack.docschina.org/api/loaders/#pitching-loader "pitcher-loader") 是后续一个重要的角色。阿宝哥的[多图详解，一次性搞懂Webpack Loader](https://juejin.cn/post/6992754161221632030#heading-3 "多图详解，一次性搞懂Webpack Loader")有详细的分享，没了解过滴童鞋可以先去认识一下这个“投手”的作用。
+`VueLoaderPlugin` 作用是将你定义的其他 `loader` 添加到 `SFC` 的各个块中并修改配置中的 `module.rules`。[pitcher-loader](https://webpack.docschina.org/api/loaders/#pitching-loader "pitcher-loader") 是后续一个重要的角色。阿宝哥的[多图详解，一次性搞懂 Webpack Loader](https://juejin.cn/post/6992754161221632030#heading-3 "多图详解，一次性搞懂Webpack Loader")有详细的分享，没了解过滴童鞋可以先去认识一下这个“投手”的作用。
 
 了解完 `VueLoaderPlugin`，我们看到 `vue-loader`：
 

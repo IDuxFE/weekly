@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint-md": "lint-md article/**/*.{md,markdown}",
-    "fix-md": "lint-md article/**/*.{md,markdown} --fix",
+    "lint-md": "lint-md article/**/*.{md,markdown} && lint-md translation/**/*.{md,markdown}",
+    "fix-md": "lint-md article/**/*.{md,markdown} --fix && lint-md translation/**/*.{md,markdown} --fix",
     "precommit": "lint-staged",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate"

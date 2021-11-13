@@ -2,7 +2,7 @@
 
 #### 一、简介
 
-Grid网格布局 (下面都简称为 Grid布局)，是一个基于栅格的二维布局系统，旨在彻底改变基于网格用户界面的设计。CSS 一直以来并没有把布局做的足够好。刚开始，我们使用 `table` ，后来是 `float` ， `position` 和 ` inline-block` ，这些本质上是一些 `hacks` 而且许多重要功能尚未解决（例如垂直居中）。虽然[flex弹性布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex)可以做到这些，但是flex布局实际上是一维布局，而Grid布局是二维的，它远比flex布局要强大，以下是Grid布局的浏览器兼容性，支持 `Chrome57+` 、 `Edge16+` 、 `Firefox52+` 、 `Safari10.1+` 等 
+Grid 网格布局 (下面都简称为 Grid 布局)，是一个基于栅格的二维布局系统，旨在彻底改变基于网格用户界面的设计。CSS 一直以来并没有把布局做的足够好。刚开始，我们使用 `table` ，后来是 `float` ， `position` 和 `inline-block` ，这些本质上是一些 `hacks` 而且许多重要功能尚未解决（例如垂直居中）。虽然[flex 弹性布局](https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex)可以做到这些，但是 flex 布局实际上是一维布局，而 Grid 布局是二维的，它远比 flex 布局要强大，以下是 Grid 布局的浏览器兼容性，支持 `Chrome57+` 、 `Edge16+` 、 `Firefox52+` 、 `Safari10.1+` 等 
 
 ![](https://files.mdnice.com/user/20608/cc2f06db-52be-4257-8917-b4dc84c2795c.png)
 
@@ -16,7 +16,7 @@ Grid网格布局 (下面都简称为 Grid布局)，是一个基于栅格的二�
 
 #### 三、行、列、单元格、 区域、网格线
 
-容器里面的水平区域称为"行"（row），垂直区域称为"列"（column）。行和列的交叉区域，称为"单元格"（cell）。正常情况下， `n` 行和 `m` 列会产生 `n x m` 个单元格。比如，例如：3行3列会产生9个单元格。一定数量的单元格可以组成"区域"（area）, 区域必须是正方形/长方形的，不可以是其他形状。
+容器里面的水平区域称为"行"（row），垂直区域称为"列"（column）。行和列的交叉区域，称为"单元格"（cell）。正常情况下， `n` 行和 `m` 列会产生 `n x m` 个单元格。比如，例如：3 行 3 列会产生 9 个单元格。一定数量的单元格可以组成"区域"（area）, 区域必须是正方形/长方形的，不可以是其他形状。
 
 ![](https://files.mdnice.com/user/20608/617ddd46-8091-440c-b445-1d03fb5a192c.png)
 
@@ -84,7 +84,7 @@ grid-template-columns<rows>: length | percent | auto | fr
 
 ![](https://files.mdnice.com/user/20608/63171e88-8516-43ec-8aba-c2e2f9350623.png)
 
-最后可以使用推荐的关键字 `fr` ，可以理解为比例值，将行与列都分成3份
+最后可以使用推荐的关键字 `fr` ，可以理解为比例值，将行与列都分成 3 份
 
 ```css
 .main {
@@ -96,7 +96,7 @@ grid-template-columns<rows>: length | percent | auto | fr
 
 ![](https://files.mdnice.com/user/20608/6b05e5ae-2d2d-4f4e-be1f-4df152151a57.png)
 
-将第二行与第二列都划分成2份
+将第二行与第二列都划分成 2 份
 
 ```css
 .main {
@@ -172,11 +172,11 @@ grid-template-columns<rows>: length | percent | auto | fr
 
 ##### 4.4  grid-template
 
-`grid-template` 属性是 `grid-template-columns` 、 `grid-template-rows` 和 `grid-template-areas` 这三个属性的合并简写形式。但是不建议合并在一起写，所以这里就不作案例展示，毕竟这些属性本身比较难记。可以看MDN上关于 [grid-template](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template) 相关的介绍
+`grid-template` 属性是 `grid-template-columns` 、 `grid-template-rows` 和 `grid-template-areas` 这三个属性的合并简写形式。但是不建议合并在一起写，所以这里就不作案例展示，毕竟这些属性本身比较难记。可以看 MDN 上关于 [grid-template](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template) 相关的介绍
 
 ##### 4.5 grid-row-gap，grid-column-gap
 
-`grid-row-gap` 属性设置行与行的间隔（行间距）， `grid-column-gap` 属性设置列与列的间隔（列间距）。需要注意的是，[CSS Grid Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout) 起初是用 [ `grid-row-gap` ](https://developer.mozilla.org/zh-CN/docs/Web/CSS/grid-gap) 属性来定义的，目前逐渐被 `row-gap` 替代。因为其他布局方式也可以使用gap属性，例如 `flex弹性布局` 。但是，为了兼容那些不支持 `row-gap` 属性的浏览器，你需要像上面的例子一样使用带有前缀的属性。详情看MDN关于[row-gap](https://developer.mozilla.org/zh-CN/docs/Web/CSS/row-gap)的介绍
+`grid-row-gap` 属性设置行与行的间隔（行间距）， `grid-column-gap` 属性设置列与列的间隔（列间距）。需要注意的是，[CSS Grid Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout) 起初是用 [`grid-row-gap`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/grid-gap) 属性来定义的，目前逐渐被 `row-gap` 替代。因为其他布局方式也可以使用 gap 属性，例如 `flex弹性布局` 。但是，为了兼容那些不支持 `row-gap` 属性的浏览器，你需要像上面的例子一样使用带有前缀的属性。详情看 MDN 关于[row-gap](https://developer.mozilla.org/zh-CN/docs/Web/CSS/row-gap)的介绍
 
 ```css
 grid-row<column>-gap: length
@@ -194,13 +194,13 @@ grid-row<column>-gap: length
 
 ![](https://files.mdnice.com/user/20608/d3a6b2c8-cc5d-4809-8dfa-486656312000.png)
 
-可以看到行与列之间多了20px的间距
+可以看到行与列之间多了 20px 的间距
 
 ![](https://files.mdnice.com/user/20608/714cf1f4-03f6-4e7a-9614-2ef52251f343.png)
 
 ##### 4.6 grid-gap
 
-`grid-gap` 属性是 `grid-column-gap` 和 `grid-row-gap` 的合并简写形式，现在已经逐渐被gap替代
+`grid-gap` 属性是 `grid-column-gap` 和 `grid-row-gap` 的合并简写形式，现在已经逐渐被 gap 替代
 
 ```css
 grid-gap: <grid-row-gap><grid-column-gap>;
@@ -225,7 +225,7 @@ grid-gap: <grid-row-gap><grid-column-gap>;
 justify-items<align-items>: start | end | center | stretch;
 ```
 
-首先我们先定义一个3行3列的网格
+首先我们先定义一个 3 行 3 列的网格
 
 ```css
 .main {
@@ -243,7 +243,7 @@ justify-items<align-items>: start | end | center | stretch;
 
 为什么在没有给定子项宽高的情况下，仍然可以铺满整个父容器？原因是因为水平与垂直都是默认拉升的（ `stretch` ），也就是：
 
-```
+```plain
 .main div {		justify-items: stretch;		align-items: stretch;}
 ```
 
@@ -328,7 +328,7 @@ place-items: <align-items><justify-items>;
 justify-content<align-content>: start | end | center | stretch | space-around | space-between | space-evenly;
 ```
 
-首先定义一个3行3列的网格布局
+首先定义一个 3 行 3 列的网格布局
 
 ```css
 .main {
@@ -370,7 +370,7 @@ justify-content<align-content>: start | end | center | stretch | space-around | 
 
 两端对齐
 
-```
+```plain
 .main{  	justify-content: space-between;  	align-content: space-between;}
 ```
 
@@ -452,13 +452,13 @@ place-content: <align-content><justify-content>
 
 ![](https://files.mdnice.com/user/20608/e4d4caa7-8d5c-4992-a918-8e6ce09e0f2f.png)
 
-如果有超过 `9` 个子项呢？比如，数字 `10` ，数字 `11` ，数字 `12` .....？？这些多出来的网格就是 `隐式网格` ，这些隐式网格默认都是按照 `rows` 的方向进行排列，高度会自动 `拉伸` 铺满容器
+如果有超过 `9` 个子项呢？比如，数字 `10` ，数字 `11` ，数字 `12` ……？？这些多出来的网格就是 `隐式网格` ，这些隐式网格默认都是按照 `rows` 的方向进行排列，高度会自动 `拉伸` 铺满容器
 
 ![](https://files.mdnice.com/user/20608/be209e4a-1487-40cc-9cfb-252c8702734f.png)
 
 ##### 4.13 grid-auto-flow
 
-明白了什么是 `显示网格` 和 `隐式网格` ，就可以看一下 ` grid-auto-flow` 。划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格。默认的放置顺序是"先行后列"，即先填满第一行，再开始放入第二行。这就解释了，上面的 `隐式网格` 为什么会在 `789` 的下面，明明父容器右侧还有空白位置，为什么无法铺满，这是因为默认设置了"先行后列"，即 `grid-auto-flow: rows` ，这个属性会决定网格的排列顺序
+明白了什么是 `显示网格` 和 `隐式网格` ，就可以看一下 `grid-auto-flow` 。划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格。默认的放置顺序是"先行后列"，即先填满第一行，再开始放入第二行。这就解释了，上面的 `隐式网格` 为什么会在 `789` 的下面，明明父容器右侧还有空白位置，为什么无法铺满，这是因为默认设置了"先行后列"，即 `grid-auto-flow: rows` ，这个属性会决定网格的排列顺序
 
 ```css
 grid-auto-flow: rows | column | ros dense | column dense;
@@ -487,7 +487,7 @@ grid-auto-flow: rows | column | ros dense | column dense;
 
 ![](https://files.mdnice.com/user/20608/44ac82e1-06d1-4ac7-9005-685bd6e60e02.png)
 
-上图中，网格 `1` 和网格 `2` 后面的位置都空了出来，因为网格 `3` 的排序是默认跟着网格 `2` 的，设置 `grid-auto-flow: row dense ` ，可以将空出的位置铺满
+上图中，网格 `1` 和网格 `2` 后面的位置都空了出来，因为网格 `3` 的排序是默认跟着网格 `2` 的，设置 `grid-auto-flow: row dense` ，可以将空出的位置铺满
 
 ```css
 .main {
@@ -567,7 +567,7 @@ grid-auto-flow: rows | column | ros dense | column dense;
 
 ![](https://files.mdnice.com/user/20608/10c95c95-8ee6-4b14-97d9-c959fbbf181e.png)
 
-##### 4.15 repeat()方法与auto-fill关键字
+##### 4.15 repeat()方法与 auto-fill 关键字
 
 我们在定义网格的时候，写 `grid-template-columns` 和 `grid-template-rows` 都是写多个重复值，比如 `grid-template-columns: 100px 100px 100px` ，简单的网格可以这样定义，但是如果网格很多的时候，难道要这样写吗？ `grid-template-columns: 100px 100px 100px 100px 100px ......` ，这样很麻烦，可以使用 `repeat()` 去简化重复的值
 
@@ -575,7 +575,7 @@ grid-auto-flow: rows | column | ros dense | column dense;
 repeat(number, length | percent | fr)
 ```
 
-定义一个5行4列的网格
+定义一个 5 行 4 列的网格
 
 ```css
 .main {
@@ -689,9 +689,9 @@ minmax(min, max)
 
 ![](https://files.mdnice.com/user/20608/e691f6a9-12bd-4994-b3cb-bde0c4dfa09a.png)
 
-##### 5.2 grid-column-start ， grid-column-end  和 grid-row-start ， grid-row-end 与span关键字
+##### 5.2 grid-column-start ， grid-column-end  和 grid-row-start ， grid-row-end 与 span 关键字
 
-这两对属性表示grid子项占据的区域的起始和终止位置，具体方法就是指定项目的四个边框，分别定位在哪根网格线
+这两对属性表示 grid 子项占据的区域的起始和终止位置，具体方法就是指定项目的四个边框，分别定位在哪根网格线
 
 * `grid-column-start`属性：左边框所在的垂直网格线
 * `grid-column-end`属性：右边框所在的垂直网格线
@@ -1114,7 +1114,7 @@ place-self: <align-self><justify-self>;
 
 #### 七、总结
 
-`grid布局` 和 `flex弹性布局` 一样，都是当下最流行的CSS布局方案之一。它的优点是可以实现多行多列的布局，属于 `二维布局` ，基本可以满足任何的布局页面。
+`grid布局` 和 `flex弹性布局` 一样，都是当下最流行的 CSS 布局方案之一。它的优点是可以实现多行多列的布局，属于 `二维布局` ，基本可以满足任何的布局页面。
 
 优点：
 
@@ -1130,12 +1130,12 @@ place-self: <align-self><justify-self>;
 
   
 
-`grid布局` 可以说是目前最强大的CSS布局方案，在实际开发过程中，往往 `grid布局` 和 `flex布局` 一起结合使用。
+`grid布局` 可以说是目前最强大的 CSS 布局方案，在实际开发过程中，往往 `grid布局` 和 `flex布局` 一起结合使用。
 
 #### 八、参考
 
 * [MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/grid)
-* [阮一峰：Grid网格布局教程](https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html) 
+* [阮一峰：Grid 网格布局教程](https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html) 
 * [A Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/) 
 * [caniuse.com](https://caniuse.com/?search=grid)
 * [Grid by Example](https://gridbyexample.com/)
