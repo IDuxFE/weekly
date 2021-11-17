@@ -9,9 +9,9 @@
 约定式提交规范要求如下：
 
 ```js
-< type > [optional scope]: < description >
+<type> [optional scope]: < description >
 
-    [optional body]
+[optional body]
 
 [optional footer(s)]
 ```
@@ -19,9 +19,9 @@
 翻译过来就是：
 
 ```js
-< 类型 > [可选 范围]: < 描述 >
+<类型> [可选 范围]: < 描述 >
 
-    [可选 正文]
+[可选 正文]
 
 [可选 脚注]
 ```
