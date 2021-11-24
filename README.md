@@ -65,6 +65,8 @@
     <td align="center"><a href="https://github.com/fengxiaodong28"><img src="https://avatars.githubusercontent.com/u/25543284?v=4?s=100" width="100px;" alt=""/><br /><sub><b>FENG/XIAODONG</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=fengxiaodong28" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Levix"><img src="https://avatars.githubusercontent.com/u/65117011?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zhiwei Li</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Levix" title="Documentation">📖</a> <a href="#translation-Levix" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/NSGUF"><img src="https://avatars.githubusercontent.com/u/16619359?v=4?s=100" width="100px;" alt=""/><br /><sub><b>NSGUF</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=NSGUF" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/JW-LINNN"><img src="https://avatars.githubusercontent.com/u/92379828?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JW-LINNN</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=JW-LINNN" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/AFine970"><img src=https://avatars.githubusercontent.com/u/37992787?v=4?v=4?s=100" width="100px;" alt=""/><br /><sub><b>AFine970</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=AFine970" title="Documentation">📖</a></td>
   </tr>
 </table>
 
