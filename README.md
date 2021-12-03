@@ -4,6 +4,9 @@
 > 个人新增翻译文章，请译者先开 [discussions](https://github.com/IDuxFE/weekly/discussions) 讨论，确认翻译的必要性和合理性后，再进行译文翻译
 > 
 ## 📕近期文章
+- [快速入门PWA及其实践](https://juejin.cn/post/7031344885881896990/)
+- [深入浅出之ESLint](https://juejin.cn/post/7028754877312401444/)
+- [浅析 Vue3 响应式系统](https://juejin.cn/post/7026150626589409293/)
 - [[译] 写给设计师看的 CSS 容器查询](https://juejin.cn/post/7024286651476246535)
 - [深入浅出之 Source Map](https://juejin.cn/post/7023537118454480904)
 - [深入浅出 vue-loader 自定义块](https://juejin.cn/post/7021687704999952415)
@@ -62,6 +65,8 @@
     <td align="center"><a href="https://github.com/fengxiaodong28"><img src="https://avatars.githubusercontent.com/u/25543284?v=4?s=100" width="100px;" alt=""/><br /><sub><b>FENG/XIAODONG</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=fengxiaodong28" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Levix"><img src="https://avatars.githubusercontent.com/u/65117011?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Zhiwei Li</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=Levix" title="Documentation">📖</a> <a href="#translation-Levix" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/NSGUF"><img src="https://avatars.githubusercontent.com/u/16619359?v=4?s=100" width="100px;" alt=""/><br /><sub><b>NSGUF</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=NSGUF" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/JW-LINNN"><img src="https://avatars.githubusercontent.com/u/92379828?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JW-LINNN</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=JW-LINNN" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/AFine970"><img src=https://avatars.githubusercontent.com/u/37992787?v=4?v=4?s=100" width="100px;" alt=""/><br /><sub><b>AFine970</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=AFine970" title="Documentation">📖</a></td>
   </tr>
 </table>
 
