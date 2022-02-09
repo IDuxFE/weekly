@@ -4,6 +4,8 @@
 > 个人新增翻译文章，请译者先开 [discussions](https://github.com/IDuxFE/weekly/discussions) 讨论，确认翻译的必要性和合理性后，再进行译文翻译
 > 
 ## 📕近期文章
+- [使用JSON Schema规范JSON数据格式](https://juejin.cn/post/7062526601820389384)
+- [从零实现husky](https://juejin.cn/post/7057345959402930183)
 - [手摸手实现中文写Vue组件](https://juejin.cn/post/7054722204197453854)
 - [手摸手实现一个编译器（中）](https://juejin.cn/post/7052125411160883207)
 - [手摸手实现一个编译器（上）](https://juejin.cn/post/7049521900107595783)
@@ -80,6 +82,7 @@
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/jiaoyang2014uk"><img src="https://avatars.githubusercontent.com/u/46088450?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jiaoyang2014uk</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=jiaoyang2014uk" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/jiayinkong"><img src="https://avatars.githubusercontent.com/u/73403506?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jiayinkong</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=jiayinkong" title="Documentation">📖</a></td>
   </tr>
 </table>
 
