@@ -136,8 +136,26 @@
     {
       "login": "AFine970",
       "name": "AFine970",
-      "avatar_url": "https://avatars.githubusercontent.com/u/37992787?v=4?v=4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/37992787?v=4",
       "profile": "https://github.com/AFine970",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "jiaoyang2014uk",
+      "name": "jiaoyang2014uk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/46088450?v=4",
+      "profile": "https://github.com/jiaoyang2014uk",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "jiayinkong",
+      "name": "jiayinkong",
+      "avatar_url": "https://avatars.githubusercontent.com/u/73403506?v=4",
+      "profile": "https://github.com/jiayinkong",
       "contributions": [
         "doc"
       ]

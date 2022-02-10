@@ -4,6 +4,18 @@
 > 个人新增翻译文章，请译者先开 [discussions](https://github.com/IDuxFE/weekly/discussions) 讨论，确认翻译的必要性和合理性后，再进行译文翻译
 > 
 ## 📕近期文章
+- [使用JSON Schema规范JSON数据格式](https://juejin.cn/post/7062526601820389384)
+- [从零实现husky](https://juejin.cn/post/7057345959402930183)
+- [手摸手实现中文写Vue组件](https://juejin.cn/post/7054722204197453854)
+- [手摸手实现一个编译器（中）](https://juejin.cn/post/7052125411160883207)
+- [手摸手实现一个编译器（上）](https://juejin.cn/post/7049521900107595783)
+- [浅析我们为什么要上Vue3？](https://juejin.cn/post/7046922345864232974)
+- [使用Node.js和shell实现前端工程的自动初始化](https://juejin.cn/post/7044338430611816484)
+- [Hello @idux, 一个全新的 vue 3.x 组件库来了](https://juejin.cn/post/7042565546189488159)
+- [用Eslint+Prettier+husky+commitlint+lint-staged+commitizen快速搭建标准化编程规范项目](https://juejin.cn/post/7041768022284976165)
+- [Vue2.x源码学习系列-响应式原理](https://juejin.cn/post/7039137764260085797)
+- [前端早早聊 Vue 专场弹幕频出的 Pinia 是什么玩物？](https://juejin.cn/post/7036540246690889735)
+- [前端工程师的 Shell 修行](https://juejin.cn/post/7033966970177323044)
 - [快速入门PWA及其实践](https://juejin.cn/post/7031344885881896990/)
 - [深入浅出之ESLint](https://juejin.cn/post/7028754877312401444/)
 - [浅析 Vue3 响应式系统](https://juejin.cn/post/7026150626589409293/)
@@ -67,6 +79,10 @@
     <td align="center"><a href="https://github.com/NSGUF"><img src="https://avatars.githubusercontent.com/u/16619359?v=4?s=100" width="100px;" alt=""/><br /><sub><b>NSGUF</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=NSGUF" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/JW-LINNN"><img src="https://avatars.githubusercontent.com/u/92379828?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JW-LINNN</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=JW-LINNN" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/AFine970"><img src=https://avatars.githubusercontent.com/u/37992787?v=4?v=4?s=100" width="100px;" alt=""/><br /><sub><b>AFine970</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=AFine970" title="Documentation">📖</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/jiaoyang2014uk"><img src="https://avatars.githubusercontent.com/u/46088450?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jiaoyang2014uk</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=jiaoyang2014uk" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/jiayinkong"><img src="https://avatars.githubusercontent.com/u/73403506?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jiayinkong</b></sub></a><br /><a href="https://github.com/IDuxFE/weekly/commits?author=jiayinkong" title="Documentation">📖</a></td>
   </tr>
 </table>
 
