@@ -2,207 +2,230 @@
 > * 原文作者：[marjakh](https://twitter.com/marjakh)
 > * 译文出自：[IDuxFE 技术文章翻译](https://juejin.cn/column/7000191408518725662)
 > * 本文永久链接：[https://github.com/IDuxFE/weekly/tree/main/translation/ECMAScript/understanding_the_ecmascript_spec_part2.md](https://github.com/IDuxFE/weekly/tree/main/translation/ECMAScript/understanding_the_ecmascript_spec_part2.md)
-> * 译者：
+> * 译者：Levix
 > * 校对者：
 
-Understanding the ECMAScript spec, part 2
+第二部分，了解 ECMAScript 规范
 =========================================
 
-Published 02 March 2020 · Tagged with [ECMAScript](/blog/tags/ecmascript) [Understanding ECMAScript](/blog/tags/understanding-ecmascript)
+2020 年 3 月 2 日发布 · 标签：[ECMAScript](/blog/tags/ecmascript) [了解 ECMAScript](/blog/tags/understanding-ecmascript)
 
-Let’s practice our awesome spec reading skills some more. If you haven’t had a look at the previous episode, now it’s a good time to do so!
+让我们再多练习一下阅读规范的技巧，如果你还没有看过上一集，现在正是学习它的好时机！
 
-[All episodes](/blog/tags/understanding-ecmascript)
+[全集](/blog/tags/understanding-ecmascript)
 
-Ready for part 2? [#](#ready-for-part-2%3F)
+准备好第二部分的学习了吗？[#](#ready-for-part-2%3F)
 -------------------------------------------
 
-A fun way to get to know the spec is to start with a JavaScript feature we know is there, and find out how it’s specified.
+一个了解规范的好方法是从我们熟知的 JavaScript 特性开始，并弄清楚它是如何被定义的。
 
-> Warning! This episode contains copy-pasted algorithms from the [ECMAScript spec](https://tc39.es/ecma262/) as of February 2020. They’ll eventually be out of date.
+> 警告! 截止至 2020 年 2 月，本集包含的算法是从 [ECMAScript 规范](https://tc39.es/ecma262/) 中复制粘贴的，它们最终会被废弃的。
 
-We know that properties are looked up in the prototype chain: if an object doesn’t have the property we’re trying to read, we walk up the prototype chain until we find it (or find an object which no longer has a prototype).
+我们知道，属性是通过原型链查找得到的：如果一个对象没有我们要读取的属性，我们会沿着原型链向上查找，直到找到它（或者找到一个不再有原型的对象）。
 
-For example:
+例如：
 
-    const o1 = { foo: 99 };const o2 = {};Object.setPrototypeOf(o2, o1);o2.foo;// → 99
+```js
+const o1 = { foo: 99 };
+const o2 = {};
+Object.setPrototypeOf(o2, o1);
+o2.foo;
+// → 99
+```
 
-Where’s the prototype walk defined? [#](#prototype-walk)
+原型路径的定义在哪里？[#](#prototype-walk)
 --------------------------------------------------------
 
-Let’s try to find out where this behavior is defined. A good place to start is a list of [Object Internal Methods](https://tc39.es/ecma262/#sec-object-internal-methods-and-internal-slots).
+我们一起尝试找出这种行为是在哪里定义的，可以从[对象的内部方法](https://tc39.es/ecma262/#sec-object-internal-methods-and-internal-slots)列表开始。
 
-There’s both `[[GetOwnProperty]]` and `[[Get]]` — we’re interested in the version that isn’t restricted to _own_ properties, so we’ll go with `[[Get]]`.
+（每个对象）都包含 `[[GetOwnProperty]]` 和 `[[Get]]` （两个基本内部方法） —— 我们感兴趣的是不限制于 _own_ 属性的版本，所以我们将选择 `[[Get]]` 。
 
-Unfortunately, the [Property Descriptor specification type](https://tc39.es/ecma262/#sec-property-descriptor-specification-type) also has a field called `[[Get]]`, so while browsing the spec for `[[Get]]`, we need to carefully distinguish between the two independent usages.
+遗憾的是，[Property Descriptor 规范类型](https://tc39.es/ecma262/#sec-property-descriptor-specification-type)也有一个叫做 `[[Get]]` 的字段，所以在浏览 `[[Get]]` 的规范时，我们需要仔细区分这两种各自的使用方式。
 
-`[[Get]]` is an **essential internal method**. **Ordinary objects** implement the default behavior for essential internal methods. **Exotic objects** can define their own internal method `[[Get]]` which deviates from the default behavior. In this post, we focus on ordinary objects.
+`[[Get]]` 是一个**基本的内部方法**，**普通对象**实现了基本内部方法的默认行为。**外来对象**可以定义自己的内部方法 `[[Get]]` ，但它偏离了默认行为。在这篇文章中，我们专注于讨论普通对象。
 
-The default implementation for `[[Get]]` delegates to `OrdinaryGet`:
+对 `[[Get]]` 的默认实现委托给了 `OrdinaryGet` ：
 
 > **[`[[Get]] ( P, Receiver )`](https://tc39.es/ecma262/#sec-ordinary-object-internal-methods-and-internal-slots-get-p-receiver)**
 > 
-> When the `[[Get]]` internal method of `O` is called with property key `P` and ECMAScript language value `Receiver`, the following steps are taken:
+> 当 `O` 的内部方法 `[[Get]]` 被属性键为 `P` 以及 ECMAScript 语言值为 `Receiver` 调用时，将执行以下步骤：
 > 
-> 1.  Return `? OrdinaryGet(O, P, Receiver)`.
+> 1.  返回 `? OrdinaryGet(O, P, Receiver)`.
 
-We’ll see shortly that `Receiver` is the value which is used as the **this value** when calling a getter function of an accessor property.
+我们很快就会看到， `Receiver` 是在调用访问器属性的 getter 函数时，被用作 **this 值**。
 
-`OrdinaryGet` is defined like this:
+`OrdinaryGet` 定义如下：
 
 > **[`OrdinaryGet ( O, P, Receiver )`](https://tc39.es/ecma262/#sec-ordinaryget)**
 > 
-> When the abstract operation `OrdinaryGet` is called with Object `O`, property key `P`, and ECMAScript language value `Receiver`, the following steps are taken:
+> 在以对象 `O` 、属性键 `P` 和 ECMAScript 语言值 `Receiver` 调用抽象操作 `OrdinaryGet` 时，将执行以下步骤：
 > 
-> 1.  Assert: `IsPropertyKey(P)` is `true`.
-> 2.  Let `desc` be `? O.[[GetOwnProperty]](P)`.
-> 3.  If `desc` is `undefined`, then
->     1.  Let `parent` be `? O.[[GetPrototypeOf]]()`.
->     2.  If `parent` is `null`, return `undefined`.
->     3.  Return `? parent.[[Get]](P, Receiver)`.
-> 4.  If `IsDataDescriptor(desc)` is `true`, return `desc.[[Value]]`.
-> 5.  Assert: `IsAccessorDescriptor(desc)` is `true`.
-> 6.  Let `getter` be `desc.[[Get]]`.
-> 7.  If `getter` is `undefined`, return `undefined`.
-> 8.  Return `? Call(getter, Receiver)`.
+> 1.  断言： `IsPropertyKey(P)` 为 `true` ；
+> 2.  令 `desc` 为 `? O.[[GetOwnProperty]](P)` ；
+> 3.  若 `desc` 为 `undefined` ，则
+>     a.  令 `parent` 为 `? O.[[GetPrototypeOf]]()` ；
+>     b.  若 `parent` 为 `null` ，返回 `undefined` ；
+>     c.  返回 `? parent.[[Get]](P, Receiver)` ；
+> 4.  若 `IsDataDescriptor(desc)` 为 `true` ， 返回 `desc.[[Value]]` ；
+> 5.  断言： `IsAccessorDescriptor(desc)` 为 `true` ；
+> 6.  令 `getter` 为 `desc.[[Get]]` ；
+> 7.  若 `getter` 为 `undefined` ，返回 `undefined` ；
+> 8.  返回 `? Call(getter, Receiver)` 。
 
-The prototype chain walk is inside step 3: if we don’t find the property as an own property, we call the prototype’s `[[Get]]` method which delegates to `OrdinaryGet` again. If we still don’t find the property, we call its prototype’s `[[Get]]` method, which delegates to `OrdinaryGet` again, and so on, until we either find the property or reach an object without a prototype.
+原型链的查找行为在步骤 3 里面：如果我们没找到自有属性（`desc`），调用原型的 `[[Get]]` 方法，并再次委托（抽象操作） `OrdinaryGet` 。假如我们依然没有找到该属性，继续调用原型的 `[[Get]]` 方法，又会再次委托 `OrdinaryGet` ，以此类推，直到找到该属性或者遇到一个没有原型的对象为止。
 
-Let’s look at how this algorithm works when we access `o2.foo`. First we invoke `OrdinaryGet` with `O` being `o2` and `P` being `"foo"`. `O.[[GetOwnProperty]]("foo")` returns `undefined`, since `o2` doesn’t have an own property called `"foo"`, so we take the if branch in step 3. In step 3.a, we set `parent` to the prototype of `o2` which is `o1`. `parent` is not `null`, so we don’t return in step 3.b. In step 3.c, we call the parent’s `[[Get]]` method with property key `"foo"`, and return whatever it returns.
+让我们看看当我们访问 `o2.foo` 时，该算法是如何工作的。首先我们令 `O` 为 `o2` ，`P` 为 `"foo"` 去调用 `OrdinaryGet` ， `O.[[GetOwnProperty]]("foo")` 返回 `undefined` ，因为 `o2` 没有名为 `"foo"` 的自有属性，所以我们在步骤 3 采用 if 分支。在步骤 3.a 中，我们将 `parent` 设置为 `o2` 的原型，即 `o1` ，`parent` 不为 `null`，因此在步骤 3.b 中不会直接返回。在步骤 3.c 中，我们调用 parent 的 `[[Get]]` 方法，传入 `"foo"` ，并返回最终结果。
 
-The parent (`o1`) is an ordinary object, so its `[[Get]]` method invokes `OrdinaryGet` again, this time with `O` being `o1` and `P` being `"foo"`. `o1` has an own property called `"foo"`, so in step 2, `O.[[GetOwnProperty]]("foo")` returns the associated Property Descriptor and we store it in `desc`.
+parent（`o1`）是一个普通对象，所以它的 `[[Get]]` 方法会再次调用 `OrdinaryGet`，这一次 `O` 为 `o1` ， `P` 为 `"foo"` `o1` 有一个叫 `"foo"` 的自有属性。因此在步骤 2 中， `O.[[GetOwnProperty]]("foo")` 返回相应的 Property Descriptor （属性描述符），并将其保存在 `desc` 中。
 
-[Property Descriptor](https://tc39.es/ecma262/#sec-property-descriptor-specification-type) is a specification type. Data Property Descriptors store the value of the property directly in the `[[Value]]` field. Accessor Property Descriptors store the accessor functions in fields `[[Get]]` and/or `[[Set]]`. In this case, the Property Descriptor associated with `"foo"` is a data Property Descriptor.
+[Property Descriptor](https://tc39.es/ecma262/#sec-property-descriptor-specification-type)是一种规范类型，数据属性描述符把属性的值直接保存在 `[[Value]]` 字段中，访问器属性描述符把访问器函数保存在字段 `[[Get]]` 和/或 `[Set]` 中，在这种情况下，与 `"foo"` 关联的属性描述符是一个数据属性描述符。
 
-The data Property Descriptor we stored in `desc` in step 2 is not `undefined`, so we don’t take the `if` branch in step 3. Next we execute step 4. The Property Descriptor is a data Property Descriptor, so we return its `[[Value]]` field, `99`, in step 4, and we’re done.
+步骤 2 中保存在 `desc` 中的数据属性描述符不是 `undefined` ，因此我们在步骤 3 中没有使用 `if` 分支，接下来执行步骤 4 ，该属性描述符是一个数据属性描述符，因此我们返回其 `[[Value]]` 字段值为 `99` ，步骤 4 到此结束。
 
-What’s `Receiver` and where is it coming from? [#](#receiver)
+`Receiver` 是什么，它来自哪里？[#](#receiver)
 -------------------------------------------------------------
 
-The `Receiver` parameter is only used in the case of accessor properties in step 8. It’s passed as the **this value** when calling the getter function of an accessor property.
+`Receiver` 参数只在步骤 8 的访问器属性中使用，当调用访问器属性的 `getter` 函数时，它被用作 `this 值` 传递。
 
-`OrdinaryGet` passes the original `Receiver` throughout the recursion, unchanged (step 3.c). Let’s find out where the `Receiver` is originally coming from!
+`OrdinaryGet` 在整个递归过程中传递初始的 `Receiver` ，没有变化（步骤 3.c），让我们来看看 `Receiver` 最初来源于哪里！
 
-Searching for places where `[[Get]]` is called we find an abstract operation `GetValue` which operates on References. Reference is a specification type, consisting of a base value, the referenced name, and a strict reference flag. In the case of `o2.foo`, the base value is the Object `o2`, the referenced name is the String `"foo"`, and the strict reference flag is `false`, since the example code is sloppy.
+在搜索调用 `[[Get]]` 的地方时，我们发现了一个抽象操作 `GetValue` ，它对引用进行操作。引用是一种规范类型，由一个基础值、一个引用名和一个严格的引用标志组成。以 `o2.foo` 为例，基础值是对象 `o2` ，引用名是字符串 `"foo"` ，且严格的引用标志是 `false` ，原因是示例代码没有启用严格模式。
 
-### Side track: Why is Reference not a Record? [#](#side-track%3A-why-is-reference-not-a-record%3F)
+### 题外话：为什么是引用而非记录？ [#](#side-track%3A-why-is-reference-not-a-record%3F)
 
-Side track: Reference is not a Record, even though it sounds like it could be. It contains three components, which could equally well be expressed as three named fields. Reference is not a Record only because of historical reasons.
+题外话：引用并非记录，尽管它听起来可能是，引用包含 3 个组成部分，同样可以被表达为 3 个命名字段。引用并非记录，这是一个历史遗留问题。
 
-### Back to `GetValue` [#](#back-to-getvalue)
+### 回到 `GetValue` [#](#back-to-getvalue)
 
-Let’s look at how `GetValue` is defined:
+让我们看看 `GetValue` 是如何定义的：
 
 > **[`GetValue ( V )`](https://tc39.es/ecma262/#sec-getvalue)**
 > 
-> 1.  `ReturnIfAbrupt(V)`.
-> 2.  If `Type(V)` is not `Reference`, return `V`.
-> 3.  Let `base` be `GetBase(V)`.
-> 4.  If `IsUnresolvableReference(V)` is `true`, throw a `ReferenceError` exception.
-> 5.  If `IsPropertyReference(V)` is `true`, then
->     1.  If `HasPrimitiveBase(V)` is `true`, then
->         1.  Assert: In this case, `base` will never be `undefined` or `null`.
->         2.  Set `base` to `! ToObject(base)`.
->     2.  Return `? base.[[Get]](GetReferencedName(V), GetThisValue(V))`.
-> 6.  Else,
->     1.  Assert: `base` is an Environment Record.
->     2.  Return `? base.GetBindingValue(GetReferencedName(V), IsStrictReference(V))`
+> 1.  `ReturnIfAbrupt(V)` ；
+> 2.  若 `Type(V)` 为非 `Reference` ，则返回 `V` ；
+> 3.  令 `base` 为 `GetBase(V)` ；
+> 4.  若 `IsUnresolvableReference(V)` 为 `true` ， 抛出 `ReferenceError` 异常；
+> 5.  若 `IsPropertyReference(V)` 为 `true` ， 则
+>     a.  若 `HasPrimitiveBase(V)` 为 `true` ， 则
+>         i.  断言： 在这种情况下， `base` 永远不会是 `undefined` 或者 `null` ；
+>         ii.  设置 `base` 为 `! ToObject(base)` ；
+>     b.  返回 `? base.[[Get]](GetReferencedName(V), GetThisValue(V))` 。
+> 6.  否则，
+>     a.  断言： `base` 是一个 Environment Record.
+>     b.  返回 `? base.GetBindingValue(GetReferencedName(V), IsStrictReference(V))`
 
-The Reference in our example is `o2.foo`, which is a property reference. So we take branch 5. We don’t take the branch in 5.a, since the base (`o2`) is not [a primitive value](/blog/react-cliff#javascript-types) (a Number, String, Symbol, BigInt, Boolean, Undefined, or Null).
+我们例子中的引用是 `o2.foo` ，是一个属性引用，因此我们选择分支 5 ，我们不会进入 5.a 分支，因为基础对象（`o2`）不是[一个原始值](/blog/react-cliff#javascript-types)（Number、String、Symbol、BigInt、Boolean、Undefined 或者 Null）。
 
-Then we call `[[Get]]` in step 5.b. The `Receiver` we pass is `GetThisValue(V)`. In this case, it’s just the base value of the Reference:
+接着我们在步骤 5.b 中调用 `[[Get]]` ，而 `Receiver` 是通过 `GetThisValue(V)` 传入的，此时，它就是引用的基础值。
 
 > **[`GetThisValue( V )`](https://tc39.es/ecma262/#sec-getthisvalue)**
 > 
-> 1.  Assert: `IsPropertyReference(V)` is `true`.
-> 2.  If `IsSuperReference(V)` is `true`, then
->     1.  Return the value of the `thisValue` component of the reference `V`.
-> 3.  Return `GetBase(V)`.
+> 1.  断言： `IsPropertyReference(V)` 为 `true` ；
+> 2.  若 `IsSuperReference(V)` 为 `true` ，则
+>     a.  返回引用 `V` 的 `thisValue` 组成部分的值；
+> 3.  返回 `GetBase(V)` 。
 
-For `o2.foo`, we don’t take the branch in step 2, since it’s not a Super Reference (such as `super.foo`), but we take step 3 and return the base value of the Reference which is `o2`.
+对于 `o2.foo` ，我们在第 2 步不使用分支，因为它不是一个父类（Super Reference）引用（如 `super.foo`），但我们会进入第 3 步并返回引用的基础值 `o2` 。
 
-Piecing everything together, we find out that we set the `Receiver` to be the base of the original Reference, and then we keep it unchanged during the prototype chain walk. Finally, if the property we find is an accessor property, we use the `Receiver` as the **this value** when calling it.
+综上所述，我们发现我们把 `Receiver` 设置为原始引用的基础值，然后在原型链查找过程中保持其不变。最终，如果我们要找的是一个访问器属性，则在调用它的时候使用 `Receiver` 作为 `this 值` 。 
 
-In particular, the **this value** inside a getter refers to the original object where we tried to get the property from, not the one where we found the property during the prototype chain walk.
+尤其是，getter 中的 **this 值**指向我们试图从中获取属性的原始对象，而不是在原型链遍历期间发现该属性的对象。
 
-Let’s try it out!
+我们来试试看！
 
-    const o1 = { x: 10, get foo() { return this.x; } };const o2 = { x: 50 };Object.setPrototypeOf(o2, o1);o2.foo;// → 50
+```js
+const o1 = { x: 10, get foo() { return this.x; } };
+const o2 = { x: 50 };
+Object.setPrototypeOf(o2, o1);
+o2.foo;
+// → 50
+```
 
-In this example, we have an accessor property called `foo` and we define a getter for it. The getter returns `this.x`.
+在该例中，我们有一个名为 `foo` 的访问器属性，并为它定义了一个 getter 方法，getter 返回 `this.x` 。
 
-Then we access `o2.foo` \- what does the getter return?
+接着我们访问 `o2.Foo` —— getter 函数会返回什么？
 
-We found out that when we call the getter, the **this value** is the object where we originally tried to get the property from, not the object where we found it. In this case the **this value** is `o2`, not `o1`. We can verify that by checking whether the getter returns `o2.x` or `o1.x`, and indeed, it returns `o2.x`.
+我们发现，调用 getter 函数时， **this 值**是我们最初尝试获取属性的对象，而不是我们发现该属性的对象。在这种情况下， **this 值**是 `o2` ，而不是 `o1` ，我们可以通过检查 getter 是返回 `o2.x` 还是 `o1.x` 来验证，的确，它返回 `o2.x` 。
 
-It works! We were able to predict the behavior of this code snippet based on what we read in the spec.
+行得通！我们能够根据阅读规范来预测这段代码的行为。
 
-Accessing properties — why does it invoke `[[Get]]`? [#](#property-access-get)
+访问属性 —— 它为什么会调用 `[[Get]]` ？[#] (# property-access-get)
 ------------------------------------------------------------------------------
 
-Where does the spec say that the Object internal method `[[Get]]` will get invoked when accessing a property like `o2.foo`? Surely that has to be defined somewhere. Don’t take my word for it!
+规范中哪里说过当访问 `o2.foo` 这样的属性时， Object 的内部方法 `[[Get]]` 会被调用？事实上它肯定在某个地方被定义了，切记不要听风就是雨！
 
-We found out that the Object internal method `[[Get]]` is called from the abstract operation `GetValue` which operates on References. But where is `GetValue` called from?
+我们发现对象内部方法 `[[Get]]` 是在抽象操作 `GetValue` 中调用的，该操作对引用进行操作，但这又是哪里调用的 `GetValue` 呢？
 
-### Runtime semantics for `MemberExpression` [#](#memberexpression)
+### MemberExpression` 的运行时语义 [#](#memberexpression)
 
-The grammar rules of the spec define the syntax of the language. [Runtime semantics](https://tc39.es/ecma262/#sec-runtime-semantics) define what the syntactic constructs “mean” (how to evaluate them at runtime).
+规范中的文法规则定义了语言的语法。[运行时语义](https://tc39.es/ecma262/#sec-runtime-semantics)定义了语法结构的“含义”（如何在运行时求出它们的值）。
 
-If you’re not familiar with [context-free grammars](https://en.wikipedia.org/wiki/Context-free_grammar), it’s a good idea to have a look now!
+如果你不熟悉[上下文无关文法](https://en.wikipedia.org/wiki/Context-free_grammar)，现在可以去了解一下！
 
-We’ll take a deeper look into the grammar rules in a later episode, let’s keep it simple for now! In particular, we can ignore the subscripts (`Yield`, `Await` and so on) in the productions for this episode.
+我们将在以后的章节中更深入地了解文法规则，现在我们大致了解一下即可！特别是，我们可以忽略本章中产生式的下标(`Yield` ， `Await` 等)。
 
-The following productions describe what a [`MemberExpression`](https://tc39.es/ecma262/#prod-MemberExpression) looks like:
+以下的产生式描述了什么是 [`MemberExpression`](https://tc39.es/ecma262/#prod-MemberExpression) ：
 
-    MemberExpression :  PrimaryExpression  MemberExpression [ Expression ]  MemberExpression . IdentifierName  MemberExpression TemplateLiteral  SuperProperty  MetaProperty  new MemberExpression Arguments
+```grammar
+MemberExpression :
+  PrimaryExpression
+  MemberExpression [ Expression ]
+  MemberExpression . IdentifierName
+  MemberExpression TemplateLiteral
+  SuperProperty
+  MetaProperty
+  new MemberExpression Arguments
+```
 
-Here we have 7 productions for `MemberExpression`. A `MemberExpression` can be just a `PrimaryExpression`. Alternatively, a `MemberExpression` can be constructed from another `MemberExpression` and `Expression` by piecing them together: `MemberExpression [ Expression ]`, for example `o2['foo']`. Or it can be `MemberExpression . IdentifierName`, for example `o2.foo` — this is the production relevant for our example.
+这里有 7 个 `MemberExpression` 的产生式。一个 `MemberExpression` 可以只是一个 `PrimaryExpression` ，另外，一个 `MemberExpression` 可以由另一个 `MemberExpression` 和 `Expression` 构造得到： `MemberExpression [ Expression ]` ，例如 `o2['foo']` 。或者它也可以是 `MemberExpression . IdentifierName` ，如 `o2.foo` —— 这是与我们例子相关的产生式。
 
-Runtime semantics for the production `MemberExpression : MemberExpression . IdentifierName` define the set of steps to take when evaluating it:
+产生式 `MemberExpression : MemberExpression . IdentifierName` 的运行时语义定义了对它求值时的步骤：
 
-> **[Runtime Semantics: Evaluation for `MemberExpression : MemberExpression . IdentifierName`](https://tc39.es/ecma262/#sec-property-accessors-runtime-semantics-evaluation)**
+> **[运行时语义： `MemberExpression : MemberExpression . IdentifierName` 求值](https://tc39.es/ecma262/#sec-property-accessors-runtime-semantics-evaluation)**
 > 
-> 1.  Let `baseReference` be the result of evaluating `MemberExpression`.
-> 2.  Let `baseValue` be `? GetValue(baseReference)`.
-> 3.  If the code matched by this `MemberExpression` is strict mode code, let `strict` be `true`; else let `strict` be `false`.
-> 4.  Return `? EvaluatePropertyAccessWithIdentifierKey(baseValue, IdentifierName, strict)`.
+> 1.  令 `baseReference` 为 `MemberExpression` 的求值结果；
+> 2.  令 `baseValue` 为 `? GetValue(baseReference)` ；
+> 3.  若 `MemberExpression` 匹配的代码为严格模式代码，令 `strict` 为 `true`；否则令 `strict` 为 `false` ；
+> 4.  返回 `? EvaluatePropertyAccessWithIdentifierKey(baseValue, IdentifierName, strict)` 。
 
-The algorithm delegates to the abstract operation `EvaluatePropertyAccessWithIdentifierKey`, so we need to read it too:
+该算法委托给抽象操作 `EvaluatePropertyAccessWithIdentifierKey` ，所以我们也需要读取它：
 
 > **[`EvaluatePropertyAccessWithIdentifierKey( baseValue, identifierName, strict )`](https://tc39.es/ecma262/#sec-evaluate-property-access-with-identifier-key)**
 > 
-> The abstract operation `EvaluatePropertyAccessWithIdentifierKey` takes as arguments a value `baseValue`, a Parse Node `identifierName`, and a Boolean argument `strict`. It performs the following steps:
+> 抽象操作 `EvaluatePropertyAccessWithIdentifierKey` 将值 `baseValue`、解析节点 `identifierName` 和布尔参数 `strict` 作为参数，它执行以下步骤：
 > 
-> 1.  Assert: `identifierName` is an `IdentifierName`
-> 2.  Let `bv` be `? RequireObjectCoercible(baseValue)`.
-> 3.  Let `propertyNameString` be `StringValue` of `identifierName`.
-> 4.  Return a value of type Reference whose base value component is `bv`, whose referenced name component is `propertyNameString`, and whose strict reference flag is `strict`.
+> 1.  断言： `identifierName` 作为 `IdentifierName`
+> 2.  令 `bv` 为 `? RequireObjectCoercible(baseValue)` ；
+> 3.  令 `propertyNameString` 作为 `identifierName` 的 `StringValue` ；
+> 4.  返回引用类型值，其基础值为 `bv` ，其引用名称为 `propertyNameString` ，其严格引用标志为 `strict` 。
 
-That is: `EvaluatePropertyAccessWithIdentifierKey` constructs a Reference which uses the provided `baseValue` as the base, the string value of `identifierName` as the property name, and `strict` as the strict mode flag.
+也就是说： `EvaluatePropertyAccessWithIdentifierKey` 构造了一个引用，它使用提供的 `baseValue` 作为基础，字符串 `identifierName` 的值作为属性名，`strict` 作为严格模式标志。
 
-Eventually this Reference gets passed to `GetValue`. This is defined in several places in the spec, depending on how the Reference ends up being used.
+最终，这个引用被传递给 `GetValue` ，在规范中它有几个地方进行了定义，具体取决于最终如何使用该引用。
 
-### `MemberExpression` as a parameter [#](#memberexpression-as-a-parameter)
+### `MemberExpression` 作为一个参数 [#](#memberexpression-as-a-parameter)
 
-In our example, we use the property access as a parameter:
+在我们的例子中，我们使用属性访问作为一个参数：
 
-    console.log(o2.foo);
+```js
+console.log(o2.foo);
+```
 
-In this case, the behavior is defined in the runtime semantics of `ArgumentList` production which calls `GetValue` on the argument:
+在这种情况下，该行为被定义在 `ArgumentList` 运行时语义的产生式中，它在参数上调用了 `GetValue` 。
 
-> **[Runtime Semantics: `ArgumentListEvaluation`](https://tc39.es/ecma262/#sec-argument-lists-runtime-semantics-argumentlistevaluation)**
+> **[运行时语义：`ArgumentListEvaluation` （赋值表达式）](https://tc39.es/ecma262/#sec-argument-lists-runtime-semantics-argumentlistevaluation)**
 > 
 > `ArgumentList : AssignmentExpression`
 > 
-> 1.  Let `ref` be the result of evaluating `AssignmentExpression`.
-> 2.  Let `arg` be `? GetValue(ref)`.
-> 3.  Return a List whose sole item is `arg`.
+> 1.  令 `ref` 为 `AssignmentExpression` 的求值结果；
+> 2.  令说 `arg` 为 `? GetValue(ref)` ；
+> 3.  返回只包含 `arg` 的列表。
 
-`o2.foo` doesn’t look like an `AssignmentExpression` but it is one, so this production is applicable. To find out why, you can check out this [extra content](/blog/extras/understanding-ecmascript-part-2-extra), but it’s not strictly necessary at this point.
+`o2.foo` 看起来不像是一个 `AssignmentExpression` ，但它确实是，所以适用于该产生式。
 
-The `AssignmentExpression` in step 1 is `o2.foo`. `ref`, the result of evaluating `o2.foo`, is the above mentioned Reference. In step 2 we call `GetValue` on it. Thus, we know that the Object internal method `[[Get]]` will get invoked, and the prototype chain walk will occur.
+步骤 1 中的 `AssignmentExpression` 是 `o2.foo` ，而 `o2.foo` 的求值结果 `ref` 就是上面提到的引用，在步骤 2 中我们基于它调用 `GetValue` 。因此，我们就知道了 Object 的内部方法 `[[Get]]` 会被调用，而原型链遍历也将触发。
 
-Summary [#](#summary)
+总结 [#](#summary)
 ---------------------
 
-In this episode, we looked at how the spec defines a language feature, in this case prototype lookup, across all the different layers: the syntactic constructs that trigger the feature and the algorithms defining it.
+在本文中我们看到了规范是如何定义一个语言特性的，如原型查找，跨越了所有不同的层级：触发该特性的语法结构和定义该特性的算法。

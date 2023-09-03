@@ -2,175 +2,259 @@
 > * 原文作者：[marjakh](https://twitter.com/marjakh)
 > * 译文出自：[IDuxFE 技术文章翻译](https://juejin.cn/column/7000191408518725662)
 > * 本文永久链接：[https://github.com/IDuxFE/weekly/tree/main/translation/ECMAScript/understanding_the_ecmascript_spec_part4.md](https://github.com/IDuxFE/weekly/tree/main/translation/ECMAScript/understanding_the_ecmascript_spec_part4.md)
-> * 译者：
+> * 译者：BertramXue
 > * 校对者：
 
-Understanding the ECMAScript spec, part 4
+理解 ECMAScript 规范（四）
 =========================================
 
-Published 19 May 2020 · Tagged with [ECMAScript](/blog/tags/ecmascript) [Understanding ECMAScript](/blog/tags/understanding-ecmascript)
+发布于 2020 年 5 月 19 日， 标签 [ECMAScript](/blog/tags/ecmascript) [理解 ECMAScript](/blog/tags/understanding-ecmascript)
 
-[All episodes](/blog/tags/understanding-ecmascript)
+[全集](/blog/tags/understanding-ecmascript)
 
-Meanwhile in other parts of the Web [#](#meanwhile-in-other-parts-of-the-web)
+Web共性问题 [#](#meanwhile-in-other-parts-of-the-web)
 -----------------------------------------------------------------------------
 
-[Jason Orendorff](https://github.com/jorendorff) from Mozilla published [a great in-depth analysis of JS syntactic quirks](https://github.com/mozilla-spidermonkey/jsparagus/blob/master/js-quirks.md#readme). Even though the implementation details differ, every JS engine faces the same problems with these quirks.
+来自Mozilla的[Jason Orendorff](https://github.com/jorendorff) 发表了 [深入分析 JS 诡异语法](https://github.com/mozilla-spidermonkey/jsparagus/blob/master/js-quirks.md#readme) 一文。 尽管在实现细节上有差异，但每个 JS 引擎在这些诡异的细节上都面对同样的问题。
 
-Cover grammars [#](#cover-grammars)
+包含文法 [#](#cover-grammars)
 -----------------------------------
 
-In this episode, we take a deeper look into _cover grammars_. They are a way to specify the grammar for syntactic constructs which look ambiguous at first.
+这篇文章我们将深入研究包含文法 _cover grammars_。包含文法是为那些一开始看起来模棱两可的语法构造规定语法的一种方式。
 
-Again, we'll skip the subscripts for `[In, Yield, Await]` for brevity, as they aren't important for this blog post. See [part 3](/blog/understanding-ecmascript-part-3) for an explanation of their meaning and usage.
+同样为简单起见，我们跳过下标 `[In, Yield, Await]` ，因为它们对本文并不重要。可以参考 [第三篇文章](/blog/understanding-ecmascript-part-3) 了解它们的含义和用法。
 
-Finite lookaheads [#](#finite-lookaheads)
+有限前查 [#](#finite-lookaheads)
 -----------------------------------------
 
-Typically, parsers decide which production to use based on a finite lookahead (a fixed amount of following tokens).
+通常，解析器在有限前查 _finite lookahead_ (根据固定个数的标记) 的基础上决定使用哪个产生式。
 
-In some cases, the next token determines the production to use unambiguously. [For example](https://tc39.es/ecma262/#prod-UpdateExpression):
+在某些情况下，下一个标记可以明确地确定要使用的产生式。[例如](https://tc39.es/ecma262/#prod-UpdateExpression):
 
-    UpdateExpression :  LeftHandSideExpression  LeftHandSideExpression ++  LeftHandSideExpression --  ++ UnaryExpression  -- UnaryExpression
+    UpdateExpression :  
+        LeftHandSideExpression
+        LeftHandSideExpression ++  
+        LeftHandSideExpression --  
+        ++ UnaryExpression  
+        -- UnaryExpression
 
-If we're parsing an `UpdateExpression` and the next token is `++` or `--`, we know the production to use right away. If the next token is neither, it's still not too bad: we can parse a `LeftHandSideExpression` starting from the position we're at, and figure out what to do after we've parsed it.
+如果我们正在解析 `UpdateExpression` 且下一个标记是 `++` 或者是 `--`，那我们就可以马上知道要使用哪个产生式。如果下一个标记不是它们两个，那也问题不大：我们可以从所在位置开始解析 `LeftHandSideExpression`，解析完成后再决定下一步干什么。
 
-If the token following the `LeftHandSideExpression` is `++`, the production to use is `UpdateExpression : LeftHandSideExpression ++`. The case for `--` is similar. And if the token following the `LeftHandSideExpression` is neither `++` nor `--`, we use the production `UpdateExpression : LeftHandSideExpression`.
+如果 `LeftHandSideExpression` 后面的标记是 `++`，那么使用的产生式是`UpdateExpression : LeftHandSideExpression ++`。后面是 `--` 的情况类似。如果 `LeftHandSideExpression` 后面的标记既不是 `++` 也不是 `--`, 那么使用的产生式是 `UpdateExpression : LeftHandSideExpression`。
 
-### Arrow function parameter list or a parenthesized expression? [#](#arrow-function-parameter-list-or-a-parenthesized-expression%3F)
+### 箭头函数形参列表还是括号表达式？ [#](#arrow-function-parameter-list-or-a-parenthesized-expression%3F)
 
-Distinguishing arrow function parameter lists from parenthesized expressions is more complicated.
+将箭头函数形参列表与带括号的表达式区分开来更为复杂。
 
-For example:
+例如：
 
     let x = (a,
 
-Is this the start of an arrow function, like this?
+这是箭头函数的开头吗，像这样?
 
     let x = (a, b) => { return a + b };
 
-Or maybe it's a parenthesized expression, like this?
+或者它是一个括号表达式，像这样?
 
     let x = (a, 3);
 
-The parenthesized whatever-it-is can be arbitrarily long - we cannot know what it is based on a finite amount of tokens.
+不管括号中的内容是什么，但它们可能是任意长度的。因此不能根据有限标记确定它是什么。
 
-Let's imagine for a moment that we had the following straightforward productions:
+想象一下，假设我们有下列直观的产生式：
 
-    AssignmentExpression :  ...  ArrowFunction  ParenthesizedExpressionArrowFunction :  ArrowParameterList => ConciseBody
+    AssignmentExpression :  
+        ...
+        ArrowFunction  
+        ParenthesizedExpression
 
-Now we can't choose the production to use with a finite lookahead. If we had to parse a `AssignmentExpression` and the next token was `(`, how would we decide what to parse next? We could either parse an `ArrowParameterList` or a `ParenthesizedExpression`, but our guess could go wrong.
+    ArrowFunction :  
+        ArrowParameterList => ConciseBody
 
-### The very permissive new symbol: `CPEAAPL` [#](#the-very-permissive-new-symbol%3A-cpeaapl)
+那我们就不能使用有限前查来选择产生式。如果解析了 `AssignmentExpression` 的下一个标记是 `(`，那怎么确定接下来解析什么？我们可以解析 `ArrowParameterList`，也可以解析 `ParenthesizedExpression`， 但猜测可能会出错。
 
-The spec solves this problem by introducing the symbol `CoverParenthesizedExpressionAndArrowParameterList` (`CPEAAPL` for short). `CPEAAPL` is a symbol that is actually an `ParenthesizedExpression` or an `ArrowParameterList` behind the scenes, but we don't yet know which one.
+### 非常宽松的新符号：`CPEAAPL` [#](#the-very-permissive-new-symbol%3A-cpeaapl)
 
-The [productions](https://tc39.es/ecma262/#prod-CoverParenthesizedExpressionAndArrowParameterList) for `CPEAAPL` are very permissive, allowing all constructs that can occur in `ParenthesizedExpression`s and in `ArrowParameterList`s:
+规范通过引入符号 `CoverParenthesizedExpressionAndArrowParameterList` (简写成`CPEAAPL`) 来解决这个问题。`CPEAAPL` 表示既可能是 `ParenthesizedExpression` 也可能是 `ArrowParameterList`，但目前还不知道选哪个。
 
-    CPEAAPL :  ( Expression )  ( Expression , )  ( )  ( ... BindingIdentifier )  ( ... BindingPattern )  ( Expression , ... BindingIdentifier )  ( Expression , ... BindingPattern )
+[`CPEAAPL` 的产生式](https://tc39.es/ecma262/#prod-CoverParenthesizedExpressionAndArrowParameterList)非常宽松，允许所有可以出现在 `ParenthesizedExpression` 和 `ArrowParameterList` 中的构造：
 
-For example, the following expressions are valid `CPEAAPL`s:
+    CPEAAPL :  
+        ( Expression )  
+        ( Expression , )  
+        ( )  
+        ( ... BindingIdentifier )
+        ( ... BindingPattern )  
+        ( Expression , ... BindingIdentifier )  
+        ( Expression , ... BindingPattern )
 
-    // Valid ParenthesizedExpression and ArrowParameterList:(a, b)(a, b = 1)// Valid ParenthesizedExpression:(1, 2, 3)(function foo() { })// Valid ArrowParameterList:()(a, b,)(a, ...b)(a = 1, ...b)// Not valid either, but still a CPEAAPL:(1, ...b)(1, )
+例如, 下列表达式都是有效的 `CPEAAPL`：
 
-Trailing comma and the `...` can occur only in `ArrowParameterList`. Some constructs, like `b = 1` can occur in both, but they have different meanings: Inside `ParenthesizedExpression` it's an assignment, inside `ArrowParameterList` it's a parameter with a default value. Numbers and other `PrimaryExpressions` which are not valid parameter names (or parameter destructuring patterns) can only occur in `ParenthesizedExpression`. But they all can occur inside a `CPEAAPL`.
+    // 有效的ParenthesizedExpression and ArrowParameterList:
+    (a, b)
+    (a, b = 1)
 
-### Using `CPEAAPL` in productions [#](#using-cpeaapl-in-productions)
+    // 有效的ParenthesizedExpression:
+    (1, 2, 3)
+    (function foo() { })
+    
+    // 有效的ArrowParameterList:
+    ()
+    (a, b,)
+    (a, ...b)
+    (a = 1, ...b)
+    
+    // 两个都是无效的，但仍是 CPEAAPL:
+    (1, ...b)
+    (1, )
 
-Now we can use the very permissive `CPEAAPL` in [`AssignmentExpression` productions](https://tc39.es/ecma262/#prod-AssignmentExpression). (Note: `ConditionalExpression` leads to `PrimaryExpression` via a long production chain which is not shown here.)
+末尾的逗号和 `...` 只能出现在 `ArrowParameterList`。有些构造， 如 `b = 1` 两种情况下都有可能出现，只是含义不同: 出现在 `ParenthesizedExpression` 中是赋值，出现在 `ArrowParameterList` 中是带默认值的参数。 数值和其他不是有效参数名称（或参数解构模式）的`PrimaryExpressions` 只可能出现在 `ParenthesizedExpression`。但它们都可能出现在 `CPEAAPL`。
 
-    AssignmentExpression :  ConditionalExpression  ArrowFunction  ...ArrowFunction :  ArrowParameters => ConciseBodyArrowParameters :  BindingIdentifier  CPEAAPLPrimaryExpression :  ...  CPEAAPL
+### 在产生式中使用 `CPEAAPL` [#](#using-cpeaapl-in-productions)
 
-Imagine we're again in the situation that we need to parse an `AssignmentExpression` and the next token is `(`. Now we can parse a `CPEAAPL` and figure out later what production to use. It doesn't matter whether we're parsing an `ArrowFunction` or a `ConditionalExpression`, the next symbol to parse is `CPEAAPL` in any case!
+现在我们可以在[`AssignmentExpression` 产生式](https://tc39.es/ecma262/#prod-AssignmentExpression)中使用这个非常宽松的 `CPEAAPL`。(注意： `ConditionalExpression` 通过一条很长的生产链通向 `PrimaryExpression`，只是这里没有显示。)
 
-After we've parsed the `CPEAAPL`, we can decide which production to use for the original `AssignmentExpression` (the one containing the `CPEAAPL`). This decision is made based on the token following the `CPEAAPL`.
+    AssignmentExpression :  
+        ConditionalExpression  
+        ArrowFunction  
+        ...
 
-If the token is `=>`, we use the production:
+    ArrowFunction :  
+        ArrowParameters => ConciseBody
+    
+    ArrowParameters :  
+        BindingIdentifier  
+        CPEAAPL
 
-    AssignmentExpression :  ArrowFunction
+    PrimaryExpression :  
+        ...  
+        CPEAAPL
 
-If the token is something else, we use the production:
+假设我们又回到了需要解析 `AssignmentExpression` 的情况，`AssignmentExpression` 的下一个标记是 `(`。现在我们可以解析 `CPEAAPL`，然后再考虑使用哪个产生式。此时是解析 `ArrowFunction` 还是解析 `ConditionalExpression` 并不重要，无论解析哪一个，下一个要解析的符号都是 `CPEAAPL`！
 
-    AssignmentExpression :  ConditionalExpression
+解析完 `CPEAAPL` 后, 就能决定最开始的（包含 `CPEAAPL` 的那个）`AssignmentExpression` 使用哪个产生式了。这是由 `CPEAAPL` 后面跟着的标记决定的。
 
-For example:
+如果这个标记是 `=>`，就使用下面的产生式：
 
-    let x = (a, b) => { return a + b; };//      ^^^^^^//     CPEAAPL//             ^^//             The token following the CPEAAPLlet x = (a, 3);//      ^^^^^^//     CPEAAPL//            ^//            The token following the CPEAAPL
+    AssignmentExpression :  
+        ArrowFunction
 
-At that point we can keep the `CPEAAPL` as is and continue parsing the rest of the program. For example, if the `CPEAAPL` is inside an `ArrowFunction`, we don't yet need to look at whether it's a valid arrow function parameter list or not - that can be done later. (Real-world parsers might choose to do the validity check right away, but from the spec point of view, we don't need to.)
+如果这个标记是其他什么，就使用下面的产生式：
 
-### Restricting CPEAAPLs [#](#restricting-cpeaapls)
+    AssignmentExpression :  
+        ConditionalExpression
 
-As we saw before, the grammar productions for `CPEAAPL` are very permissive and allow constructs (such as `(1, ...a)`) which are never valid. After we've done parsing the program according to the grammar, we need to disallow the corresponding illegal constructs.
+例如：
 
-The spec does this by adding the following restrictions:
+    let x = (a, b) => { return a + b; };
+    //      ^^^^^^
+    //     CPEAAPL
+    //             ^^
+    //             跟在CPEAAPL后面的标记
 
-> [Static Semantics: Early Errors](https://tc39.es/ecma262/#sec-grouping-operator-static-semantics-early-errors)
+    let x = (a, 3);
+    //      ^^^^^^
+    //     CPEAAPL
+    //            ^
+    //            跟在CPEAAPL后面的标记
+
+此时，我们可以保持 `CPEAAPL` 不变，并继续解析程序的其余部分。例如，如果这个 `CPEAAPL` 在  `ArrowFunction` 中，我们还不需要看它是否是一个有效的箭头函数参数列表 —— 这可以在以后做。（实际的解析器可能会选择立即进行有效性检查，但从规范的角度来看，我们不需要这样做。）
+
+### 限制 CPEAAPLs [#](#restricting-cpeaapls)
+
+正如我们之前看到的，`CPEAAPL` 的产生式是非常宽松的，允许根本不合法的构造（例如 `(1, ...a)`）。 在按照文法解析完程序后，需要驳回其中不合法的构造。
+
+规范通过添加以下限制来实现这一点：
+
+> [静态语义：前期错误](https://tc39.es/ecma262/#sec-grouping-operator-static-semantics-early-errors)
 > 
 > `PrimaryExpression : CPEAAPL`
 > 
-> It is a Syntax Error if `CPEAAPL` is not covering a `ParenthesizedExpression`.
+> 如果 `CPEAAPL` 未包含 `ParenthesizedExpression` 就是一个语法错误。
 
-> [Supplemental Syntax](https://tc39.es/ecma262/#sec-primary-expression)
+> [补充语法](https://tc39.es/ecma262/#sec-primary-expression)
 > 
-> When processing an instance of the production
+> 在处理以下产生式的实例时：
 > 
 > `PrimaryExpression : CPEAAPL`
 > 
-> the interpretation of the `CPEAAPL` is refined using the following grammar:
+> 对 `CPEAAPL` 的解释使用以下语法进行了精炼：
 > 
 > `ParenthesizedExpression : ( Expression )`
 
-This means: if a `CPEAAPL` occurs in the place of `PrimaryExpression` in the syntax tree, it is actually an `ParenthesizedExpression` and this is its only valid production.
+这意味着：如果 `CPEAAPL` 出现在语法树的 `PrimaryExpression` 的位置，那它实际上是 `ParenthesizedExpression`，且这是它唯一有效的产生式。
 
-`Expression` can never be empty, so `( )` is not a valid `ParenthesizedExpression`. Comma separated lists like `(1, 2, 3)` are created by [the comma operator](https://tc39.es/ecma262/#sec-comma-operator):
+上面的 `Expression` 永远不能为空，因此 `( )` 不是有效的 `ParenthesizedExpression`。像 `(1, 2, 3)` 这样由逗号分隔的列表由[逗号操作符](https://tc39.es/ecma262/#sec-comma-operator)创建：
 
-    Expression :  AssignmentExpression  Expression , AssignmentExpression
+    Expression :  
+        AssignmentExpression  
+        Expression , AssignmentExpression
 
-Similarly, if a `CPEAAPL` occurs in the place of `ArrowParameters`, the following restrictions apply:
+类似地，如果 `CPEAAPL` 出现在 `ArrowParameters` 中，则适用如下限制：
 
-> [Static Semantics: Early Errors](https://tc39.es/ecma262/#sec-arrow-function-definitions-static-semantics-early-errors)
+> [静态语义：前期错误](https://tc39.es/ecma262/#sec-arrow-function-definitions-static-semantics-early-errors)
 > 
 > `ArrowParameters : CPEAAPL`
 > 
-> It is a Syntax Error if `CPEAAPL` is not covering an `ArrowFormalParameters`.
+> 如果 `CPEAAPL` 未包含 `ArrowFormalParameters` 就是一个语法错误。
 
-> [Supplemental Syntax](https://tc39.es/ecma262/#sec-arrow-function-definitions)
+> [补充语法](https://tc39.es/ecma262/#sec-arrow-function-definitions)
 > 
-> When the production
+> 在处理以下产生式的实例时：
 > 
 > `ArrowParameters` : `CPEAAPL`
 > 
-> is recognized the following grammar is used to refine the interpretation of `CPEAAPL`:
+> 对 `CPEAAPL` 的解释使用以下语法进行了精炼:
 > 
 > `ArrowFormalParameters :`  
 > `( UniqueFormalParameters )`
 
-### Other cover grammars [#](#other-cover-grammars)
+### 其他包含文法 [#](#other-cover-grammars)
 
-In addition to `CPEAAPL`, the spec uses cover grammars for other ambiguous-looking constructs.
+除了 `CPEAAPL` 之外, 规范还对其他模棱两可的构造使用了包含文法。
 
-`ObjectLiteral` is used as a cover grammar for `ObjectAssignmentPattern` which occurs inside arrow function parameter lists. This means that `ObjectLiteral` allows constructs which cannot occur inside actual object literals.
+`ObjectLiteral` 用作 `ObjectAssignmentPattern` 的包含文法，它出现在箭头函数参数列表中。这意味着 `ObjectLiteral` 允许不能在实际的对象字面量中出现的构造。
 
-    ObjectLiteral :  ...  { PropertyDefinitionList }PropertyDefinition :  ...  CoverInitializedNameCoverInitializedName :  IdentifierReference InitializerInitializer :  = AssignmentExpression
+    ObjectLiteral :  
+        ...  
+        { PropertyDefinitionList }
 
-For example:
+    PropertyDefinition :  
+        ...  
+        CoverInitializedName
+    
+    CoverInitializedName :  
+        IdentifierReference Initializer
 
-    let o = { a = 1 }; // syntax error// Arrow function with a destructuring parameter with a default// value:let f = ({ a = 1 }) => { return a; };f({}); // returns 1f({a : 6}); // returns 6
+    Initializer :  
+        = AssignmentExpression
 
-Async arrow functions also look ambiguous with a finite lookahead:
+例如：
+
+    let o = { a = 1 }; // 语法错误
+    
+    // 箭头函数使用了带默认值的解构参数：
+    let f = ({ a = 1 }) => { return a; };
+    f({}); // 返回 1
+    f({a : 6}); // 返回 6
+
+异步箭头函数在使用有限前查时同样有歧义：
 
     let x = async(a,
 
-Is this a call to a function called `async` or an async arrow function?
+调用 `async` 函数呢，还是一个异步箭头函数？
 
-    let x1 = async(a, b);let x2 = async();function async() { }let x3 = async(a, b) => {};let x4 = async();
+    let x1 = async(a, b);
+    let x2 = async();
+    function async() { }
 
-To this end, the grammar defines a cover grammar symbol `CoverCallExpressionAndAsyncArrowHead` which works similarly to `CPEAAPL`.
+    let x3 = async(a, b) => {};
+    let x4 = async();
 
-Summary [#](#summary)
+为此，文法定义了一个原理与 `CPEAAPL` 类似的包含文法符号 `CoverCallExpressionAndAsyncArrowHead`。
+
+总结 [#](#summary)
 ---------------------
 
-In this episode we looked into how the spec defines cover grammars and uses them in cases where we cannot identify the current syntactic construct based on a finite lookahead.
+在本文中，我们研究了规范如何定义包含文法，以及如何在不能基于有限前查识别当前语法结构的情况下使用它们。
 
-In particular, we looked into distinguishing arrow function parameter lists from parenthesized expressions and how the spec uses a cover grammar for first parsing ambiguous-looking constructs permissively and restricting them with static semantic rules later.
+特别是，我们研究了箭头函数参数列表与括号表达式之间的区别，以及规范在碰到模棱两可的构造时怎么宽松地使用包含文法，然后使用静态语义规则限制它们。
